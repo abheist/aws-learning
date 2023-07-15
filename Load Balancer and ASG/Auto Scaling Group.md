@@ -1,0 +1,162 @@
+---
+aliases:
+- ASG
+- AutoScaling
+- AutoScaling Group
+---
+- Auto Scaling Group
+- In real-life, the load on your websites and application can change
+- In the cloud, you can create and get rid of servers very quickly
+- The goal of an Auto Scaling Group (ASG) is to:
+	- Scale out (add EC2 instances) to match an increased load
+	- Scale in (remove EC2 instances) to match a decreased load
+	- Ensure we have a minimum and a maximum number of EC2 instances running
+	- Automatically register new instances to a load balancer
+	- Re-create an EC2 instance in case a previous one is terminated (ex: if unhealthy)
+- ASG are free (you only pay for the underlying EC2 instances)![[Screenshot 2023-06-13 at 5.51.21 PM.png]]
+- ASG also works with Load Balancer![[Screenshot 2023-06-13 at 5.52.19 PM.png]]
+
+### Launch Template 
+- (older: "Launch Configurations" are deprecated)
+- A launch template contains the information about the ASG
+	- AMI + Instance Type
+	- EC2 User Data
+	- EBS Volumes
+	- Security Groups
+	- SSH Key Pair
+	- IAM Roles for your EC2 Instances
+	- Network + Subnets Information
+	- Load Balancer Information
+- Min-Size / Max-Size / Initial Capacity
+- Scaling Policies
+
+### CloudWatch Alarms & Scaling
+- It is possible to scale and ASG based on CloudWatch alarms
+- An alarm monitors a metric (such as Average CPU, or a custom metric)
+- Metric such as Average CPU are computed for the overall ASG instances
+- Based on the alarm:
+	- We can create scale-out policies (increase the number of instances)
+	- We can create scale-in policies (decrease the number of instances)![[Screenshot 2023-06-13 at 6.00.51 PM.png]]
+
+### Hands on
+- Go to ASG from EC2 dashboard in Sidebar under Auto Scaling heading
+- Click on `Create Auto Scaling Group`
+- Choose launch template or configuration
+	- Name
+	- Launch template
+		- Select from already created
+		- or create one (create one for now)
+			- Launch template name
+			- Template version description
+			- Autoscaling guidance (checked)
+			- For selection of AMI, select Amazon Linux 2 AMI with architecture x86
+			- Under instance type, select t2.micro
+			- Include key-pair if needed
+			- For security group, you can select any one needed
+			- Storage, select 8 `gp2` volume
+			- Enter user data, we used in EC2 creation
+			- Create the launch template
+		- refresh the dropdown list, add the created launch template
+	- Next
+- Choose instance launch options
+	- VPC
+	- Availability Zones and subnets
+	- Next
+- Configure advanced options
+	- Load balancing
+		- No Load balancer
+		- Attach to an existing load balancer (select)
+			- Choose from you load balancer target groups
+			- Select
+		- Attach to new load balancer
+	- Health checks
+		- Health check types (select both)
+			- EC2
+			- ELB
+		- Health check grace period
+			- 300 seconds
+	-  Next
+- Configure group size and scaling policies
+	- Group size
+		- Desired Capacity - 1
+		- Minimum Capacity - 1
+		- Maximum Capacity - 1
+	-  Scaling policy
+		- Target tracking scaling policy
+		- None (select)
+	- Instance scale-in protection
+	- Next
+- Add notification
+	- if needed, add
+	- Next
+- Add tags
+	- Add if needed
+	- Next
+- Review
+- Create Auto Scaling Group
+- Once created, it'll create one EC2 instance
+- Select ASG and under activity tab, in activity history, you can check the EC2 creation history
+
+### Scaling Policies
+- Dynamic Scaling Policies
+	- Target Tracking Scaling
+		- Most simple and easy to set-up
+		- Example: I want the average ASG CPU to stay at around 40%
+	- Simple / Step Scaling
+		- When a CloudWatch alarm is triggered (example CPU > 70%), then add 2 units
+		- When a CloudWatch alarm is triggered (example CPU < 30%), then remove 1
+	- Scheduled Actions
+		- Anticipate a scaling based on known usage patterns
+		- Example: increase the min capacity to 10 at 5 pm on Friday
+- Predictive Scaling
+	- Continuously forecast load and schedule scaling ahead![[Screenshot 2023-06-13 at 6.31.31 PM.png]]
+- Good metrics to scale on
+	- CPU Utilization
+		- Average CPU utilization across your instances
+	- Request Count Per Target
+		- To make sure the number of requests per EC2 instances are stable![[Screenshot 2023-06-13 at 6.33.08 PM.png]]
+	- Average Network In/Out
+		- If your application is network bound
+	- Any custom metric (that you push using CloudWatch)
+- Scaling Cooldowns
+	- After a scaling activity happens, you are in the cooldown period (default 300 seconds)
+	- During the cooldown period, the ASG will not launch or terminate additional instances (to allow for metric to stabilize)
+	- Advice: Use a ready-to-user AMI to reduce configuration time in order to be serving request faster and reduce the cooldown period.![[Screenshot 2023-06-13 at 6.37.16 PM.png]]
+- Hands On
+	- Go to ASG
+	- Automatic Scaling tab, there you'll find the scaling policies
+	- Go to Scheduled Actions and create one
+		- Name
+		- Desired Capacity
+		- Min
+		- Max
+		- Recurrence
+		- TimeZone
+		- Start time
+		- End time
+		- Create
+	- Predictive Scaling Policy, create one
+		- Name
+		- Scale based on forecast (enable)
+		- Metrics, add as needed
+		- Additional scaling settings
+			- pre launch instances
+		- Create
+	- Dynamic Scaling policy
+		- Policy Type
+			- Target tracking scaling
+			- Step scaling
+			- Simple scaling (select)
+		- Name
+		- CloudWatch Alarm
+		- Action
+			- Add 2 capacity units
+			- Add 10 percent of group
+		- Create
+
+### Instance Refresh
+- Goal: Update launch template and then re-create all EC2 instances
+- For this we can use the native feature of instance refresh
+- Setting of minimum healthy percentage
+- Specify warm-up time (how long until the instance is ready to use)![[Screenshot 2023-06-13 at 6.55.12 PM.png]]
+- 

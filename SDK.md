@@ -1,0 +1,16 @@
+- What if you want to perform actions on AWS directly from your applications code ? (without using the CLI)
+- You can use an SDK (Software Development Kit)
+- Official SDKs are in:
+	- Java
+	- .Net
+	- NodeJS
+	- PHP
+	- Python (named Boto3 / botocore)
+	- Go
+	- Ruby
+	- C++
+- We have to use the AWS SDK when coding against AWS Services such as DynamoDB
+- Fun Fact... AWS CLI uses Python SDK (boto3)
+- The exam expects you to know when you should use an SDK
+- We'll practice the AWS SDK when we get to the Lambda functions
+- Good to know: if you don't specify or configure a default region, then us-east-1 will be chosen by default

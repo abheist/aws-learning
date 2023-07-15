@@ -1,0 +1,39 @@
+- In recycle bin, we can protect, snapshots and AMIs from accidental deletion
+- Under snapshot page, on top right corner, there is button `Recycle bin`
+- Create a Recycle bin retention rule ^e078ce
+	- If you click on that button, recycle bin page will open
+	- There will be a button called `Create retention rule`
+	- If you click on that button, new form will open
+		- Rule details
+			- Retention rule name
+			- rule description
+		- Settings
+			- Resource type, there are two options
+				- EBS Snapshots
+				- Amazon Machine Image (AMIs)
+			- Apply to all resource, checkbox
+			- Resource tags to match if you do not select the above checkbox
+			- Retention period in days (min 1 day, max 365 days)
+		- Tags
+		- Once form is filled, click on `Create rentention rule`
+		- It'll create the rule and take you back to the `recycble bin`'s  retention rules page
+- You can select the retention rule and check all the information about it under details tab
+- How to move snapshot to recycle bin
+	- Go to snapshot page
+	- Select a snapshot, check the `Storage tier` tab, and check the `storage tier` key/value, it might be `standard`
+	- Click on `actions` at the top right corner
+	- Select `Archive Snapshot`
+	- A popup will open for the confirmation with the details.
+	- You can click on `Archive Snapshot` button on the pop-up. But wait!
+	- It can be archived, but you have to wait for 24 to 72 hours to restore it based to the [[EBS#^8457f6|archive policy]]
+	- So for now, you can cancel the popup and go to action button again
+	- Click on `delete snapshot`
+	- A popup will open, click on `Delete` button
+	- It'll delete the snapshot and you can see that it'll gone from the list
+	- Now, if you go to recycle-bin, you can see the deleted snapshot there.
+	- The snapshot went to the recycle-bin because we [[EBS#^e078ce|created a retention rule]]. If would have not, it would have deleted directly.
+ - Recover a snapshot from recycle bin
+	 - Select the snapshot in recycle-bin you want to recover
+	 - Click on the `recover` button on the top right corner
+	 - It'll be recovered and you can see the recovered snapshot under snapshots page.
+

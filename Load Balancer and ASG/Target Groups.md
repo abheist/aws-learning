@@ -1,0 +1,36 @@
+- EC2 instances (can be managed by an Auto Scaling Group) - HTTP
+- ECS tasks (managed by ECS itself) - HTTP
+- Lambda functions - HTTP request is translated into a JSON event
+- IP Addresses - must be private IPs
+
+### Create a target group
+- Open the Create Target Group form
+- Specify group details
+	- Basic Configuration
+		- Choose target type
+			- Instances (select)
+			- IP Addresses
+			- Lambda function
+			- Application Load Balancer
+		- Target Group Name
+		- Protocol, select `HTTP` port 80
+		- VPC, let it be default
+		- Protocol Version
+			- HTTP1 (select)
+			- HTTP2
+			- gRPC
+	- Health Checks
+		- Health check protocol
+			- select HTTP
+		- Health check path
+			- Let it be `/`
+	- Attributes and select Next
+- Register targets
+	- Available Instances, select the one you want to load balance
+		- Ports for the selected instances
+			- add 80 or as per application
+		- click on `Include as pending below`
+	- Review targets
+		- Added instances will be added automatically
+		- Review them and click on `Create Target` button
+- Target group will be created

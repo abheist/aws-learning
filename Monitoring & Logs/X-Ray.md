@@ -1,0 +1,122 @@
+- AWS X-Rays
+	- Troubleshooting application performance and errors
+	- Distributed tracing of micro-services
+- Debugging in production, the good old way:
+	- Test locally
+	- Add log statements everywhere
+	- Re-deploy in production
+- Log formats differ across applications using CloudWatch and analytics is hard
+- Debugging:
+	- monolith: easy
+	- distributed services: hard
+- No common view of your entire architecture
+- Enter... AWS X-ray!
+- Visual analysis of our applications
+	  ![[Screenshot 2023-07-14 at 10.21.52 AM.png]]
+- X-Ray advantages
+	- Troubleshooting performance (bottleneck)
+	- Understand dependencies in microservice architecture
+	- Pinpoint service issues
+	- Review request behaviour
+	- Find errors and exceptions
+	- Are we meeting time SLA ?
+	- Where I am throttled ?
+	- Identify users that are impacted
+- X-Ray compatibility
+	- AWS Lambda
+	- Elastic Beanstalk
+	- ECS
+	- ELB
+	- API Gateway
+	- EC2 Instances or any application server (even on premise)
+- X-Ray Leverages Tracing
+	- Tracing is an end to end way to following a "request"
+	- Each component dealing with the request adds its own "trace"
+	- Tracing is made of segments (+ sub segments)
+	- Annotations can be added to traces to provide extra-information
+	- Ability to trace:
+		- Every request
+		- Sample request (as a % for example or a rate per minute)
+	- X-Ray Security:
+		- IAM for authorization
+		- KMS for encryption at rest
+- How to enable X-Ray:
+	- Your code (Java, Python, Go, NodeJS, .Net) must import the AWS X-Ray SDK
+		- Very little code modification needed
+		- The application SDK will then capture
+			- Call to AWS services
+			- HTTP / HTTPS requests
+			- Database calls (MySQL, PostgreSQL, DynamoDB)
+			- Queue calls (SQS)
+	- Install the X-Ray daemon or enable X-Ray AWS Integration
+		- X-Ray daemon works as a low level UDP packet interceptor (Linux / Windows / Mac)
+		- AWS Lambda / other AWS services already run the X-Ray daemon for you
+		- Each application must have the IAM rights to write data to X-Ray
+			  ![[Screenshot 2023-07-14 at 12.07.28 PM.png]]
+- X-Ray Magic
+	- X-Ray service collects data from all the different services
+	- Service map is computed from all the segments and traces
+	- X-Ray is graphical, so even non technical people can help troubleshoot
+- X-Ray Troubleshooting
+	- If X-Ray is not working on EC2
+		- Ensure the EC2 IAM Role has the proper permissions
+		- Ensure the EC2 instance is running the X-Ray Daemon
+	- To enable on AWS Lambda
+		- Ensure it has an IAM execution role with proper policy (AWSX-RayWriteOnlyAccess)
+		- Ensure that X-Ray is imported in the code
+		- Enable Lambda X-Ray Active Tracing
+- X-Ray console is under sidebar of CloudWatch console
+- X-Instrumentation in your code
+	- Instrumentation means the measure of product's performance, diagnose errors, and to write trace information.
+	- To instrument your application code, you use the X-Ray SDK
+	- Many SDK require only confirmation changes
+	- You can modify your application code to customize and annotation the data that the SDK sends to X-Ray using interceptors, filters, handlers, middleware...
+- Advanced X-Ray concepts
+	- Segments: each application / service will send them
+	- Subsegments: if you need more details in your segment
+	- Trace: segments collected together to form and end-to-end trace
+	- Sampling: decrease the amount of requests sent to X-Ray, reduce cost
+	- Annotations: Key Value pair used to index traces and use the filters
+	- Metadata: Key value pair, not indexed, not used for searching
+	- The X-Ray daemon / agent has a confirm to send traces cross account:
+		- Make sure the IAM permissions are correct - the agent will assume the role
+		- This allows to have a central account for all your application tracing
+- Sampling Rules
+	- With sampling rules, you control the amount of data that you record
+	- You can modify sampling rules without changing your code
+	- By Default, the X-Ray SDK records the ==first request each second==, and ==five percent of any additional request==.
+	- One request per second is the reservoir, which ensures that at least one trace is recorded each second as long the service is serving requests.
+	- Five percent is the rate at which additional requests beyond the reservoir size are sampled.
+- Custom sampling Rules:
+	- You can create your own rules with the reservoir and rate
+		  ![[Screenshot 2023-07-15 at 6.27.25 AM.png]]
+- Sampling rules can defined by going to Settings in sidebar from CloudWatch Console. And in Settings, go to Traces and under traces, there is section of sampling rules.
+- X-Ray APIs
+	- Write APIs
+		- `PutTraceSegments`: Uploads segments documents to AWS X-Ray
+		- `PutTelemetryRecords`: Used by the AWS X-Ray daemon to upload telemetry
+			- `SegmentsReceivedCount`
+			- `SegmentsRejectedCounts`
+			- `BackendConnectionErrors`...
+		- `GetSamplingRules`: Retrieve all sampling rules (to know what/when to send)
+		- `GetSamplingTargets` & `GetSamplingStatisticSummaries` advanced
+		- The X-Ray daemon needs to have an IAM policy authorizing the correct API calls to function correctly
+	- Read APIs
+		- `GetServiceGraph`: man graph
+		- `BatchGetTraces`: Retrieves a list of traces specified by ID. Each trace is collection of segment documents that originates from a single request.
+		- `GetTraceSummaries`: Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces.
+		- `GetTraceGraph`: Retrieves a service graph for one or more specific trace IDs.
+- X-Ray with Elastic Beanstalk
+	- AWS Elastic Beanstalk platform include the X-Ray daemon
+	- You can run the daemon by setting an option in the Elastic Beanstalk console or with a configuration file (in `.ebextensions/xray-daemon.config`)
+	```yaml
+	option_settings:
+		aws:elasticbeanstalk:xray:
+			XRayEnabled: true
+	```
+	- Make sure to give your instance profile the correct IAM permissions so that the X-Ray daemon can function correctly
+	- Then make sure your application code is instrumented with the X-Ray SDK
+	- Note: the X-Ray daemon is not provided for Multi-container Docker
+- X-Ray with ECS
+	  ![[Screenshot 2023-07-15 at 6.50.18 AM.png]]
+-  

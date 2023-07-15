@@ -1,0 +1,84 @@
+- HTTP Health checks are only for public resources
+-  Health Checks → Automated DNS Failover
+	- Health checks that monitor an endpoint (application, server, other AWS resource)
+	- Health checks that monitor other health checks (Calculated Health Checks)
+	- Health checks that monitor CloudWatch Alarms (full control !!) - eg: throttles of DynamoDB, alarms on RDS, custom metric,... (helpful for private resources)
+- Health Checks are integrated with CW metrics![[Screenshot 2023-06-22 at 1.15.16 PM.png]]
+- Monitor an Endpoint
+	- About 15 global health checkers will check the endpoint health
+		- Healthy/Unhealthy Threshold - 3 (default)
+		- Interval - 30 sec (can set to 10 sec - higher cost)
+		- Supported protocol: HTTP, HTTPS and TCP
+		- If > 18% of health checks report the endpoint is healthy, Route 53 consider it Healthy. Otherwise, it is Unhealthy.
+		- Ability to choose which locations you want Route 53 to use
+	- Health checks pass only when the endpoint responds with the 2xx and 3xx status codes
+	- Health checks can be setup to pass/fail based on the text in the first 5120 bytes of the response
+	- Configure you router/firewall to allow incoming requests from Route 53 Health Checkers
+	- To allow the health-checker bots to be able to hit your server, be sure to allow the [ip-ranges](https://ip-ranges.amazonaws.com/ip-ranges.json) of AWS health checks in security groups.
+- Calculated Health Checks
+	- Combine the results of multiple Health Checks into a single Health Check
+	- You can use OR, AND, or NOT
+	- Can monitor up to 256 Child Health Checks
+	- Specify how many of the health checks need to pass to make the parent pass
+	- Usage: perform maintenance to your website without causing all health checks to fail![[Screenshot 2023-06-22 at 1.27.46 PM.png]]
+- Health check of Private Hosted Zones
+	- Route 53 health checkers are outside the VPC
+	- They can't access private endpoints (Private VPC or on-premises resource)
+	- You can create a CloudWatch Metric and associate a CloudWatch Alarm, then create a Health Check that checks the alarm itself.![[Screenshot 2023-06-22 at 1.36.12 PM.png]]
+
+## Hands-on
+- Go to Route 53 dashboard
+- Under sidebar, go to `Health Checks`
+- Click on `Create Health Check` button and new form will open
+-  Configure Health check based on endpoint ^4342dc
+	- Name
+	- What to monitor
+		- Endpoint (select)
+		- Status of other health checks (calculated health check)
+		- State of CloudWatch alarm
+	- Monitor an endpoint
+		- Specify endpoint
+			- IP Address
+				- Protocol
+				- IP Address*
+				- Hostname
+				- Port*
+				- Path 
+			- Domain name
+				- Protocol
+				- Domain name*
+				- Port*
+				- Path
+	- Advanced configurations
+		- Request interval
+			- Standard (30 seconds)
+			- Fast (10 seconds)
+		- Failure threshold (3)
+		- String matching
+			- Yes
+			- No
+		- Latency graphs
+		- Invert health check status
+		- Disable health check
+		- Health checker regions
+	- Get notified when health check fails
+		- No for now
+	- Create
+	- Create two another health checks for 2 other instances
+	- To test this health check, you can remove the public security group from the instance.
+-  Configure Health check based on status of other health checks
+	- Same as above but change the followings
+	- What to monitor, select `Status of other health checks`
+	-  Monitor other health checks
+		- Health checks to monitor, select [[Health Checks#^4342dc|health checks we created in 1st go]]
+		- Reports healthy when
+			- At least `number` of total selected health checks are healthy
+			- All health checks are healthy (AND)
+			- One or more health checks are healthy (OR)
+	- Create
+- Configure health check based on CloudWatch Alarm
+	- Select `State of CloudWatch alarm` in what to monitor
+	- Specify the region in which the alarm is created
+	- Select the CloudWatch Alarm
+	- Next and create
+	- 

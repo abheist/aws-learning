@@ -1,0 +1,202 @@
+
+---
+alias: Relational Database Service
+---
+
+- Relational Database Service
+- It's a managed DB service for DB user SQL as a query language
+- It allows you to create databases in the cloud that are managed by AWS
+	- Postgres
+	- MySQL
+	- MariaDB
+	- Oracle
+	- Microsoft SQL Server
+	- [[Aurora]] (AWS Proprietary database)
+- RDS is a managed service
+	- Automated provisioning, OS patching
+	- Continuous backups and restore to specific timestamp (Point in Time Restore)!
+	- Monitoring dashboards
+	- Read replicas for improved read performance
+	- Multi AZ setup for DR (Disaster Recovery)
+	- Maintenance windows for upgrades
+	- Scaling capability (vertical and horizontal)
+	- Storage backed by EBS (`gp2` or `io1`)
+- But you can't SSH into your instances
+
+### Storage Auto Scaling
+- Helps you increase storage on your RDS DB instance dynamically
+- When RDS detects you are running out of free database storage, it scales automatically
+- Avoid manually scaling your database storage
+- You have to set Maximum Storage Threshold (maximum limit for DB storage)
+- Automatically modify storage if:
+	- Free storage is less than 10% of allocated storage
+	- Low-storage lasts at least 5 minutes
+	- 6 hours have passed since last modification
+- Useful for applications with unpredictable workloads
+- Supports all RDS database engines (MariaDB, MySQL, PostgreSQL, SQL Server, Oracle)
+
+### RDS Read Replicas for read scalability
+- Up to 15 Read Replicas
+- Within AZ, Cross AZ, or Cross Region
+- Replication is ASYNC, so reads are eventually consistent. If we read the data from replica while the "sync replication" is in process, then we'll get the old data.
+- Replicas can be promoted to their own DB
+- Applications must update the connection string to leverage read replicas![[Screenshot 2023-06-15 at 11.33.33 AM.png]]
+- Use cases
+	- You have a production database that is taking on normal load
+	- You want to run a reporting application to run some analytics
+	- You create a Read Replica to run the new workload there
+	- The production application is unaffected
+	- Read replicas are used for SELECT (=read) only kind of statements (not INSERT, UPDATE, DELETE)![[Screenshot 2023-06-15 at 11.36.21 AM.png]]
+- Replication Cost
+	- In AWS, there is network cost when data goes from one AZ to another
+	- For RDS Read Replicas within the same region, you don't pay that fee
+	- But for different region, you have to pay the fee![[Screenshot 2023-06-15 at 11.39.06 AM.png]]
+- RDS Multi AZ (Disaster Recovery)
+	- SYNC replication
+	- One DNS name - automatic app failover to standby
+	- Increase availability
+	- Failover in case of loss of AZ, loss of network, instance or storage failure
+	- No manual intervention in apps
+	- Not used for scaling
+	- Note: The read Replicas be setup as Multi AZ for Disaster Recovery (DR)![[Screenshot 2023-06-15 at 11.43.39 AM.png]]
+- From Single-AZ to Multi-AZ
+	- Zero downtime operation (no need to stop the DB)
+	- Just click on "modify" for the database
+	- The following happens internally:
+		- A snapshot is taken
+		- A new DB is restored from the snapshot in a new AZ
+		- Synchronization is established between the two databases![[Screenshot 2023-06-15 at 11.46.22 AM.png]]
+
+### Hands on
+- Go to RDS dashboard from the main search
+- On databases from sidebar, click on `Create Database`, new form will open
+- Choose a database creation method
+	- Standard Create (select)
+	- Easy create
+- Engine options
+	- Engine type
+		- Amazon Aurora
+		- MySQL (select)
+		- MariaDB
+		- PostgreSQL
+		- Oracle
+		- Microsoft SQL Server
+	- Edition
+		- MySQL Community
+		- Version
+- Templates
+	- Production (select)
+		- Use defaults for high availability and fast consistent performance
+	- Dev/Test
+		- This instance is intended for development use outside of a production environment
+	- Free tier
+		- Use RDS free tier to develop new application or gain hand-on experience with Amazon RDS
+- Availability and durability
+	- Singel DB instance (select)
+	- Multi AZ DB instance
+	- Multi AZ DB cluster. - new
+- Settings
+	- DB instance identifier (name)
+	- Master username
+	- Master password
+	- Confirm password
+- Instance configuration
+	- DB instance class (this is the size of underlying EC2 instance)
+		- Standard classes (includes m classes)
+		- Memory optimized classes (includes r and x classes)
+		- Burstable classes (includes t classes) (select)
+			- include previous generation (select)
+			- Select t2.micro for free-tier
+- Storage
+	- Storage type
+		- select `gp2` for free tier
+	- Allocated storage, select 20 GB
+	- Storage Autoscaling, enable it
+	- Maximum storage threshold, set it to 1000
+-  Connectivity
+	- Compute resource
+		- Don't connect to an EC2 compute resource (select)
+		- Connect to an EC2 compute resource
+			- if you select this, there will be dropdown to select the EC2 instance, and the connectivity between DB and instance will be automatically be created by AWS
+	- VPS (let it be default)
+	- DB Subnet group (default)
+	- Public access (based on the selection, the public IP will be assigned, otherwise not)
+		- Yes (select)
+		- No
+	- VPC security group
+		- Choose existing
+		- Create new (select)
+			- New security group name (demo-database-mysql)
+	-   Database port, 3306
+- Database authentication
+	- Password authentication
+	- Password and IAM database authentication
+	- Password and kerberos authentication
+- Monitoring
+	- Enable enhanced monitoring (disable for now)
+	- Granularity
+	- Monitoring role  
+- Additional configuration
+	- Initial database name
+		- mydb
+	- DB parameter group (default)
+	- Option group (default)
+	- Enable automated backups (enable)
+	- Backup retention period (7 days)
+	- Backup window
+		- Choose a window
+		- No preference
+	- Copy tags to snapshot (selected)
+	- Log exports
+		- Audit log
+		- Error log
+		- General log
+		- Slow query log
+	- Maintenance
+		- Enable auto minor version upgrade
+		- Maintenance window
+	- Deletion protection (enable)
+- Review the Estimated monthly costs
+- Click on `Create Database` button
+- Once created, you can see on the databases page
+- If you select the database, under the connectivity & security tab, you can find some useful information
+	- Endpoint
+	- Port
+	- AZ
+	- VPC
+	- Subnet group
+	- Security group
+	- Publicly accessible
+- You can copy the endpoint and part and can try connecting from local.
+- From database page, click on `Actions` and select `Create Read Replica` and new form page will open
+	- Instance specification (t2.micro)
+	- Multi-AZ deployment (No)
+	- Storage type
+	- Select other useful information and create
+- You can also do following options from the `Action` button
+	- Take database snapshot
+	- Restore to point in time
+	- Migrate snapshot to different region
+
+### RDS & [[Aurora]] Security
+- At-rest encryption
+	- Database master & replicas encryption using AWS KMS. - must be defined as launch time
+	- If the master is not encrypted, the read replicas cannot be encrypted
+	- To encrypt an un-encrypted database, go through a DB snapshot & restore as encrypted
+- In-flight encryption: TLS-ready by default, use the AWS TLS root certificate client-side
+- IAM Authentication: IAM roles to connect to your database (instead of username/password)
+- Security Groups: Control Network access to your RDS / Aurora DB
+- No SSH available except on RDS Custom
+- Audit Logs can be enabled and sent to CloudWatch logs for longer retention
+
+### Amazon RDS Proxy
+- Fully managed database proxy for RDS
+- Allows apps to pool and share DB connections established with the database
+- Improving database efficiency by reducing the stress on database resources (e.g., CPU, RAM) and minimize open connections (and timeouts)
+- Serverless, autoscaling, high available (multi AZ)
+- Reduced RDS & Aurora failover time by up 66%
+- Supports RDS (MySQL, PostgreSQL, MariaDB, MS SQL Server) and Aurora (MySQL, PostgreSQL)
+- No code changes required for most apps
+- Enforce IAM Authentication for DB, and securely store credentials in AWS Secrets Manager
+- RDS Proxy is never publicly accessible (must be accessed from VPC)
+

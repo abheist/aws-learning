@@ -1,0 +1,179 @@
+- Elastic Block Storage
+- An EBS volume is a network drive you can attach to your instances while they run
+- It allows your instances to persist data, even after their termination
+- They can only be mounted to one instance at a time
+	- **There is an option for multi-attach for some EBS**
+- They are bound to specific availability zone
+- Analogy: Think of them as a "USB stick"
+- Free tier: 30 GB of free EBS storage of type general purpose (SSD) or Magnetic per month
+- It's a network drive (i.e. not a physical drive)
+	- It uses the network to communicate the instance, which means there might be a bit of latency
+	- It can be detached from an EC2 instance and attached to another one quickly
+- It is locked to an availability zone (AZ)
+	- An EBS volume in `us-est-1a` cannot be attached to `us-east-1b`
+	- To move a volume across, you first need to snapshot it
+- Have a provisioned capacity (size in GBs, and IOPS)
+	- You get billed for all the provisioned capacity
+	- You can increase the capacity of the drive over time
+- Example: ![[Screenshot 2023-06-06 at 7.03.48 PM.png]]
+- Delete on termination attribute![[Screenshot 2023-06-06 at 7.05.59 PM.png]]
+	- Controls the ESB behaviour when EC2 instance terminates
+		- By default, the root EBS volume is deleted (attribute enabled)
+		- By default, any other attached EBS volume is not deleted (attributed disabled)
+	- This can be controlled by the AWS console / AWS CLI
+	- Use case: preserve root volume when instance is terminated
+- EBS Hands-on
+	- To check the EBS volumes attached to any instance, go to instances under EC2 dashboard
+	- Click on any instance, go to storage tab, there you can see the details of EBS instances attached
+	- If you click on the volume attached, it'll take you to the volume page
+	- Other way to come to this page is by from EC2 dashboard's sidebar, under Elastic Block Store, click on Volumes.
+	- You can see volume details on the page, under details, you can find following details
+		- Volume ID
+		- Size
+		- Type
+		- Volume status
+		- Volume State
+		- IOPS
+		- Snapshot
+		- Availability Zone
+		- Attached Instances
+	- Create a volume
+		- Click on the `Create a Volume button` on volumes page, it'll open up a form
+		- Volume settings
+			- Volume type, select GP2
+			- Size (GiB), enter 2
+			- [IOPS (I/O operations per second)](https://stackoverflow.com/questions/59182414/iops-vs-throughput-which-one-to-use-while-choosing-aws-ebs) 
+			- Throughput
+			- Availability Zone, choose same one in which EC2 instance is
+			- Snapshot ID
+			- Fill in other useful information like encryption, tags, etc
+			- and click "Create"
+			- once created, it'll redirect to Volumes Dashboard, you can select the newly created volume and check out the details.
+	- Attach a volume to an EC2 instance
+		- Select the volume in the Volume dashboard
+		- Click on the top-right `action` dropdown
+		- Select `Attach a volume`, it'll open up a form
+		- Enter basic details and select the instance you want to attach the volume to
+			- Volume ID
+			- Availability zone
+			- Instance, select instance here
+			- Devine name, pre-filled with `/dev/sdf`
+			- once filled, click on `Attach volume` button
+			- It'll be attached.
+		- This is how, two or more EBS volumes can be attached to the instance.
+		- If you go to the instance, you can look under storage tab, there is a section of `Block devices`
+		- Under `Block Devices`, you can see two volumes, one which by default created with EC2 and other is the one we just created and attached.
+	- You can't attach EBS volumes to other availability zone instance
+	- To check the `delete on termination` check
+		- Go to instance, under storage, go to Block device section, if you scroll the the right most
+		- There is a column on the table `Delete on termination` and it will have `Yes` / `No`
+		- Remember, when we create an instance and create a storage with it, the `delete on termination` check is by default `yes` and is under `advanced` settings on Storage section.
+
+## EBS Snapshot
+-  Make a backup (snapshot) of your EBS volume at a point in time
+- Not necessary to detach volume to do snapshot, but recommended
+- Can copy snapshots across AZ or region ![[Screenshot 2023-06-06 at 7.33.46 PM.png]]
+- This is one way to transfer data from one AZ to another.
+- EBS Snapshot archive ^8457f6
+	- Move a snapshot to an "archive tier" that is 75% cheaper
+	- Takes within 24 to 72 hours for restoring the archive
+- Recycle bin for EBS snapshots
+	- Setup rules to retain deleted snapshots so you can recover them after an accidental deleting
+	- Specify retention (from 1 day to 1 year)
+- Fast snapshot restore (FSR)
+	- Force full initialization of snapshot to have no latency on the first use (cost more money 💰)
+- EBS Snapshot hands-on
+	- Go to Volumes dashboard
+	- Select a volume, click on `Actions` dropdown at the top-right corner
+	- Select `Create Snapshot`, new form will open
+		- It'll have the volume id of which you want to take snapshot of
+		- Enter description
+		- Once all the details are filled, click on `Create Snapshot` button
+		- Now the snapshot have been created,
+- You can find snapshots in sidebar of EC2 dashboard, under Elastic Block Store → Snapshots
+- If you go to snapshots page, you'll see the lists of all the snapshots you have
+- It you select one snapshot, you can find some of the following information
+	- Snapshot ID
+	- Size
+	- Owner
+	- Volume ID
+	- Progress
+	- Snapshot status
+	- Started and other relevant information
+-  Copy snapshot to other region
+	- Select a snapshot, right click on it, context-menu will open, select `Copy Snapshot`
+	- Once you click, new form will open
+		- Snapshot ID, you want to make a copy of
+		- Description for the new copy
+		- Destination region
+		- Encryption checkbox
+		- Once form is filled, click on `Copy Snapshot` button.
+- Create volume from a snapshot
+	- Select a snapshot
+	- Click on the `action` dropdown at the top-right corner
+	- Select `Create volume from Snapshot`, a form will open
+		- Snapshot ID, from which you want to create volume from
+		- Volume type, we'll select `GP2`
+		- Size
+		- IOPS
+		- Throughput
+		- Availability Zone
+		- Encryption and tags, once filled click on `Create Volume button`
+		- Now the new volume will be created, you can check that volume under Volumes page.
+		- The volume which is created from snapshot will have a snapshot name from which it's created from under details.
+
+- [[Recycle Bin]]
+- 
+
+### EBS Volume Types
+- EBS Volumes comes in 6 types
+	- `gp2` / `gp3` (SSD): general purpose SSD volume that balances price and performance for a wide variety of workloads
+	- `io1` / `io2` (SSD): Highest-performance SSD volume for mission-critical low-latency or high-throughput workloads
+	- `st1` (HDD): Low cost HDD volume designed for less frequently accessed workloads
+- EBS volumes are characterized in size, throughput, IOPS
+- When in doubt always consult AWS documentation.
+-  Only `gp2/gp3` and `io1/ios2` can be used as boot volumes, means where boot OS will be running
+- General Purpose SSD
+	- Cost effective storage, low-latency
+	- System boot volumes, virtual desktop, development and test environments
+	- 1 GB - 16 TiB
+	- `gp3`
+		- Baseline of 3000 IOPS and throughput of 125 MiB/s
+		- Can increase IOPS up to 16000 and throughput up to 1000 MiB/s independently
+	- `gp2`
+		- Small `gp2` volumes can burst IOPS to 3000
+		- Size of the volume and IOPS are linked, max IOPS is 16000
+		- 3 IOPS per GB, means at 5334 GB we are at the max IOPS
+- Provisioned IOPS
+	- Critical business application with sustained IOPS performance
+	- or applications that need more than 16000 IOPS
+	- Great for databases workloads (sensitive to storage perf and consistency)
+	- `io1/io2` (4GiB - 16 TiB):
+		- Max PIOPS: 64000 for Nitro EC2 instances & 32000 for other
+		- Can increase PIOPS independently from storage size
+		- `io2` have more durability and more IOPS per GiB (at the same price as `io1`)
+	- `io2` Block express (4GiB - 64 TiB)
+		- Sub-millisecond latency
+		- Max PIOPS: 256000 with an IOPS:GiB ratio of 1000:1
+	- Supports EBS multi-attach
+- Hard Disk Drives
+	- Cannot be a boot device
+	- 125 GiB to 16 TiB
+	- Throughput Optimized HDD (`st1`)
+		- Big data, data warehouses, Log processing
+		- Max throughput 500 MiB/s - Max IOPS 500
+	- Cold HDD (`scl`):
+		- For data that is infrequently accessed
+		- Scenarios where lowest cost is important
+		- Max throughput 250 MiB/s - max IOPS 250![[Screenshot 2023-06-06 at 9.45.17 PM.png]]
+		- [EBS Volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html)
+
+## EBS Multi-Attach - `io1/io2` family
+- Attach the same EBS volume to multiple EC2 instances in the same AZ
+- Each instance has full read & write permissions to the high-performance volume
+- use case:
+	- Achieve higher application availability in clustered linux applications (ex: Teradata)
+	- Applications must manage concurrent write operations
+- Up to 16 EC2 instances at a time
+- Must use a file system that's cluster aware (not XFS, EXT4, etc...)![[Screenshot 2023-06-06 at 9.51.24 PM.png]]
+- 

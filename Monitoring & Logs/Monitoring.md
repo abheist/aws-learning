@@ -1,0 +1,22 @@
+- Why is monitoring important
+	- We know how to deploy applications
+		- Safely
+		- Automatically
+		- Using Infrastructure as Code
+		- Leveraging the best AWS components
+	- Our applications are deployed, and our users don't care how we didi it...
+	- Our users only care that the application is working
+		- Application latency
+		- Application outrage
+		- Users contacting the IT department or complaining is not a good outcome
+		- Troubleshooting and remediation
+	- Internal monitoring
+		- Can we prevent issues before they happen ?
+		- Performance and Cost
+		- Trends (Scaling pattern)
+		- Learning and Improvement
+- Monitoring in AWS
+	- AWS [[CloudWatch]]
+	- AWS [[X-Ray]]
+	- AWS [[CloudTrail]]
+![[Screenshot 2023-07-15 at 7.28.22 AM.png]]

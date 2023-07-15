@@ -1,0 +1,98 @@
+---
+aliases: Application Load Balancer
+---
+- Application Load Balancer (v2)
+- Load balancing to multiple HTTP applications across machines (target groups)
+- Load balancing to multiple applications on the same machine (ex: containers)
+- Support for HTTP/s and [[WebSocket]]
+- Support redirects (from HTTP to HTTPS for example)
+- Routing tables to different target groups:
+	- Routing based on path in URL (example.com/users & example.com/posts)
+	- Routing based on hostname in URL (one.example.com & other.example.com)
+	- Routing based on Query Strings, Headers (example.com/users?id=123&order=false)
+- ALB are a great fit for micro services & container-based application (example: Docker & Amazon ECS)
+- Has a port mapping feature to redirect to a dynamic port in [[ECS]]
+- In comparison, we'd need multiple [[CLB]] per application
+- HTTP Based Traffic based on route![[Screenshot 2023-06-12 at 7.54.30 PM.png]]
+- [[Target Groups]]
+	- ALB can route to multiple target groups
+	- Health checks are at the target group level
+- Query String/Parameters routing![[Screenshot 2023-06-12 at 7.59.44 PM.png]]
+
+### Good to know
+- Fixes hostname (xxx.region.elb.amazonaws.com)
+- The application servers don't see the IP of the client directly
+	- The true IP of the client is inserted in the header X-Forwarded-For
+	- We can also get Port (X-Forwarded-Port) and Protocol (X-Forwarded-Proto)![[Screenshot 2023-06-12 at 8.03.06 PM.png]]
+	- To access the client ID in EC2, you need to access following headers
+		- Port (X-Forwarded-Port) and Protocol (X-Forwarded-Proto)
+
+### Hands on
+- [[EC2#Launch an EC2 instance running Linux|Launch 2 EC2 instances]]
+	- Fill in all the required information
+	- Check the public IPs, they should be working
+	- Change the 2 instance name, so that it can be easily identifiable
+- Now go to Load Balancer page
+	- It's on EC2 dashboard sidebar under Load balancing heading
+- Click on `Create Load Balancer` button
+- A new Form will open
+- Select `Application Load Balancer` and new page with form will open
+	- Basic Configuration
+		- Load balancer name
+		- Scheme
+			- Internet facing (select)
+			- Internal
+		- IP address type
+			- IPv4 (select)
+			- Dualstack
+	- Network mapping
+		- VPC (by default, the default VPC was selected, do not change)
+		- Mapping
+		  It's for selecting AZs in which this load balancer will be available, select at least 2
+	- Security Group
+		- [[Security Groups#Security groups hands on|Create new security group for it]]
+			- Fill in required information
+			- In `Inbound Rules`, select `anywhere 0.0.0.0/0`
+			- Outbound is fine, it's by default anywhere
+		- Select the newly created security group
+		- Remove the default
+	- Listeners and routing
+		- Listener
+			- Protocol: `HTTP`
+			- Port `80`
+			- Default action
+				- forward to `select target group`
+				- [[Target Groups#Create a target group|Create target group]] if needed
+	- Review the settings and click on `Create Load Balancer` button
+	- Once it's created, it can be viewed at Load Balancer page.
+	- Check the DNS name, copy and paste into new browser tab
+	- It'll show the index page of EC2. and if you reload the page multiple times, the index page will be switching based on the load balancing
+	- If you now kill any one EC2 instance and go to target group
+	- Select the target group we created for ALB, under targets tab, check the status of killed instance, it should be unused
+	- If we now go and check the load-balancer URL, it'll only load the page from the only one running instance.
+- If you see the above created instances and copy the IP of those instance, those can be accessed by their public IPs
+- Go to instances security group
+- Click on edit
+- and if you see the HTTP inbound rule, everything is allowed currently
+- so delete that HTTP rule and click on `Add Rule` button
+- Select `HTTP` in type and under source, select the Security group we created for Load Balancer
+- Once added, click on save
+- Now, you go to the public IP of the EC2 instance, it'll not load
+- But if you go through the load balancer, it'll work.
+- To add more rules in the Load Balancer
+	- Go to Load balancer and select it
+	- Under Listeners tab, select HTTP:80 and the page will open
+	- There will be a new page with tab `Rules`, open that and click on `Manage Rules`
+	-  Click on `Add` button to insert rule, there will be three columns with drop down
+		- Rule ID
+		- If (all match)
+		- Then
+	- For the hands on, do the following
+		- for `if (all match)`
+			- select `path is` and enter `/error`
+		- under then, select `return a fixed response`
+			- response code : `404`
+			- content type: `text/plain`
+			- response body: `Not found, custom error`
+	- To test this, add `/error` on ALB DNS.
+	- It should be showing `Not found, custom error`

@@ -1,0 +1,46 @@
+- Security groups are fundamental of network security in AWS
+- They control how traffic is allowed into or out of our EC2 instances.![[Screenshot 2023-06-05 at 8.51.07 PM.png]]
+- Security groups only contains allow rules
+- One EC2 instance can have multiple security groups
+- Security groups riles can reference by IP or by security group
+- Security groups are acting as a "Firewall" on EC2 instances
+- They regulate:
+	- Access to Ports
+	- Authorized IP ranges - IPv4 and IPv6
+	- Control of inbound network (from other to the instance)
+	- Control of outbound network (from the instance to other)![[Screenshot 2023-06-05 at 8.53.53 PM.png]]
+	- Security group diagram ![[Screenshot 2023-06-05 at 8.55.14 PM.png]]
+	- Good to know
+		- They can be attached to multiple instances
+		- Locked to to a region / VPC combination
+		- Does live "outside" the EC2 - if traffic is blocked the EC2 instance won't see it.
+		- It's good to maintain one separate security group for SSH access
+		- If your application is not accessible (time out), then it's a security group issue
+		- If your application give a "connection refused" error, then it's an application error or it's not launched.
+		- All inbound traffic is blocked by default
+		- All outbound traffic is authorized by default
+- Security group diagram![[Screenshot 2023-06-05 at 9.56.18 PM.png]]
+- Classic ports to know for inbound/outbound rules ^d7e2d6
+	- 22: [[SSH]] (Secure Shell) - log into a instance via terminal
+	- 21: FTP (File Transfer Protocol) - upload files using SSH
+	- 22: SFTP (Secure File Transfer Protocol) - Upload files using SSH
+	- 80: HTTP - access unsecured websites
+	- 442: HTTPs - access secured websites
+	- 3389: RDP (Remote Desktop Protocol) - Log into windows instance
+
+
+### Security groups hands on
+- For any EC2 instance, you can see security group details under instance details → Security → Inbound/outbound rules
+- To go to Security Groups page, use the following
+	- Go to EC2 dashboard
+	- In sidebar, under `Network & Security`, there is an option `Security Groups`, click on that
+	- There you can find list of security groups
+		- By default, there will be one security group
+		- and if you have created any EC2 instance, some of the security groups have been created with them if you have created any.
+- Security group have following information
+	- Security group name
+	- Security group ID
+	- Description
+	- VPC ID
+	- Inbound/Outbound rules
+		- Rules can be added based on [[Security Groups#^d7e2d6|ports]] and source

@@ -1,0 +1,36 @@
+- Some AWS service will need to perform actions on your behalf
+- To do so, we will assign permissions to AWS services with IAM Roles
+- Roles are just like users, but they are not intended to be used by real person, and are intended to be used by any other service on your behalf.
+- Eg:
+	- EC2 instance, may want to perform some actions on aws.
+	- To do so, we can create IAM role which can be used by EC2
+- Common roles
+	- EC2 Instance Roles
+	- Lambda Function Roles
+	- Roles for CloudFormation
+
+- IAM → Roles
+- Create a Role ^c51cea
+	- Select Trusted Entity
+		- AWS Service
+			- AWS services like EC2, Lambda, or others to perform actions in this account.
+		- AWS Account (out of exam)
+			- Entities in other AWS accounts belonging to you or 3rd party to perform actions in this account.
+		- Web Identity (out of exam)
+			- Allow users federated by the specified external web identity provider to assume this role to perform actions in this account.
+		- SAML 2.0 federation (out of exam)
+			- Allow users federated with SAML 2.9 from a corporate directory to perform actions int his account.
+		- Custom Trust Policy (out of exam)
+			- Create a custom trust policy to enable others to perform actions in this account.
+	- Select Use cases
+		- Common ones are: EC2 or Lambda
+		- select EC2 for now
+	- Add permissions
+		- Assign policies to that role.
+		-  for now, select `IAMReadOnlyAccess` 
+	- Define Role details
+		- Role Name
+		- Description
+		- Review details defined in 1 and 2 step
+		- Add tag, if needed
+		- Create
