@@ -10,12 +10,12 @@ aliases: Network Load Balancer
 - NLB has one static IP per AZ and supports assigning Elastic IP
   (helpful for whitelisting specific IP)
 - NLB are used for extreme performance, TCP or UDP traffic
-- Not included in the AWS free tier![[Screenshot 2023-06-12 at 10.08.12 PM.png]]
-- [[Target Groups]] can be
+- Not included in the AWS free tier![Screenshot 2023-06-12 at 10.08.12 PM](../images%201/Screenshot%202023-06-12%20at%2010.08.12%20PM.png)
+- [Target Groups](Target%20Groups.md) can be
 	- EC2 instances
 	- IP addresses - must be private IPs
 		- Here you can one instance of EC2 and other instance of your own personal server
-	- Application Load Balancer![[Screenshot 2023-06-12 at 10.10.42 PM.png]]
+	- Application Load Balancer![Screenshot 2023-06-12 at 10.10.42 PM](../images%201/Screenshot%202023-06-12%20at%2010.10.42%20PM.png)
 	- Health check support the TCP, HTTP, HTTPS protocol
 
 ### Hands on
@@ -35,7 +35,7 @@ aliases: Network Load Balancer
 	- Mappings
 		- Select all the needed AZs
 - Listeners and routing
-	- [[Target Groups#Create a target group|Create a new target group]] for this
+	- [](Target%20Groups.md#Create%20a%20target%20group%7CCreate%20a%20new%20target%20group) for this
 		- While creating, select TCP protocol on port 80
 - Review the settings and create load balancer,
 - Once created, open the DNS name

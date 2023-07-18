@@ -1,6 +1,6 @@
 #docker #terraform
 
-To use [[Docker]] with [[Terraform]]. Follow the following steps:
+To use [Docker](../Containers/Docker.md) with [Terraform](Terraform.md). Follow the following steps:
 - Create a new directory `mkdir learn-terraform-docker-container`
 - Go inside that directory
 - Create a new file `main.tf`

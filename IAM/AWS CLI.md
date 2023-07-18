@@ -2,7 +2,7 @@
 - Direct access to public APIs to aws services
 - You can develop scripts to manage your resources using aws cli
 
-- [[Access Keys]]
+- [Access Keys](Access%20Keys)
 	- How to get access keys and configure them in CLI
 		- Under IAM, go to user
 		- Select `Security credentials`

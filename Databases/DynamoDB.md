@@ -1,5 +1,5 @@
 - Traditional Architecture
-	  ![[Screenshot 2023-07-15 at 7.38.29 PM.png]]
+	  ![Screenshot 2023-07-15 at 7.38.29 PM](../images%201/Screenshot%202023-07-15%20at%207.38.29%20PM.png)
 	- Traditional applications leverage RDBMS databases  
 	- These databases have the SQL query language  
 	- Strong requirements about how the data should be modeled  
@@ -39,12 +39,12 @@
 		- Partition key must be unique for each item
 		- Partition key must be “diverse” so that the data is distributed
 		- Example:“User_ID” for a users table
-			  ![[Screenshot 2023-07-15 at 7.42.19 PM.png]]
+			  ![Screenshot 2023-07-15 at 7.42.19 PM](../images%201/Screenshot%202023-07-15%20at%207.42.19%20PM.png)
 	- Option 2: Partition Key + Sort Key (HASH + RANGE)
 		- The combination must be unique for each item
 		- Data is grouped by partition key
 		- Example: users-games table,“User_ID” for Partition Key and “Game_ID” for Sort Key
-			  ![[Screenshot 2023-07-15 at 7.43.08 PM.png]]
+			  ![Screenshot 2023-07-15 at 7.43.08 PM](../images%201/Screenshot%202023-07-15%20at%207.43.08%20PM.png)
 - Partition Keys
 	- We’re building a movie database
 	- What is the best Partition Key to maximize data distribution?
@@ -84,13 +84,13 @@
 	- If the items are larger than 1 KB, more WCUs are consumed
 	- Example 1: 
 		- we write 10 items per second, with item size 2 KB
-		- We need![[Screenshot 2023-07-15 at 7.49.48 PM.png]]
+		- We need![Screenshot 2023-07-15 at 7.49.48 PM](../images%201/Screenshot%202023-07-15%20at%207.49.48%20PM.png)
 	- Example 2: 
 		- we write 6 items per second, with item size 4.5 KB
-		- We need![[Screenshot 2023-07-15 at 7.50.09 PM.png]]
+		- We need![Screenshot 2023-07-15 at 7.50.09 PM](../images%201/Screenshot%202023-07-15%20at%207.50.09%20PM.png)
 	- Example 3: 
 		- we write 120 items per minute, with item size 2 KB
-		- We need![[Screenshot 2023-07-15 at 7.50.27 PM.png]]
+		- We need![Screenshot 2023-07-15 at 7.50.27 PM](../images%201/Screenshot%202023-07-15%20at%207.50.27%20PM.png)
 - Strongly Consistent Read  vs. Eventually Consistent Read
 	- Eventually Consistent Read (default)
 		- If we read just after a write, it’s possible we’ll get some stale data because of replication
@@ -98,21 +98,21 @@
 		- If we read just after a write, we will get the correct data
 		- Set “ConsistentRead” parameter to True in API calls (GetItem, BatchGetItem, Query, Scan)
 		- Consumes twice the RCU
-			  ![[Screenshot 2023-07-15 at 8.48.06 PM.png]]
+			  ![Screenshot 2023-07-15 at 8.48.06 PM](../images%201/Screenshot%202023-07-15%20at%208.48.06%20PM.png)
 - Read Capacity Units (RCU)
 	- One Read Capacity Unit (RCU) represents one Strongly Consistent Read per second, or two Eventually Consistent Reads per second, for an item up to 4 KB in size
 	- If the items are larger than 4 KB, more RCUs are consumed
 	- Example 1: 10 Strongly Consistent Reads per second, with item size 4 KB
-	- We need![[Screenshot 2023-07-15 at 8.49.34 PM.png]]
+	- We need![Screenshot 2023-07-15 at 8.49.34 PM](../images%201/Screenshot%202023-07-15%20at%208.49.34%20PM.png)
 	- Example 2: 16 Eventually Consistent Reads per second, with item size 12 KB
-	- We need![[Screenshot 2023-07-15 at 8.49.44 PM.png]]
+	- We need![Screenshot 2023-07-15 at 8.49.44 PM](../images%201/Screenshot%202023-07-15%20at%208.49.44%20PM.png)
 	- Example 3: 10 Strongly Consistent Reads per second, with item size 6 KB
-	- We need![[Screenshot 2023-07-15 at 8.49.50 PM.png]]
+	- We need![Screenshot 2023-07-15 at 8.49.50 PM](../images%201/Screenshot%202023-07-15%20at%208.49.50%20PM.png)
 - Partition Internal
 	- Data is stored in partitions
 	- Partition Keys go through a hashing algorithm to know to which partition they go to
-	- To compute the number of partitions:![[Screenshot 2023-07-15 at 8.51.34 PM.png]]
-	- WCUs and RCUs are spread evenly across partitions![[Screenshot 2023-07-15 at 8.51.44 PM.png]]
+	- To compute the number of partitions:![Screenshot 2023-07-15 at 8.51.34 PM](../images%201/Screenshot%202023-07-15%20at%208.51.34%20PM.png)
+	- WCUs and RCUs are spread evenly across partitions![Screenshot 2023-07-15 at 8.51.44 PM](../images%201/Screenshot%202023-07-15%20at%208.51.44%20PM.png)
 - Throttling
 	- If we exceed provisioned RCUs or WCUs, we get `ProvisionedThroughputExceededException`
 	- Reasons:
@@ -220,32 +220,32 @@
 		- size (string length)
 	- Note: Filter Expression filters the results of read queries, while Condition Expressions are for write operations
 	- Example on update item
-		  ![[Screenshot 2023-07-15 at 9.55.10 PM.png]]
+		  ![Screenshot 2023-07-15 at 9.55.10 PM](../images%201/Screenshot%202023-07-15%20at%209.55.10%20PM.png)
 	- Example on Delete Item
 		- attribute_not_exists
 			- Only succeeds if the attribute doesn't exist yet (no value)
-				  ![[Screenshot 2023-07-15 at 9.57.48 PM.png]]
+				  ![Screenshot 2023-07-15 at 9.57.48 PM](../images%201/Screenshot%202023-07-15%20at%209.57.48%20PM.png)
 		- attribute_exists
 			- Opposite of attribute_not_exists
-				  ![[Screenshot 2023-07-15 at 9.58.00 PM.png]]
+				  ![Screenshot 2023-07-15 at 9.58.00 PM](../images%201/Screenshot%202023-07-15%20at%209.58.00%20PM.png)
 	- Do not Overwrite Elements
 		- attribute_not_exists(partition_key)
 			- Make sure the item isn’t overwritten
 		- attribute_not_exists(partition_key) and attribute_not_exists(sort_key)
 			- Make sure the partition / sort key combination is not overwritten
 	- Example Complex Condition
-		  ![[Screenshot 2023-07-15 at 9.58.57 PM.png]]
+		  ![Screenshot 2023-07-15 at 9.58.57 PM](../images%201/Screenshot%202023-07-15%20at%209.58.57%20PM.png)
 	- Example of String comparisons
 		- begins_with - check if prefix matches
 		- contains - check if string is contained in another string
-			  ![[Screenshot 2023-07-15 at 9.59.46 PM.png]]
+			  ![Screenshot 2023-07-15 at 9.59.46 PM](../images%201/Screenshot%202023-07-15%20at%209.59.46%20PM.png)
 - Local Secondary Index (LSI)
 	- Alternative Sort Key for your table (same Partition Key as that of base table) 
 	- The Sort Key consists of one scalar attribute (String, Number, or Binary)
 	- Up to 5 Local Secondary Indexes per table
 	- Must be defined at table creation time
 	- Attribute Projections – can contain some or all the attributes of the base table (KEYS_ONLY, INCLUDE, ALL)
-		  ![[Screenshot 2023-07-15 at 10.00.30 PM.png]]
+		  ![Screenshot 2023-07-15 at 10.00.30 PM](../images%201/Screenshot%202023-07-15%20at%2010.00.30%20PM.png)
 - Global Secondary Index (GSI)
 	- Alternative Primary Key (HASH or HASH+RANGE) from the base table
 	- Speed up queries on non-key attributes
@@ -253,7 +253,7 @@
 	- Attribute Projections – some or all the attributes of the base table (KEYS_ONLY, INCLUDE, ALL)
 	- Must provision RCUs & WCUs for the index
 	- Can be added/modified after table creation
-		  ![[Screenshot 2023-07-15 at 10.01.30 PM.png]]
+		  ![Screenshot 2023-07-15 at 10.01.30 PM](../images%201/Screenshot%202023-07-15%20at%2010.01.30%20PM.png)
 - Indexes and Throttling
 	- Global Secondary Index (GSI):
 		- If the writes are throttled on the GSI, then the main table will be throttled!
@@ -267,7 +267,7 @@
 	- DynamoDB has a feature called “Conditional Writes”
 	- A strategy to ensure an item hasn’t changed before you update/delete it
 	- Each item has an attribute that acts as a version number
-		  ![[Screenshot 2023-07-15 at 10.04.16 PM.png]]
+		  ![Screenshot 2023-07-15 at 10.04.16 PM](../images%201/Screenshot%202023-07-15%20at%2010.04.16%20PM.png)
 - DynamoDB Accelerator (DAX)
 	- Fully-managed, highly available, seamless in-memory cache for DynamoDB
 	- Microseconds latency for cached reads & queries
@@ -277,9 +277,9 @@
 	- Up to 10 nodes in the cluster
 	- Multi-AZ (3 nodes minimum recommended for production)
 	- Secure (Encryption at rest with KMS,VPC, IAM, CloudTrail, ...)
-		  ![[Screenshot 2023-07-15 at 10.05.29 PM.png]]
+		  ![Screenshot 2023-07-15 at 10.05.29 PM](../images%201/Screenshot%202023-07-15%20at%2010.05.29%20PM.png)
 - DynamoDB Accelerator (DAX) vs. ElastiCache
-	  ![[Screenshot 2023-07-15 at 10.05.50 PM.png]]
+	  ![Screenshot 2023-07-15 at 10.05.50 PM](../images%201/Screenshot%202023-07-15%20at%2010.05.50%20PM.png)
 - DynamoDB Streams
 	- Ordered stream of item-level modifications (create/update/delete) in a table
 	- Stream records can be:
@@ -293,7 +293,7 @@
 		- Insert into derivative tables
 		- Insert into OpenSearch Service
 		- Implement cross-region replication
-		![[Screenshot 2023-07-15 at 10.07.19 PM.png]]
+		![Screenshot 2023-07-15 at 10.07.19 PM](../images%201/Screenshot%202023-07-15%20at%2010.07.19%20PM.png)
 	- Ability to choose the information that will be written to the stream:
 		- KEYS_ONLY – only the key attributes of the modified item
 		- NEW_IMAGE – the entire item, as it appears after it was modified  
@@ -306,7 +306,7 @@
 	- You need to define an Event Source Mapping to read from a DynamoDB Streams
 	- You need to ensure the Lambda function has the appropriate permissions
 	- Your Lambda function is invoked synchronously
-		  ![[Screenshot 2023-07-15 at 10.09.11 PM.png]]
+		  ![Screenshot 2023-07-15 at 10.09.11 PM](../images%201/Screenshot%202023-07-15%20at%2010.09.11%20PM.png)
 - Time To Live (TTL)
 	- Automatically delete items after an expiry timestamp
 	- Doesn’t consume any WCUs (i.e., no extra cost)
@@ -315,7 +315,7 @@
 	- Expired items, that haven’t been deleted, appears in reads/queries/scans (if you don’t want them, filter them out)
 	- Expired items are deleted from both LSIs and GSIs
 	- A delete operation for each expired item enters the DynamoDB Streams (can help recover expired items)
-	- Use cases: reduce stored data by keeping only current items, adhere to regulatory obligations, ...![[Screenshot 2023-07-15 at 10.10.24 PM.png]]
+	- Use cases: reduce stored data by keeping only current items, adhere to regulatory obligations, ...![Screenshot 2023-07-15 at 10.10.24 PM](../images%201/Screenshot%202023-07-15%20at%2010.10.24%20PM.png)
 - DynamoDB CLI - Good to know
 	- --projection-expression: one or more attributes to retrieve 
 	- --filter-expression: filter items before returned to you
@@ -333,13 +333,13 @@
 	- Two operations:
 		- TransactGetItems – one or more GetItem operations
 		- TransactWriteItems – one or more PutItem, UpdateItem, and DeleteItem operations
-	- Use cases: financial transactions, managing orders, multiplayer games, ...![[Screenshot 2023-07-15 at 10.12.28 PM.png]]
+	- Use cases: financial transactions, managing orders, multiplayer games, ...![Screenshot 2023-07-15 at 10.12.28 PM](../images%201/Screenshot%202023-07-15%20at%2010.12.28%20PM.png)
 	- Capacity Computations
 		- Important for the exam!
 		- Example1: 3 Transactional writes per second, with item size 5 KB
-			- We need![[Screenshot 2023-07-15 at 10.13.56 PM.png]]
+			- We need![Screenshot 2023-07-15 at 10.13.56 PM](../images%201/Screenshot%202023-07-15%20at%2010.13.56%20PM.png)
 		- Example 2: 5 Transaction reads per second , with item size 5 KB
-			- We need![[Screenshot 2023-07-15 at 10.14.07 PM.png]]
+			- We need![Screenshot 2023-07-15 at 10.14.07 PM](../images%201/Screenshot%202023-07-15%20at%2010.14.07%20PM.png)
 			- (5 gets rounded to the upper 4 KB)
 - DynamoDB as Session State Cache
 	- It’s common to use DynamoDB to store session states
@@ -360,16 +360,16 @@
 	- Two methods:
 		- Sharding Using Random Suffix
 		- Sharding Using Calculated Suffix
-	  ![[Screenshot 2023-07-15 at 10.16.25 PM.png]]
+	  ![Screenshot 2023-07-15 at 10.16.25 PM](../images%201/Screenshot%202023-07-15%20at%2010.16.25%20PM.png)
 - Write Types
-	- Concurrent Writes![[Screenshot 2023-07-15 at 10.17.39 PM.png]]
-	- Atomic Writes![[Screenshot 2023-07-15 at 10.17.48 PM.png]]
-	- Conditional Writes![[Screenshot 2023-07-15 at 10.17.56 PM.png]]
-	- Batch Writes![[Screenshot 2023-07-15 at 10.18.05 PM.png]]
+	- Concurrent Writes![Screenshot 2023-07-15 at 10.17.39 PM](../images%201/Screenshot%202023-07-15%20at%2010.17.39%20PM.png)
+	- Atomic Writes![Screenshot 2023-07-15 at 10.17.48 PM](../images%201/Screenshot%202023-07-15%20at%2010.17.48%20PM.png)
+	- Conditional Writes![Screenshot 2023-07-15 at 10.17.56 PM](../images%201/Screenshot%202023-07-15%20at%2010.17.56%20PM.png)
+	- Batch Writes![Screenshot 2023-07-15 at 10.18.05 PM](../images%201/Screenshot%202023-07-15%20at%2010.18.05%20PM.png)
 - Large Objects Pattern
-	  ![[Screenshot 2023-07-15 at 10.18.32 PM.png]]
+	  ![Screenshot 2023-07-15 at 10.18.32 PM](../images%201/Screenshot%202023-07-15%20at%2010.18.32%20PM.png)
 - Indexing S3 Objects Metadata
-	  ![[Screenshot 2023-07-15 at 10.18.53 PM.png]]
+	  ![Screenshot 2023-07-15 at 10.18.53 PM](../images%201/Screenshot%202023-07-15%20at%2010.18.53%20PM.png)
 - DynamoDB Operations
 	- Table Cleanup
 		- Option 1: Scan + DeleteItem
@@ -381,7 +381,7 @@
 		- Option 2: Backup and restore into a new table
 			- Takes some time
 		- Option 3: Scan + PutItem or BatchWriteItem
-			- Write your own code![[Screenshot 2023-07-15 at 10.20.34 PM.png]]
+			- Write your own code![Screenshot 2023-07-15 at 10.20.34 PM](../images%201/Screenshot%202023-07-15%20at%2010.20.34%20PM.png)
 - Security & Other Features
 	- Security
 		- VPC Endpoints available to access DynamoDB without using the Internet
@@ -396,10 +396,10 @@
 		- Develop and test apps locally without accessing the DynamoDB web service (without Internet)
 	- AWS Database Migration Service (AWS DMS) can be used to migrate to DynamoDB (from MongoDB, Oracle, MySQL, S3, ...)
 - User Interact with DynamoDB Directly
-	  ![[Screenshot 2023-07-15 at 10.22.40 PM.png]]
+	  ![Screenshot 2023-07-15 at 10.22.40 PM](../images%201/Screenshot%202023-07-15%20at%2010.22.40%20PM.png)
 - Fine Grained Access Control
 	- Using Web Identity Federation or Cognito Identity Pools, each user gets AWS credentials
 	- You can assign an IAM Role to these users with a Condition to limit their API access to DynamoDB
 	- LeadingKeys – limit row-level access for users on the Primary Key
-	- Attributes – limit specific attributes the user can see![[Screenshot 2023-07-15 at 10.23.21 PM.png]]
+	- Attributes – limit specific attributes the user can see![Screenshot 2023-07-15 at 10.23.21 PM](../images%201/Screenshot%202023-07-15%20at%2010.23.21%20PM.png)
 

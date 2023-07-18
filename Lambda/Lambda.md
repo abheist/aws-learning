@@ -1,5 +1,5 @@
 - Why AWS Lambda
-	- Amazon [[EC2]]
+	- Amazon [EC2](../EC2/EC2.md)
 		- Virtual Servers in the Cloud
 		- Limited by RAM and CPU
 		- Continuously running
@@ -31,20 +31,20 @@
 		- The container image must implement the Lambda Runtime API
 		- ECS / Fargate is preferred for running arbitrary Docker Images
 - AWS Lambda Integrations - Main ones
-	- [[API Gateway]]
-	- [[Kinesis]]
-	- [[DynamoDB]]
-	- [[S3]]
-	- [[CloudFront]]
-	- [[EventBridge]]
-	- [[CloudWatch]]
-	- [[SNS]]
-	- [[SQS]]
-	- [[Cognito]]
+	- [API Gateway](../API%20Gateway.md)
+	- [Kinesis](../Messaging%20&%20Queues/Kinesis.md)
+	- [DynamoDB](../Databases/DynamoDB.md)
+	- [S3](../S3.md)
+	- [CloudFront](../CloudFront.md)
+	- [EventBridge](../Monitoring%20&%20Logs/EventBridge.md)
+	- [CloudWatch](../Monitoring%20&%20Logs/CloudWatch.md)
+	- [SNS](../Messaging%20&%20Queues/SNS.md)
+	- [SQS](../Messaging%20&%20Queues/SQS.md)
+	- [Cognito](Cognito)
 - Example: Serverless Thumbnail creation
-	  ![[Screenshot 2023-07-15 at 1.06.33 PM.png]]
+	  ![Screenshot 2023-07-15 at 1.06.33 PM](../images%201/Screenshot%202023-07-15%20at%201.06.33%20PM.png)
 - Example: Serverless CRON Job
-	  ![[Screenshot 2023-07-15 at 1.07.16 PM.png]]
+	  ![Screenshot 2023-07-15 at 1.07.16 PM](../images%201/Screenshot%202023-07-15%20at%201.07.16%20PM.png)
 - AWS Lambda Pricing: example
 	- You can find overall pricing information here: https://aws.amazon.com/lambda/pricing
 	- Pay per calls:
@@ -76,34 +76,34 @@
 - Synchronous: CLI, SDK, API Gateway, Application Load Balancer
 	- Results is returned right away
 	- Error handling must happen client side (retries, exponential backoff, etc...)
-		  ![[Screenshot 2023-07-15 at 1.42.39 PM.png]]
+		  ![Screenshot 2023-07-15 at 1.42.39 PM](../images%201/Screenshot%202023-07-15%20at%201.42.39%20PM.png)
 - Synchronous Invocations - Services
 	- User Invoked
-		- [[Load Balancers|Elastic Load Balancers]] ([[ALB|Application Load Balancer]])
-		- [[API Gateway]]
-		- [[CloudFront]] (Lambda@Edge)
-		- Amazon [[S3]] Batch
+		- [Elastic Load Balancers](../Load%20Balancer%20and%20ASG/Load%20Balancers.md) ([Application Load Balancer](../Load%20Balancer%20and%20ASG/ALB.md))
+		- [API Gateway](../API%20Gateway.md)
+		- [CloudFront](../CloudFront.md) (Lambda@Edge)
+		- Amazon [S3](../S3.md) Batch
 	- Service Invoked
-		- Amazon [[Cognito]]
-		- [[AWS Step Functions]]
+		- Amazon [Cognito](Cognito)
+		- [AWS Step Functions](AWS%20Step%20Functions)
 	- Other Services
-		- [[Lex]]
-		- [[Alexa]]
-		- [[Kinesis]]
+		- [Lex](Lex)
+		- [Alexa](Alexa)
+		- [Kinesis](../Messaging%20&%20Queues/Kinesis.md)
 
-### Lambda Integration with [[ALB]]
+### Lambda Integration with [ALB](../Load%20Balancer%20and%20ASG/ALB.md)
 - To expose a Lambda function as an HTTP/s endpoint...
 - You can use the Application Load Balancer (or an API Gateway)
-- The Lambda function must be registered in a [[Target Groups]]
-	  ![[Screenshot 2023-07-15 at 1.50.00 PM.png]]
+- The Lambda function must be registered in a [Target Groups](../Load%20Balancer%20and%20ASG/Target%20Groups.md)
+	  ![Screenshot 2023-07-15 at 1.50.00 PM](../images%201/Screenshot%202023-07-15%20at%201.50.00%20PM.png)
 - ALB to Lambda: HTTP to JSON, the request automatically converts the HTTP to JSON and send it to Lambda function
-	  ![[Screenshot 2023-07-15 at 1.51.30 PM.png]]
+	  ![Screenshot 2023-07-15 at 1.51.30 PM](../images%201/Screenshot%202023-07-15%20at%201.51.30%20PM.png)
 - Lambda to ALB conversion: JSON to HTTP
-	  ![[Screenshot 2023-07-15 at 1.52.41 PM.png]]
+	  ![Screenshot 2023-07-15 at 1.52.41 PM](../images%201/Screenshot%202023-07-15%20at%201.52.41%20PM.png)
 - ALB Multi-Header Values
 	- ALB can support multi-header values (ALB setting)
 	- When you enable multi-value headers, HTTP headers and query string parameters that are sent with multiple values are shown as arrays within the AWS Lambda event and response objects.
-		  ![[Screenshot 2023-07-15 at 1.54.42 PM.png]]
+		  ![Screenshot 2023-07-15 at 1.54.42 PM](../images%201/Screenshot%202023-07-15%20at%201.54.42%20PM.png)
 
 ### Asynchronous Invocations
 - S3, SNS, CloudWatch Events...
@@ -115,26 +115,26 @@
 - If the function is retried, you can see duplicate logs entries in CloudWatch Logs
 - Can define a DLQ (dead-letter queue) - SNS or SQS - for failed processing (need correct IAM permissions)
 - Asynchronous invocation allow you to speed up the processing if you don't need to wait for the result (ex: you need 1000 files processed)
-	  ![[Screenshot 2023-07-15 at 2.28.39 PM.png]]
+	  ![Screenshot 2023-07-15 at 2.28.39 PM](../images%201/Screenshot%202023-07-15%20at%202.28.39%20PM.png)
 - Services
-	- [[S3]]
-	- [[SNS]]
-	- [[EventBridge]]
-	- [[CodePipeline]]
-	- [[CodeCommit]]
+	- [S3](../S3.md)
+	- [SNS](../Messaging%20&%20Queues/SNS.md)
+	- [EventBridge](../Monitoring%20&%20Logs/EventBridge.md)
+	- [CodePipeline](CodePipeline)
+	- [CodeCommit](CodeCommit)
 	- ---other---
-	- [[CloudWatch]]
-	- [[SES]]
-	- [[CloudFormation]]
-	- [[Config]]
-	- [[IoT]]
-	- [[IoT Events]]
+	- [CloudWatch](../Monitoring%20&%20Logs/CloudWatch.md)
+	- [SES](SES)
+	- [CloudFormation](../CloudFormation.md)
+	- [Config](Config)
+	- [IoT](IoT)
+	- [IoT Events](IoT%20Events)
 
 ### CloudWatch Events / EventBridge
-![[Screenshot 2023-07-15 at 2.35.37 PM.png]]
+![Screenshot 2023-07-15 at 2.35.37 PM](../images%201/Screenshot%202023-07-15%20at%202.35.37%20PM.png)
 
 ### S3 Event Notifications
-![[Screenshot 2023-07-15 at 2.42.19 PM.png]]![[Screenshot 2023-07-15 at 2.42.59 PM.png]]
+![Screenshot 2023-07-15 at 2.42.19 PM](../images%201/Screenshot%202023-07-15%20at%202.42.19%20PM.png)![Screenshot 2023-07-15 at 2.42.59 PM](../images%201/Screenshot%202023-07-15%20at%202.42.59%20PM.png)
 ### Event Source Mapping
 -  Kinesis Data Streams
 - SQS & SQS FIFO queue
@@ -147,7 +147,7 @@
 	- You can process multiple batches in parallel  
 	- up to 10 batches per shard  
 	- in-order processing is still guaranteed for each partition key.
-		  ![[Screenshot 2023-07-15 at 3.11.49 PM.png]]
+		  ![Screenshot 2023-07-15 at 3.11.49 PM](../images%201/Screenshot%202023-07-15%20at%203.11.49%20PM.png)
 - Streams & Lambda – Error Handling
 	- By default, if your function returns an error, the entire batch is reprocessed until the function succeeds, or the items in the batch expire.
 	- To ensure in-order processing, processing for the affected shard is paused until the error is resolved
@@ -182,7 +182,7 @@
 		- Messages with the same GroupID will be processed in order
 		- The Lambda function scales to the number of active message groups
 ### Event and Context Objects
-![[Screenshot 2023-07-15 at 3.25.48 PM.png]]
+![Screenshot 2023-07-15 at 3.25.48 PM](../images%201/Screenshot%202023-07-15%20at%203.25.48%20PM.png)
 - Event Object  
 	- JSON-formatted document contains data for the function to process
 	- Contains information from the invoking service (e.g., EventBridge, custom, ...) • Lambda runtime converts the event to an object (e.g., dict type in Python)  
@@ -192,7 +192,7 @@
 	- function, and runtime environment
 	- Passed to your function by Lambda at runtime
 	- Example: aws_request_id, function_name, memory_limit_in_mb, ...
-	  ![[Screenshot 2023-07-15 at 3.27.34 PM.png]]
+	  ![Screenshot 2023-07-15 at 3.27.34 PM](../images%201/Screenshot%202023-07-15%20at%203.27.34%20PM.png)
 ### Lambda Destinations
 - Nov 2019: Can configure to send result to a
 - Asynchronous invocations - can define destinations for successful and failed event:
@@ -333,20 +333,20 @@
 ### Lambda by Default
 - By default, your Lambda function is launched outside your own VPC (in an AWS-owned VPC)
 - Therefore it cannot access resources in your VPC (RDS, ElastiCache, internal ELB...)
-	  ![[Screenshot 2023-07-15 at 4.03.45 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.03.45 PM](../images%201/Screenshot%202023-07-15%20at%204.03.45%20PM.png)
 
 ### Lambda in VPC
 - You must define the VPC ID, the Subnets and the Security Groups
 - Lambda will create an ENI (Elastic Network Interface) in your subnets
 - `AWSLambdaVPCAccessExecutionRole`
-	  ![[Screenshot 2023-07-15 at 4.04.42 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.04.42 PM](../images%201/Screenshot%202023-07-15%20at%204.04.42%20PM.png)
 
 ### Lambda in VPC – Internet Access
 - A Lambda function in your VPC does not have internet access
 - Deploying a Lambda function in a public subnet does not give it internet access or a public IP
 - Deploying a Lambda function in a private subnet gives it internet access if you have a NAT Gateway / Instance
 - You can use VPC endpoints to privately access AWS services without a NAT
-	  ![[Screenshot 2023-07-15 at 4.05.25 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.05.25 PM](../images%201/Screenshot%202023-07-15%20at%204.05.25%20PM.png)
 
 
 ### Lambda Function Configuration
@@ -364,7 +364,7 @@
 - The execution context is maintained for some time in anticipation of another Lambda function invocation
 - The next function invocation can “re-use” the context to execution time and save time in initializing connections objects
 - The execution context includes the /tmp directory
-### Initialize outside the handler![[Screenshot 2023-07-15 at 4.07.17 PM.png]]
+### Initialize outside the handler![Screenshot 2023-07-15 at 4.07.17 PM](../images%201/Screenshot%202023-07-15%20at%204.07.17%20PM.png)
 
 ### Lambda Functions /tmp space
 - If your Lambda function needs to download a big file to work...
@@ -380,7 +380,7 @@
 	- Ex: C++ https://github.com/awslabs/aws-lambda-cpp  
 	- Ex: Rust https://github.com/awslabs/aws-lambda-rust-runtime
 - Externalize Dependencies to re-use them:
-	  ![[Screenshot 2023-07-15 at 4.08.40 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.08.40 PM](../images%201/Screenshot%202023-07-15%20at%204.08.40%20PM.png)
 
 ### Lambda – File Systems Mounting
 - Lambda functions can access EFS file systems if they are running in a VPC
@@ -404,7 +404,7 @@
 
 ### Lambda Concurrency and Throttling
 - Concurrency limit: up to 1000 concurrent executions
-	  ![[Screenshot 2023-07-15 at 4.10.49 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.10.49 PM](../images%201/Screenshot%202023-07-15%20at%204.10.49%20PM.png)
 - Can set a “reserved concurrency” at the function level (=limit)
 - Each invocation over the concurrency limit will trigger a “Throttle”
 - Throttle behaviour:
@@ -414,13 +414,13 @@
 
 ### Lambda Concurrency Issue
 - If you don’t reserve (=limit) concurrency, the following can happen:
-	  ![[Screenshot 2023-07-15 at 4.11.22 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.11.22 PM](../images%201/Screenshot%202023-07-15%20at%204.11.22%20PM.png)
 
 ### Concurrency and Asynchronous Invocations
 - If the function doesn't have enough concurrency available to process all events, additional requests are throttled.
 - For throttling errors (429) and system errors (500-series), Lambda returns the event to the queue and attempts to run the function again for up to 6 hours.
 - The retry interval increases exponentially from 1 second after the first attempt to a maximum of 5 minutes.
-	  ![[Screenshot 2023-07-15 at 4.11.53 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.11.53 PM](../images%201/Screenshot%202023-07-15%20at%204.11.53%20PM.png)
 
 ### Cold Starts & Provisioned Concurrency
 - Cold Start:
@@ -435,7 +435,7 @@
 	- https://aws.amazon.com/blogs/compute/announcing-improved-vpc-networking-for-aws-lambda-functions/
 
 ### Reserved and Provisioned Concurrency
-![[Screenshot 2023-07-15 at 4.13.31 PM.png]]
+![Screenshot 2023-07-15 at 4.13.31 PM](../images%201/Screenshot%202023-07-15%20at%204.13.31%20PM.png)
 
 ### Lambda Function Dependencies
 - If your Lambda function depends on external libraries: for example AWS X-Ray SDK, Database Clients, etc...
@@ -451,7 +451,7 @@
 - Inline functions are very simple
 - Use the Code.ZipFile property
 - You cannot include function dependencies with inline functions
-	  ![[Screenshot 2023-07-15 at 4.15.06 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.15.06 PM](../images%201/Screenshot%202023-07-15%20at%204.15.06%20PM.png)
 ### Lambda and CloudFormation – through S3
 - You must store the Lambda zip in S3
 - You must refer the S3 zip location in the CloudFormation code
@@ -459,10 +459,10 @@
 	- S3Key: full path to zip  
 	- S3ObjectVersion: if versioned bucket  
 - If you update the code in S3, but don’t update S3Bucket, S3Key or S3ObjectVersion, CloudFormation won’t update your function
-	  ![[Screenshot 2023-07-15 at 4.16.04 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.16.04 PM](../images%201/Screenshot%202023-07-15%20at%204.16.04%20PM.png)
 
 ### Lambda and CloudFormation – through S3 Multiple accounts
-![[Screenshot 2023-07-15 at 4.16.29 PM.png]]
+![Screenshot 2023-07-15 at 4.16.29 PM](../images%201/Screenshot%202023-07-15%20at%204.16.29%20PM.png)
 
 ### Lambda Container Images
 - Deploy Lambda function as container images of up to 10GB from ECR    
@@ -471,7 +471,7 @@
 - Can create your own image as long as it implements the Lambda Runtime API
 - Test the containers locally using the Lambda Runtime Interface Emulator
 - Unified workflow to build apps
-	  ![[Screenshot 2023-07-15 at 4.17.03 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.17.03 PM](../images%201/Screenshot%202023-07-15%20at%204.17.03%20PM.png)
 - Example: build from the base images provided by AWS
 ```dockerfile
 # Use an image that implements the Lambda Runtime API
@@ -517,7 +517,7 @@ CMD [ "app.lambdaHandler" ]
 - Aliases enable stable configuration of our event triggers / destinations
 - Aliases have their own ARNs
 - Aliases cannot reference aliases
-	  ![[Screenshot 2023-07-15 at 4.21.27 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.21.27 PM](../images%201/Screenshot%202023-07-15%20at%204.21.27%20PM.png)
 
 ### Lambda & CodeDeploy
 - CodeDeploy can help you automate traffic shift for Lambda aliases
@@ -530,13 +530,13 @@ CMD [ "app.lambdaHandler" ]
 	- Canary10Percent30Minutes
 - AllAtOnce: immediate
 - Can create Pre & Post Traffic hooks to check the health of the Lambda function
-	  ![[Screenshot 2023-07-15 at 4.23.39 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.23.39 PM](../images%201/Screenshot%202023-07-15%20at%204.23.39%20PM.png)
 ### Lambda & CodeDeploy – AppSpec.yml
 - Name (required) – the name of the Lambda function to deploy
 - Alias (required) – the name of the alias to the Lambda function
 - CurrentVersion (required) – the version of the Lambda function traffic currently points to
 - TargetVersion (required) – the version of the Lambda function traffic is shifted to
-	  ![[Screenshot 2023-07-15 at 4.24.21 PM.png]]
+	  ![Screenshot 2023-07-15 at 4.24.21 PM](../images%201/Screenshot%202023-07-15%20at%204.24.21%20PM.png)
 
 ### Lambda – Function URL
 - Dedicated HTTP(S) endpoint for your Lambda function
@@ -555,18 +555,18 @@ CMD [ "app.lambdaHandler" ]
 	- Authorize other accounts / specific CIDR / IAM principals
 - Cross-Origin Resource Sharing (CORS)
 	- If you call your Lambda function URL from a different domain
-		  ![[Screenshot 2023-07-15 at 4.26.12 PM.png]]
+		  ![Screenshot 2023-07-15 at 4.26.12 PM](../images%201/Screenshot%202023-07-15%20at%204.26.12%20PM.png)
 - AuthType NONE – allow public and unauthenticated access  
 	- Resource-based Policy is always in effect (must grant public access)
-		  ![[Screenshot 2023-07-15 at 4.26.49 PM.png]]
+		  ![Screenshot 2023-07-15 at 4.26.49 PM](../images%201/Screenshot%202023-07-15%20at%204.26.49%20PM.png)
 - AuthType AWS_IAM – IAM is used to authenticate and authorize requests  
 	- Both Principal’s Identity-based Policy & Resource-based Policy are evaluated  
 	- Principal must have lambda:InvokeFunctionUrl permissions  
 	- Same account – Identity-based Policy OR Resource-based Policy as ALLOW  
 	- Cross account – Identity-based Policy AND Resource Based Policy as ALLOW
-		  ![[Screenshot 2023-07-15 at 4.27.29 PM.png]]
+		  ![Screenshot 2023-07-15 at 4.27.29 PM](../images%201/Screenshot%202023-07-15%20at%204.27.29%20PM.png)
 
-### Lambda and [[CodeGuru]] Profiling
+### Lambda and [CodeGuru](CodeGuru) Profiling
 - Gain insights into runtime performance of your Lambda functions using CodeGuru Profiler
 - CodeGuru creates a Profiler Group for your Lambda function
 - Supported for Java and Python runtimes

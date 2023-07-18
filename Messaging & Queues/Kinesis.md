@@ -3,7 +3,7 @@
 - There are 4 Kineses streams
 - ### Kinesis Data Streams
 	- Capture, process and store data streams
-		  ![[Screenshot 2023-07-10 at 6.26.55 PM.png]]
+		  ![Screenshot 2023-07-10 at 6.26.55 PM](../images%201/Screenshot%202023-07-10%20at%206.26.55%20PM.png)
 	- Retention between 1 day to 365 days
 	- Ability to reprocess (replay) data
 	- Once data is inserted in Kinesis, it can't be deleted (immutability)
@@ -49,7 +49,7 @@
 		- Amazon Kinesis Client Library (KCL)
 - ### Kinesis Data Firehose ^0a78d3
 	- Load data streams into AWS data stores
-		  ![[Screenshot 2023-07-10 at 7.37.05 PM.png]]
+		  ![Screenshot 2023-07-10 at 7.37.05 PM](../images%201/Screenshot%202023-07-10%20at%207.37.05%20PM.png)
 	- Fully managed service, no administration, automatic scaling, Serverless
 		- AWS: Redshift / Amazon S3 / OpenSearch
 		- 3rd party partner: Splunk / MongoDB / DataDog / NewRelic / ...
@@ -63,7 +63,7 @@
 	- Can send failed or all data to a backup S3 bucket
 - ### Kinesis Data Analytics
 	- Analyze data streams with SQL or Apache Flink
-		  ![[Screenshot 2023-07-10 at 7.51.38 PM.png]]
+		  ![Screenshot 2023-07-10 at 7.51.38 PM](../images%201/Screenshot%202023-07-10%20at%207.51.38%20PM.png)
 	- SQL Application
 		- Real time analytics on Kinesis Data Streams & Firehose using SQL
 		- Add reference data from Amazon S3 to enrich streaming data
@@ -79,7 +79,7 @@
 			- Real-time metrics
 	- Apache Flink
 		- Use Flink (Java, Scala or SQL) to process and analyze streaming data
-			  ![[Screenshot 2023-07-10 at 7.55.50 PM.png]]
+			  ![Screenshot 2023-07-10 at 7.55.50 PM](../images%201/Screenshot%202023-07-10%20at%207.55.50%20PM.png)
 		- Run any Apache Flink application on a managed cluster on AWS
 			- Provisioning compute resources, parallel computation, automatic scaling
 			- Application backups (implemented as checkpoints and snapshots)
@@ -101,12 +101,12 @@
 - Write throughput: 1 MB/sec or 1000 records/sec per shard
 - PutRecord API
 - Use batching with PutRecords API to reduce costs & increase throughput
-	  ![[Screenshot 2023-07-10 at 6.50.20 PM.png]]
+	  ![Screenshot 2023-07-10 at 6.50.20 PM](../images%201/Screenshot%202023-07-10%20at%206.50.20%20PM.png)
 - ProvisionedThroughputExceeded
 	- Use highly distributed partition key
 	- Retried with exponential backoff
 	- Increase shards (scaling)
-		  ![[Screenshot 2023-07-10 at 6.52.07 PM.png]]
+		  ![Screenshot 2023-07-10 at 6.52.07 PM](../images%201/Screenshot%202023-07-10%20at%206.52.07%20PM.png)
 
 ## Kinesis Consumers
 - Get data records from data streams and process them
@@ -124,7 +124,7 @@
 		- Minimize cost ($)
 		- Consumers poll data from Kinesis using GetRecords API call
 		- Returns up to 10 MB (then throttle for 5 seconds) or up to 10000 records
-		  ![[Screenshot 2023-07-10 at 6.55.27 PM.png]]
+		  ![Screenshot 2023-07-10 at 6.55.27 PM](../images%201/Screenshot%202023-07-10%20at%206.55.27%20PM.png)
 	- Enhanced Fan-out Consumer
 		- Multiple consuming applications for same streams
 		- 2 MB/sec per consumer per shard
@@ -132,14 +132,14 @@
 		- Higher costs (\$\$\$)
 		- Kinesis pushes data to consumers over HTTP/2 (SubscribeToShardAPI)
 		- Soft limit of 5 consumer applications (KCL) per data stream (default)
-		  ![[Screenshot 2023-07-10 at 6.55.50 PM.png]]
+		  ![Screenshot 2023-07-10 at 6.55.50 PM](../images%201/Screenshot%202023-07-10%20at%206.55.50%20PM.png)
 - #### Consumer - AWS Lambda
 - Supports Classic & Enhanced fan-out consumers
 - Read records in batches
 - Can configure batch size and batch windows
 - If error occurs, Lambda retries until succeeds or data expired
 - Can process up to 10 batches per shard simultaneously
-	  ![[Screenshot 2023-07-10 at 7.02.20 PM.png]]
+	  ![Screenshot 2023-07-10 at 7.02.20 PM](../images%201/Screenshot%202023-07-10%20at%207.02.20%20PM.png)
 
 ## Kinesis Client Library (KCL)
 - A Java library that helps read record from a Kinesis Data Stream with distributed applications sharing the read workload
@@ -154,13 +154,13 @@
 	- KCL 1.x (supports shared consumer)
 	- KCL 2.x (Supports shared & enhanced fan-out consumer)
 - KCL Example: 4 shards
-	  ![[Screenshot 2023-07-10 at 7.23.39 PM.png]]
+	  ![Screenshot 2023-07-10 at 7.23.39 PM](../images%201/Screenshot%202023-07-10%20at%207.23.39%20PM.png)
 - 4 shards, Scaling KCL App
-	  ![[Screenshot 2023-07-10 at 7.24.10 PM.png]]  
+	  ![Screenshot 2023-07-10 at 7.24.10 PM](../images%201/Screenshot%202023-07-10%20at%207.24.10%20PM.png)  
 - 6 shards, Scaling Kinesis
-	  ![[Screenshot 2023-07-10 at 7.25.03 PM.png]]
+	  ![Screenshot 2023-07-10 at 7.25.03 PM](../images%201/Screenshot%202023-07-10%20at%207.25.03%20PM.png)
 - 6 shards, scaling KCL App
-	  ![[Screenshot 2023-07-10 at 7.25.30 PM.png]]
+	  ![Screenshot 2023-07-10 at 7.25.30 PM](../images%201/Screenshot%202023-07-10%20at%207.25.30%20PM.png)
 
 ## Kinesis Operations - Shard Splitting
 - Used to increase the Stream capacity (1MB/s data in per shard)
@@ -168,7 +168,7 @@
 - The old shard is closed and will be deleted once the data is expired
 - No automatic scaling (manually increase/decrease capacity)
 - Can't split into more than two shards in a single operation
-	  ![[Screenshot 2023-07-10 at 7.33.04 PM.png]]
+	  ![Screenshot 2023-07-10 at 7.33.04 PM](../images%201/Screenshot%202023-07-10%20at%207.33.04%20PM.png)
 ### Kinesis Operations - Merging Shards
 - Decrease the Stream capacity and save costs
 - Can be used to group two shards with low traffic (cold shards)
@@ -186,7 +186,7 @@ Manage scaling (shard splitting / merging) | Automatic scaling
 Data storage for 1 to 365 days | No data storage
 Supports replay capability | Doesn't support replay capability
 
-# [[SQS]] vs [[SNS]] vs [[Kinesis]]
+# [SQS](SQS.md) vs [SNS](SNS.md) vs [Kinesis](.md)
 
 SQS | SNS | Kinesis
 --- |--- |---

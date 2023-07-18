@@ -1,4 +1,4 @@
-![[images/Screenshot 2023-07-17 at 9.06.22 PM.png]]
+![Screenshot 2023-07-17 at 9.06.22 PM](images/Screenshot%202023-07-17%20at%209.06.22%20PM.png)
 - AWS Lambda + API Gateway: No infrastructure to manage
 - Support for the WebSocket Protocol
 - Handle API versioning (v1, v2...)  
@@ -22,7 +22,7 @@
 	- Expose any AWS API through the API Gateway
 	- Example: start an AWS Step Function workflow, post a message to SQS
 	- Why? Add authentication, deploy publicly, rate control...
-	- AWS Service Integration Kinesis Data Streams example![[images/Screenshot 2023-07-17 at 9.09.21 PM.png]]
+	- AWS Service Integration Kinesis Data Streams example![Screenshot 2023-07-17 at 9.09.21 PM](images/Screenshot%202023-07-17%20at%209.09.21%20PM.png)
 
 ### Endpoint Types
 - Edge-Optimized (default): For global clients
@@ -52,7 +52,7 @@
 - Each stage has its own configuration parameters
 - Stages can be rolled back as a history of deployments is kept
 
-### Stages v1 and v2 API breaking change![[images/Screenshot 2023-07-17 at 9.13.16 PM.png]]
+### Stages v1 and v2 API breaking change![Screenshot 2023-07-17 at 9.13.16 PM](images/Screenshot%202023-07-17%20at%209.13.16%20PM.png)
 
 ### Stage Variables
 - Stage variables are like environment variables for API Gateway
@@ -69,12 +69,12 @@
 
 ### API Gateway Stage Variables & Lambda Aliases
 - We create a stage variable to indicate the corresponding Lambda alias
-- Our API gateway will automatically invoke the right Lambda function!![[images/Screenshot 2023-07-17 at 9.15.10 PM.png]]
+- Our API gateway will automatically invoke the right Lambda function!![Screenshot 2023-07-17 at 9.15.10 PM](images/Screenshot%202023-07-17%20at%209.15.10%20PM.png)
 
 
 ### Canary Deployment
 - Possibility to enable canary deployments for any stage (usually prod)
-- Choose the % of traffic the canary channel receives![[images/Screenshot 2023-07-17 at 9.16.14 PM.png]]
+- Choose the % of traffic the canary channel receives![Screenshot 2023-07-17 at 9.16.14 PM](images/Screenshot%202023-07-17%20at%209.16.14%20PM.png)
 - Metrics & Logs are separate (for better monitoring)
 - Possibility to override stage variables for canary
 - This is blue / green deployment with AWS Lambda & API Gateway
@@ -84,10 +84,11 @@
 	- API Gateway returns a response without sending the request to the backend
 - IntegrationType HTTP / AWS (Lambda & AWS Services)
 	- you must configure both the integration request and integration response
-	- Setup data mapping using mapping templates for the request & response![[images/Screenshot 2023-07-17 at 9.18.42 PM.png]]
+	- Setup data mapping using mapping templates for the request & response![Screenshot 2023-07-17 at 9.18.42 PM](images/Screenshot%202023-07-17%20at%209.18.42%20PM.png)
 - Integration Type AWS_PROXY (Lambda Proxy):
 	- incoming request from the client is the input to Lambda
 	- The function is responsible for the logic of request / response
-	- No mapping template, headers, que![](images/Screenshot%202023-07-17%20at%209.26.20%20PM.png)ry string parameters... are passed as arguments
+	- No mapping template, headers, query string parameters... are passed as arguments![](images/Screenshot%202023-07-17%20at%209.27.06%20PM.png)
+
 
 

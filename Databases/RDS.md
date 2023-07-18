@@ -11,7 +11,7 @@ alias: Relational Database Service
 	- MariaDB
 	- Oracle
 	- Microsoft SQL Server
-	- [[Aurora]] (AWS Proprietary database)
+	- [Aurora](Aurora.md) (AWS Proprietary database)
 - RDS is a managed service
 	- Automated provisioning, OS patching
 	- Continuous backups and restore to specific timestamp (Point in Time Restore)!
@@ -40,17 +40,17 @@ alias: Relational Database Service
 - Within AZ, Cross AZ, or Cross Region
 - Replication is ASYNC, so reads are eventually consistent. If we read the data from replica while the "sync replication" is in process, then we'll get the old data.
 - Replicas can be promoted to their own DB
-- Applications must update the connection string to leverage read replicas![[Screenshot 2023-06-15 at 11.33.33 AM.png]]
+- Applications must update the connection string to leverage read replicas![Screenshot 2023-06-15 at 11.33.33 AM](../images%201/Screenshot%202023-06-15%20at%2011.33.33%20AM.png)
 - Use cases
 	- You have a production database that is taking on normal load
 	- You want to run a reporting application to run some analytics
 	- You create a Read Replica to run the new workload there
 	- The production application is unaffected
-	- Read replicas are used for SELECT (=read) only kind of statements (not INSERT, UPDATE, DELETE)![[Screenshot 2023-06-15 at 11.36.21 AM.png]]
+	- Read replicas are used for SELECT (=read) only kind of statements (not INSERT, UPDATE, DELETE)![Screenshot 2023-06-15 at 11.36.21 AM](../images%201/Screenshot%202023-06-15%20at%2011.36.21%20AM.png)
 - Replication Cost
 	- In AWS, there is network cost when data goes from one AZ to another
 	- For RDS Read Replicas within the same region, you don't pay that fee
-	- But for different region, you have to pay the fee![[Screenshot 2023-06-15 at 11.39.06 AM.png]]
+	- But for different region, you have to pay the fee![Screenshot 2023-06-15 at 11.39.06 AM](../images%201/Screenshot%202023-06-15%20at%2011.39.06%20AM.png)
 - RDS Multi AZ (Disaster Recovery)
 	- SYNC replication
 	- One DNS name - automatic app failover to standby
@@ -58,14 +58,14 @@ alias: Relational Database Service
 	- Failover in case of loss of AZ, loss of network, instance or storage failure
 	- No manual intervention in apps
 	- Not used for scaling
-	- Note: The read Replicas be setup as Multi AZ for Disaster Recovery (DR)![[Screenshot 2023-06-15 at 11.43.39 AM.png]]
+	- Note: The read Replicas be setup as Multi AZ for Disaster Recovery (DR)![Screenshot 2023-06-15 at 11.43.39 AM](../images%201/Screenshot%202023-06-15%20at%2011.43.39%20AM.png)
 - From Single-AZ to Multi-AZ
 	- Zero downtime operation (no need to stop the DB)
 	- Just click on "modify" for the database
 	- The following happens internally:
 		- A snapshot is taken
 		- A new DB is restored from the snapshot in a new AZ
-		- Synchronization is established between the two databases![[Screenshot 2023-06-15 at 11.46.22 AM.png]]
+		- Synchronization is established between the two databases![Screenshot 2023-06-15 at 11.46.22 AM](../images%201/Screenshot%202023-06-15%20at%2011.46.22%20AM.png)
 
 ### Hands on
 - Go to RDS dashboard from the main search
@@ -178,7 +178,7 @@ alias: Relational Database Service
 	- Restore to point in time
 	- Migrate snapshot to different region
 
-### RDS & [[Aurora]] Security
+### RDS & [Aurora](Aurora.md) Security
 - At-rest encryption
 	- Database master & replicas encryption using AWS KMS. - must be defined as launch time
 	- If the master is not encrypted, the read replicas cannot be encrypted

@@ -12,7 +12,7 @@
 
 ### AWS Budget Setup
 > [!info]
-> If not already, enable AWS billing dashboard for IAM users, steps [[Billing#^ed361d|here]]).
+> If not already, enable AWS billing dashboard for IAM users, steps [](.md#^ed361d%7Chere)).
 
 - Click on your-name dropdown on top right corner
 - Click on `My Billing Dashboard`

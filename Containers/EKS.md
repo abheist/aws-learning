@@ -10,7 +10,7 @@ alias
 - EKS supports EC2 if you want to deploy worker nodes or Fargate to deploy Serverless containers
 - Use case: If your company is already using Kubernetes on-premises or in another cloud, and wants to migrate to AWS using Kubernetes
 - Kubernetes is cloud-agnostic (can be used in any cloud - Azure, GCP...)
-- Diagram![[Screenshot 2023-07-05 at 9.10.57 PM.png]]
+- Diagram![Screenshot 2023-07-05 at 9.10.57 PM](../images%201/Screenshot%202023-07-05%20at%209.10.57%20PM.png)
 
 ### Node Types
 - Managed Node Groups
@@ -28,7 +28,7 @@ alias
 - Need to specify StorageClass manifest on your EKS cluster
 - Leverages a Container Storage Interface (CSI) compliant driver
 - Support for
-	- Amazon [[EBS]]
-	- Amazon EFS (works with [[Fargate]])
-	- Amazon [[FSx]] for [[Lustre]]
-	- Amazon FSx for [[NetApp ONTAP]]
+	- Amazon [EBS](../EC2/EBS.md)
+	- Amazon EFS (works with [Fargate](Fargate.md))
+	- Amazon [FSx](FSx) for [Lustre](Lustre)
+	- Amazon FSx for [NetApp ONTAP](NetApp%20ONTAP)

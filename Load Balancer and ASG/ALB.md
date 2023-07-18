@@ -4,31 +4,31 @@ aliases: Application Load Balancer
 - Application Load Balancer (v2)
 - Load balancing to multiple HTTP applications across machines (target groups)
 - Load balancing to multiple applications on the same machine (ex: containers)
-- Support for HTTP/s and [[WebSocket]]
+- Support for HTTP/s and [WebSocket](WebSocket)
 - Support redirects (from HTTP to HTTPS for example)
 - Routing tables to different target groups:
 	- Routing based on path in URL (example.com/users & example.com/posts)
 	- Routing based on hostname in URL (one.example.com & other.example.com)
 	- Routing based on Query Strings, Headers (example.com/users?id=123&order=false)
 - ALB are a great fit for micro services & container-based application (example: Docker & Amazon ECS)
-- Has a port mapping feature to redirect to a dynamic port in [[ECS]]
-- In comparison, we'd need multiple [[CLB]] per application
-- HTTP Based Traffic based on route![[Screenshot 2023-06-12 at 7.54.30 PM.png]]
-- [[Target Groups]]
+- Has a port mapping feature to redirect to a dynamic port in [ECS](../Containers/ECS.md)
+- In comparison, we'd need multiple [CLB](CLB.md) per application
+- HTTP Based Traffic based on route![Screenshot 2023-06-12 at 7.54.30 PM](../images%201/Screenshot%202023-06-12%20at%207.54.30%20PM.png)
+- [Target Groups](Target%20Groups.md)
 	- ALB can route to multiple target groups
 	- Health checks are at the target group level
-- Query String/Parameters routing![[Screenshot 2023-06-12 at 7.59.44 PM.png]]
+- Query String/Parameters routing![Screenshot 2023-06-12 at 7.59.44 PM](../images%201/Screenshot%202023-06-12%20at%207.59.44%20PM.png)
 
 ### Good to know
 - Fixes hostname (xxx.region.elb.amazonaws.com)
 - The application servers don't see the IP of the client directly
 	- The true IP of the client is inserted in the header X-Forwarded-For
-	- We can also get Port (X-Forwarded-Port) and Protocol (X-Forwarded-Proto)![[Screenshot 2023-06-12 at 8.03.06 PM.png]]
+	- We can also get Port (X-Forwarded-Port) and Protocol (X-Forwarded-Proto)![Screenshot 2023-06-12 at 8.03.06 PM](../images%201/Screenshot%202023-06-12%20at%208.03.06%20PM.png)
 	- To access the client ID in EC2, you need to access following headers
 		- Port (X-Forwarded-Port) and Protocol (X-Forwarded-Proto)
 
 ### Hands on
-- [[EC2#Launch an EC2 instance running Linux|Launch 2 EC2 instances]]
+- [](../EC2/EC2.md#Launch%20an%20EC2%20instance%20running%20Linux%7CLaunch%202%20EC2%20instances)
 	- Fill in all the required information
 	- Check the public IPs, they should be working
 	- Change the 2 instance name, so that it can be easily identifiable
@@ -50,7 +50,7 @@ aliases: Application Load Balancer
 		- Mapping
 		  It's for selecting AZs in which this load balancer will be available, select at least 2
 	- Security Group
-		- [[Security Groups#Security groups hands on|Create new security group for it]]
+		- [](../EC2/Security%20Groups.md#Security%20groups%20hands%20on%7CCreate%20new%20security%20group%20for%20it)
 			- Fill in required information
 			- In `Inbound Rules`, select `anywhere 0.0.0.0/0`
 			- Outbound is fine, it's by default anywhere
@@ -62,7 +62,7 @@ aliases: Application Load Balancer
 			- Port `80`
 			- Default action
 				- forward to `select target group`
-				- [[Target Groups#Create a target group|Create target group]] if needed
+				- [](Target%20Groups.md#Create%20a%20target%20group%7CCreate%20target%20group) if needed
 	- Review the settings and click on `Create Load Balancer` button
 	- Once it's created, it can be viewed at Load Balancer page.
 	- Check the DNS name, copy and paste into new browser tab

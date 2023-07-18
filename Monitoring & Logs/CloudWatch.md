@@ -39,7 +39,7 @@ The central logging place. Each service logs to CloudWatch. You can also add age
 	- CloudTrail based on filter
 	- Route53: Log DNS queries
 - CloudWatch Logs Insight
-	  ![[Screenshot 2023-07-12 at 8.14.32 PM.png]]
+	  ![Screenshot 2023-07-12 at 8.14.32 PM](../images%201/Screenshot%202023-07-12%20at%208.14.32%20PM.png)
 	- Search and analyze logs data stored in CloudWatch Logs
 	- Example: find a specific IP inside a logs, count occurrences of "ERROR" in your logs...
 	- Provides a purpose-build query language
@@ -57,18 +57,18 @@ The central logging place. Each service logs to CloudWatch. You can also add age
 	- Get a real-time log events from CloudWatch Logs for processing and analysis
 	- Send to Kinesis Data Streams, Kinesis Data Firehose, or Lambda
 	- Subscription Filter - filter which logs are events delivered to your destination
-		  ![[Screenshot 2023-07-12 at 8.22.02 PM.png]]
+		  ![Screenshot 2023-07-12 at 8.22.02 PM](../images%201/Screenshot%202023-07-12%20at%208.22.02%20PM.png)
 - CloudWatch Logs Aggregation Multiple-Account & Multi Region
-	  ![[Screenshot 2023-07-12 at 8.23.34 PM.png]]
+	  ![Screenshot 2023-07-12 at 8.23.34 PM](../images%201/Screenshot%202023-07-12%20at%208.23.34%20PM.png)
 - CloudWatch Logs Subscriptions
-	  ![[Screenshot 2023-07-12 at 8.24.35 PM.png]]
+	  ![Screenshot 2023-07-12 at 8.24.35 PM](../images%201/Screenshot%202023-07-12%20at%208.24.35%20PM.png)
 	- Cross Account Subscription: send log events to resources in a different AWS account (KDS, KDF)
 - CloudWatch Logs to EC2
 	- By Default, no logs from your EC2 machine will go to CloudWatch
 	- You need to run a CloudWatch agent on EC2 to push the log files you want
 	- Make sure IAM permissions are correct
 	- The CloudWatch logs agent can be setup on-premises too.
-		  ![[Screenshot 2023-07-12 at 8.31.24 PM.png]]
+		  ![Screenshot 2023-07-12 at 8.31.24 PM](../images%201/Screenshot%202023-07-12%20at%208.31.24%20PM.png)
 - CloudWatch Logs Agent & Unified Agent
 	- For virtual servers (EC2 instances, on-premise servers...)
 	- CloudWatch Logs Agent
@@ -94,7 +94,7 @@ The central logging place. Each service logs to CloudWatch. You can also add age
 		- Metric filter can be used to trigger alarms
 	- Filters do not retroactively filter data. Filters only publish the metric data points for events that happen after the filter was created
 	- Ability to specify up to 3 dimensions for the Metric Filter (optional)
-		  ![[Screenshot 2023-07-12 at 8.40.33 PM.png]] 
+		  ![Screenshot 2023-07-12 at 8.40.33 PM](../images%201/Screenshot%202023-07-12%20at%208.40.33%20PM.png) 
 
 ### Metrics
 Collect and track key metrics
@@ -133,7 +133,7 @@ React in real-time to metrics / events
 Alarms notify you in case of outages or problems. Alarms are based on metrics.
 CloudWatch Alarms are important as they notify you before your customers experience any issues in your system.
 
-![[Pasted image 20230531193356.png]]
+![Pasted image 20230531193356](../images%201/Pasted%20image%2020230531193356.png)
 
 They act on top of CloudWatch metrics and notify you when a system or service reaches a pre-defined threshold like errors or usage.
 
@@ -144,8 +144,8 @@ Alarms can have three states:
 - INSUFFICIENT_DATA: Data is missing for evaluating (can also be treaded as ALARM  or OK)
 
 #### Types of Alarm
-- [[Metric Alarms]]: are based on one metric![[Pasted image 20230531193356.png]]
-- [[Composite Alarms]]: take several alarms into account and their states ![[Pasted image 20230531193326.png]]
+- [Metric Alarms](Metric%20Alarms): are based on one metric![Pasted image 20230531193356](../images%201/Pasted%20image%2020230531193356.png)
+- [Composite Alarms](Composite%20Alarms): take several alarms into account and their states ![Pasted image 20230531193326](../images%201/Pasted%20image%2020230531193326.png)
 
 #### Examples:
 Alarms are highly dependent on your business logic. Some good examples are:
@@ -156,12 +156,12 @@ Alarms are highly dependent on your business logic. Some good examples are:
 - 500 errors in API Gateway
 Make sure to take in account all AWS quotas (service, regional, account)
 
-#### CloudWatch Alarms and [[SNS]]
+#### CloudWatch Alarms and [SNS](../Messaging%20&%20Queues/SNS.md)
 CloudWatch alarms uses SNS to send notifications like emails, SMS, or In-app Notifications.
 You can also attach a Lambda function to the SNS topic to send notifications via Slack, MS Teams, or Discord.
-![[Pasted image 20230531192701.png]]
+![Pasted image 20230531192701](../images%201/Pasted%20image%2020230531192701.png)
 #### Testing Alarms
-You can test alarms with the [[AWS CLI]]. Set the alarm with the alarm name into ALARM and see if you receive the notification like expected.
+You can test alarms with the [AWS CLI](../IAM/AWS%20CLI.md). Set the alarm with the alarm name into ALARM and see if you receive the notification like expected.
 ```shell
 aws cloudwatch set-alarm-state --alarm-name XX --state-reason --state-value ALARM|OK
 ```
@@ -192,7 +192,7 @@ aws cloudwatch set-alarm-state --alarm-name XX --state-reason --state-value ALAR
 	- Status Check:
 		- Instance status = check the EC2 VM
 		- System status = check the underlying hardware
-			  ![[Screenshot 2023-07-12 at 8.51.58 PM.png]]
+			  ![Screenshot 2023-07-12 at 8.51.58 PM](../images%201/Screenshot%202023-07-12%20at%208.51.58%20PM.png)
 		- Recovery: same private, public, Elastic IP, metadata, placement group
 - Good to know
 	- Alarms can be created based on CloudWatch Logs Metics Filters
@@ -204,9 +204,9 @@ aws cloudwatch set-alarm-state --alarm-name XX --state-reason --state-value ALAR
 ## Events
 Send notifications when certain events happen in your AWS
 
-- [[X-Ray]]
+- [X-Ray](X-Ray.md)
 	X-Ray helps you trace requests across your different services.
-- [[Synthetics]]
+- [Synthetics](../Synthetics.md)
 	  Synthetics are custom scripts or browser-based scripts that check your application's health regularly.
 	 - Configure script that monitor your APIs, URLs, Websites...
 	 - Reproduce what your customer do programmatically to find issues before customers are impacted
@@ -214,7 +214,7 @@ Send notifications when certain events happen in your AWS
 	 - Integration with CloudWatch Alarms
 	 - Scripts written in NodeJS or Python
 	 - Programmatically access to a headless Google Chrome Browser
-		   ![[Screenshot 2023-07-12 at 9.00.03 PM.png]]
+		   ![Screenshot 2023-07-12 at 9.00.03 PM](../images%201/Screenshot%202023-07-12%20at%209.00.03%20PM.png)
 	- Blueprints
 		- Heartbeat Monitor - load URL, store screenshot and an HTTP archive file
 		- API Canary - test basic read and write functions of REST APIs
@@ -222,13 +222,13 @@ Send notifications when certain events happen in your AWS
 		- Visual Monitoring - compare a screenshot taken during a canary run with a baseline screenshot
 		- Canary Recorder - used with CloudWatch Synthetics Recorder (record your actions on a website and automatically generates a script for that)
 		- GUI Workflow Builder - verifies that actions can be taken on your webpage (eg: test a webpage with a login form)
-- [[Evidently]]
+- [Evidently](Evidently)
 	Evidently allows you to try out different configurations for different customers.
 
 
 ### Benefits to CloudWatch
 - Central Logging space for all the AWS services and can be used to store logs of your application as well
-- [[CloudWatch Alarms]] :  Trigger emails to devs before user know the service is down or any error occurs to the user.
+- [CloudWatch Alarms](CloudWatch%20Alarms.md) :  Trigger emails to devs before user know the service is down or any error occurs to the user.
 
 ### Resources
 - [Understanding CloudWatch: A Comprehensive Guide to AWS Monitoring Service](https://blog.awsfundamentals.com/aws-cloudwatch-monitoring)

@@ -6,11 +6,11 @@ aliases:
 ## Scalability & High Availability
 - Scaling means that an application/system can handle greater loads by adapting
 - There are two kind of scalability
-	- [[Vertical Scalability]]
-	- [[Horizontal Scalability]] (= elasticity)
-	- [[High Availability]]
+	- [Vertical Scalability](Vertical%20Scalability.md)
+	- [Horizontal Scalability](Horizontal%20Scalability.md) (= elasticity)
+	- [High Availability](High%20Availability.md)
 - What is Load Balancing
-	- Load Balancers are servers that forward traffic to multiple servers (eg: EC2 instances) downstream ![[Screenshot 2023-06-12 at 6.48.22 PM.png]]
+	- Load Balancers are servers that forward traffic to multiple servers (eg: EC2 instances) downstream ![Screenshot 2023-06-12 at 6.48.22 PM](../images%201/Screenshot%202023-06-12%20at%206.48.22%20PM.png)
 	- The idea is that the Elastic Load Balancer is the one point of contact for the user, and it handles the load between multiple EC2 instances.
 - Why use a load balancer
 	- Spread load across multiple downstream instances
@@ -29,39 +29,39 @@ aliases:
 	- It costs less to setup your own load balancer but it will be a lot more effort on your end
 	- It is integrated with many AWS offerings / services
 		- EC2, EC2 Auto Scaling Groups, Amazon ECS
-		- [[AWS Certificate Manager]], CloudWatch
+		- [AWS Certificate Manager](../AWS%20Certificate%20Manager.md), CloudWatch
 		- Route 53, AWS WAF, AWS Global Accelerator
-- Heath Checks![[Screenshot 2023-06-12 at 6.58.10 PM.png]]
+- Heath Checks![Screenshot 2023-06-12 at 6.58.10 PM](../images%201/Screenshot%202023-06-12%20at%206.58.10%20PM.png)
 	- Health Checks are crucial for Load Balancers
 	- They enable the load balancer to know if instances it forwards traffic to are available to reply to requests
 	- The health check is done on a port and a route (/health is common)
 	- If the responses is not 200 (OK), then the instance is unhealthy
 - Types of Load balancers (AWS has 4 kinds of managed load balancers)
-	- ~~[[CLB|Classic Load Balancer]]~~ (deprecated)
-		- v1 - old generation - 2009 - [[CLB]]
+	- ~~[Classic Load Balancer](CLB.md)~~ (deprecated)
+		- v1 - old generation - 2009 - [CLB](CLB.md)
 		- HTTP, HTTPS, TCP, SSL (Secure TCP)
-	- [[ALB|Application Load Balancer]]
-		- v2 - new generation - 2016 - [[ALB]]
+	- [Application Load Balancer](ALB.md)
+		- v2 - new generation - 2016 - [ALB](ALB.md)
 		- HTTP, HTTPS, WebSocket
-	- [[NLB|Network Load Balancer]]
-		- v2 - new generation - 2017 - [[NLB]]
+	- [Network Load Balancer](NLB.md)
+		- v2 - new generation - 2017 - [NLB](NLB.md)
 		- TCP, TLS (Secure TCP), UDP
-	- [[GWLB|Gateway Load Balancer]]
-		- 2020 - [[GWLB]]
+	- [Gateway Load Balancer](GWLB.md)
+		- 2020 - [GWLB](GWLB.md)
 		- Operates at layer 3 (Network Layer) - IP Protocol
 	- Overall, it is recommended to use the newer generation load balancers as they provide more features
 	- Some load balancer can be setup as internal (private) or external (public) ELBs
-- Load Balancer [[Security Groups]]
+- Load Balancer [Security Groups](../EC2/Security%20Groups.md)
 	- Load balancer security group will be public and open to all, so that anyone can access it
-	- But the EC2 instances, load balancer is handling, their security group will be private and are only accessible by Load balancer. this enhances the security of the application.![[Screenshot 2023-06-12 at 7.37.27 PM.png]]
-	- Load Balancer security group![[Screenshot 2023-06-12 at 7.37.57 PM.png]]
-	- Application/EC2 Security group: Allow traffic only from Load Balancer![[Screenshot 2023-06-12 at 7.38.40 PM.png]]
+	- But the EC2 instances, load balancer is handling, their security group will be private and are only accessible by Load balancer. this enhances the security of the application.![Screenshot 2023-06-12 at 7.37.27 PM](../images%201/Screenshot%202023-06-12%20at%207.37.27%20PM.png)
+	- Load Balancer security group![Screenshot 2023-06-12 at 7.37.57 PM](../images%201/Screenshot%202023-06-12%20at%207.37.57%20PM.png)
+	- Application/EC2 Security group: Allow traffic only from Load Balancer![Screenshot 2023-06-12 at 7.38.40 PM](../images%201/Screenshot%202023-06-12%20at%207.38.40%20PM.png)
 
 ### Sticky Sessions (Session Affinity)
 - It is possible to implement stickiness so that the same client is always redirected to the same instance behind a load balancer
-- This works for [[CLB]], [[ALB]], and [[NLB]]
+- This works for [CLB](CLB.md), [ALB](ALB.md), and [NLB](NLB.md)
 - The cookie is used for stickiness has an expiration date you control
-- [[NLB]] sticky session works without cookies
+- [NLB](NLB.md) sticky session works without cookies
 - Once the cookie is expired, user will be redirected to another EC2 instance
 - Use case: make sure the user doesn't lose his session data
 - Enables stickiness may bring imbalance to the load over the backend EC2 instances
@@ -92,22 +92,22 @@ aliases:
 
 
 ### Cross-Zone Load Balancing
-![[Screenshot 2023-06-12 at 11.11.33 PM.png]]
-- [[ALB|Application Load Balancer]]
+![Screenshot 2023-06-12 at 11.11.33 PM](../images%201/Screenshot%202023-06-12%20at%2011.11.33%20PM.png)
+- [Application Load Balancer](ALB.md)
 	- Enabled by default (can be disabled at the Target Group Level)
 	- No charges for inter AZ data
-- [[NLB|Network Load Balancer]] & [[GWLB|Gateway Load Balancer]]
+- [Network Load Balancer](NLB.md) & [Gateway Load Balancer](GWLB.md)
 	- Disabled by Default
 	- You pay charged for inter AZ data if enabled
-- [[CLB|Classic Load Balancer]]
+- [Classic Load Balancer](CLB.md)
 	- Disabled by default
 	- No charges for inter AZ data if enabled
 - Hands on
-	- In  [[NLB]], select the NLB, under attributes tab
+	- In  [NLB](NLB.md), select the NLB, under attributes tab
 		- Select edit
 		- and Enable the Cross-zone Load Balancing and save
-	- Similar settings in [[GWLB]]
-	- In [[ALB]]
+	- Similar settings in [GWLB](GWLB.md)
+	- In [ALB](ALB.md)
 		- If you see in attributes, Cross Zone load balancing is enabled by default
 		- If you edit and see, the cross-zone load balancing is enabled and not editable.
 		- To edit, go to Listeners tab and go the target group
@@ -123,7 +123,7 @@ aliases:
 - Public SSL certificates are issued by Certificate Authorities (CA)
 - Comodo, Symantec, GoDaddy, GlobalSign, Digicert, LetsEncrypt, etc
 - SSL certificates have an expiry date (you set) and must be renewed
-- Load Balancer![[Screenshot 2023-06-12 at 11.35.44 PM.png]]
+- Load Balancer![Screenshot 2023-06-12 at 11.35.44 PM](../images%201/Screenshot%202023-06-12%20at%2011.35.44%20PM.png)
 	- The load balancer uses an X.509 certificate (SSL/TLS server certificate)
 	- You can manage certificates using ACM (AWS Certificate Manager)
 	- You can create upload your own certificates alternatively
@@ -132,32 +132,32 @@ aliases:
 		- You can add an optional list of certs to support multiple domains
 		- Clients can use SNI (Server Name Indication) to specify the hostname they react
 		- Ability to specify a security policy to support older versions of SSL/TLS (legacy clients)
-- [[SNI]] (Server Name Indication)
+- [SNI](SNI.md) (Server Name Indication)
 	- SNI solves the problem of loading multiple SSL certificates onto one web server (to serve multiple websites)
 	- It's a `newer` protocol and requires the client to indicate the hostname of the target server in the initial SSL handshake
 	- The server will then find the correct certificate, or return the default one
 	- Note:
 		- Only works for ALB & NLB (newer generation), CloudFront
 		- Does not work for CLB (older generation)
-- [[CLB|Classic Load Balancer]]
+- [Classic Load Balancer](CLB.md)
 	- Support only one SSL certificate
 	- Must use multiple CLB for multiple hostname with multiple SSL certificates
-- [[ALB|Application Load Balancer]]
+- [Application Load Balancer](ALB.md)
 	- Supports multiple listeners with multiple SSL certificates
 	- Uses Server Name Indication (SNI) to make it work
-- [[NLB|Network Load Balancer]]
+- [Network Load Balancer](NLB.md)
 	- Support multiple listeners with multiple SSL certificates
 	- Uses Server Name Indication (SNI) to make it work
-- Hands-on for [[ALB]]
+- Hands-on for [ALB](ALB.md)
 	- In Load balancer, under listener, add new listener
 	- Select the protocol to be `HTTPS` on port `443`
 	- Default action to `Forward` to specific `target group`
 	- Under secure listener settings, select security policy
-	- and import the certificate from [[ACM]]
-- Hands on for [[NLB]]
+	- and import the certificate from [ACM](ACM)
+- Hands on for [NLB](NLB.md)
 	- Similar process as above but select protocol to be `TLS` on port `443`
 
-### [[Connection Draining]]
+### [Connection Draining](Connection%20Draining.md)
 - Feature naming
 	- Connection Draining - for CLB
 	- Deregistration Delay - for ALB & NLB
@@ -165,7 +165,7 @@ aliases:
 - Stops sending new requests to the EC2 instance which is de-registering
 - Between 1 to 3600 seconds (default 300 seconds)
 - Can be disabled (set value to 0)
-- Set to low value if your requests are short![[Screenshot 2023-06-13 at 12.11.27 AM.png]]
+- Set to low value if your requests are short![Screenshot 2023-06-13 at 12.11.27 AM](../images%201/Screenshot%202023-06-13%20at%2012.11.27%20AM.png)
 
-- [[Auto Scaling Group]]
+- [Auto Scaling Group](Auto%20Scaling%20Group.md)
 - 

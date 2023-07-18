@@ -15,8 +15,8 @@
 - Have a provisioned capacity (size in GBs, and IOPS)
 	- You get billed for all the provisioned capacity
 	- You can increase the capacity of the drive over time
-- Example: ![[Screenshot 2023-06-06 at 7.03.48 PM.png]]
-- Delete on termination attribute![[Screenshot 2023-06-06 at 7.05.59 PM.png]]
+- Example: ![Screenshot 2023-06-06 at 7.03.48 PM](../images%201/Screenshot%202023-06-06%20at%207.03.48%20PM.png)
+- Delete on termination attribute![Screenshot 2023-06-06 at 7.05.59 PM](../images%201/Screenshot%202023-06-06%20at%207.05.59%20PM.png)
 	- Controls the ESB behaviour when EC2 instance terminates
 		- By default, the root EBS volume is deleted (attribute enabled)
 		- By default, any other attached EBS volume is not deleted (attributed disabled)
@@ -72,7 +72,7 @@
 ## EBS Snapshot
 -  Make a backup (snapshot) of your EBS volume at a point in time
 - Not necessary to detach volume to do snapshot, but recommended
-- Can copy snapshots across AZ or region ![[Screenshot 2023-06-06 at 7.33.46 PM.png]]
+- Can copy snapshots across AZ or region ![Screenshot 2023-06-06 at 7.33.46 PM](../images%201/Screenshot%202023-06-06%20at%207.33.46%20PM.png)
 - This is one way to transfer data from one AZ to another.
 - EBS Snapshot archive ^8457f6
 	- Move a snapshot to an "archive tier" that is 75% cheaper
@@ -122,7 +122,7 @@
 		- Now the new volume will be created, you can check that volume under Volumes page.
 		- The volume which is created from snapshot will have a snapshot name from which it's created from under details.
 
-- [[Recycle Bin]]
+- [Recycle Bin](Recycle%20Bin.md)
 - 
 
 ### EBS Volume Types
@@ -165,7 +165,7 @@
 	- Cold HDD (`scl`):
 		- For data that is infrequently accessed
 		- Scenarios where lowest cost is important
-		- Max throughput 250 MiB/s - max IOPS 250![[Screenshot 2023-06-06 at 9.45.17 PM.png]]
+		- Max throughput 250 MiB/s - max IOPS 250![Screenshot 2023-06-06 at 9.45.17 PM](../images%201/Screenshot%202023-06-06%20at%209.45.17%20PM.png)
 		- [EBS Volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html)
 
 ## EBS Multi-Attach - `io1/io2` family
@@ -175,5 +175,5 @@
 	- Achieve higher application availability in clustered linux applications (ex: Teradata)
 	- Applications must manage concurrent write operations
 - Up to 16 EC2 instances at a time
-- Must use a file system that's cluster aware (not XFS, EXT4, etc...)![[Screenshot 2023-06-06 at 9.51.24 PM.png]]
+- Must use a file system that's cluster aware (not XFS, EXT4, etc...)![Screenshot 2023-06-06 at 9.51.24 PM](../images%201/Screenshot%202023-06-06%20at%209.51.24%20PM.png)
 - 

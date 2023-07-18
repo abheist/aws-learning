@@ -13,8 +13,8 @@ aliases:
 	- Ensure we have a minimum and a maximum number of EC2 instances running
 	- Automatically register new instances to a load balancer
 	- Re-create an EC2 instance in case a previous one is terminated (ex: if unhealthy)
-- ASG are free (you only pay for the underlying EC2 instances)![[Screenshot 2023-06-13 at 5.51.21 PM.png]]
-- ASG also works with Load Balancer![[Screenshot 2023-06-13 at 5.52.19 PM.png]]
+- ASG are free (you only pay for the underlying EC2 instances)![Screenshot 2023-06-13 at 5.51.21 PM](../images%201/Screenshot%202023-06-13%20at%205.51.21%20PM.png)
+- ASG also works with Load Balancer![Screenshot 2023-06-13 at 5.52.19 PM](../images%201/Screenshot%202023-06-13%20at%205.52.19%20PM.png)
 
 ### Launch Template 
 - (older: "Launch Configurations" are deprecated)
@@ -36,7 +36,7 @@ aliases:
 - Metric such as Average CPU are computed for the overall ASG instances
 - Based on the alarm:
 	- We can create scale-out policies (increase the number of instances)
-	- We can create scale-in policies (decrease the number of instances)![[Screenshot 2023-06-13 at 6.00.51 PM.png]]
+	- We can create scale-in policies (decrease the number of instances)![Screenshot 2023-06-13 at 6.00.51 PM](../images%201/Screenshot%202023-06-13%20at%206.00.51%20PM.png)
 
 ### Hands on
 - Go to ASG from EC2 dashboard in Sidebar under Auto Scaling heading
@@ -109,19 +109,19 @@ aliases:
 		- Anticipate a scaling based on known usage patterns
 		- Example: increase the min capacity to 10 at 5 pm on Friday
 - Predictive Scaling
-	- Continuously forecast load and schedule scaling ahead![[Screenshot 2023-06-13 at 6.31.31 PM.png]]
+	- Continuously forecast load and schedule scaling ahead![Screenshot 2023-06-13 at 6.31.31 PM](../images%201/Screenshot%202023-06-13%20at%206.31.31%20PM.png)
 - Good metrics to scale on
 	- CPU Utilization
 		- Average CPU utilization across your instances
 	- Request Count Per Target
-		- To make sure the number of requests per EC2 instances are stable![[Screenshot 2023-06-13 at 6.33.08 PM.png]]
+		- To make sure the number of requests per EC2 instances are stable![Screenshot 2023-06-13 at 6.33.08 PM](../images%201/Screenshot%202023-06-13%20at%206.33.08%20PM.png)
 	- Average Network In/Out
 		- If your application is network bound
 	- Any custom metric (that you push using CloudWatch)
 - Scaling Cooldowns
 	- After a scaling activity happens, you are in the cooldown period (default 300 seconds)
 	- During the cooldown period, the ASG will not launch or terminate additional instances (to allow for metric to stabilize)
-	- Advice: Use a ready-to-user AMI to reduce configuration time in order to be serving request faster and reduce the cooldown period.![[Screenshot 2023-06-13 at 6.37.16 PM.png]]
+	- Advice: Use a ready-to-user AMI to reduce configuration time in order to be serving request faster and reduce the cooldown period.![Screenshot 2023-06-13 at 6.37.16 PM](../images%201/Screenshot%202023-06-13%20at%206.37.16%20PM.png)
 - Hands On
 	- Go to ASG
 	- Automatic Scaling tab, there you'll find the scaling policies
@@ -158,5 +158,5 @@ aliases:
 - Goal: Update launch template and then re-create all EC2 instances
 - For this we can use the native feature of instance refresh
 - Setting of minimum healthy percentage
-- Specify warm-up time (how long until the instance is ready to use)![[Screenshot 2023-06-13 at 6.55.12 PM.png]]
+- Specify warm-up time (how long until the instance is ready to use)![Screenshot 2023-06-13 at 6.55.12 PM](../images%201/Screenshot%202023-06-13%20at%206.55.12%20PM.png)
 - 

@@ -1,7 +1,7 @@
-- [[DNS]] - read more here before moving forward
+- [DNS](DNS.md) - read more here before moving forward
 
 - Route 53 is highly available, scalable, fully managed and Authoritative DNS
-	- Authoritative = the customer (you) can update the DNS records![[Screenshot 2023-06-21 at 11.23.08 PM.png]]
+	- Authoritative = the customer (you) can update the DNS records![Screenshot 2023-06-21 at 11.23.08 PM](../images%201/Screenshot%202023-06-21%20at%2011.23.08%20PM.png)
 - Route 53 is also a Domain Registrar
 - Ability to check the health of your resources
 - The only AWS service which provides 100% availability SLA
@@ -16,7 +16,7 @@
 	- Value - eg: 12.34.56.78
 	- Routing policy - How Route 53 responds to queries
 	- TTL - amount of time the record cached at DNS Resolvers
-- Route 53 supports the following [[DNS#DNS record types|DNS record types]]:
+- Route 53 supports the following [](DNS.md#DNS%20record%20types%7CDNS%20record%20types):
 	- Must know
 		- A
 		- AAA
@@ -41,7 +41,7 @@
 	  application1.company.internal
 - You pay $0.5 per month per hosted zone
 
-#### Public v/s Private hosted Zones![[Screenshot 2023-06-21 at 11.39.41 PM.png]]
+#### Public v/s Private hosted Zones![Screenshot 2023-06-21 at 11.39.41 PM](../images%201/Screenshot%202023-06-21%20at%2011.39.41%20PM.png)
 
 ### Hands on - register a domain
 - Go to Route 53 dashboard
@@ -68,11 +68,11 @@
 - 
 
 ### Hands on - Creating our first records
-- [[EC2#Hands-on - Launch an EC2 instance running Linux|Launch 3 EC2 instance]] in 3 separate regions
+- [](../EC2/EC2.md#Hands-on%20-%20Launch%20an%20EC2%20instance%20running%20Linux%7CLaunch%203%20EC2%20instance) in 3 separate regions
 	- eg: Frankfurt
 	- Virginia
 	- Singapore
-- [[ALB|Launch and Application Load Balancer]] in Frankfurt
+- [Launch and Application Load Balancer](../Load%20Balancer%20and%20ASG/ALB.md) in Frankfurt
 	- Create new target group for the above instances we created before
 - Now go to ALB, copy DNS name and check
 
@@ -87,7 +87,7 @@
 		- Can specify multiple value in the same record
 		- If multiple values are returned, a random one is chosen by the client
 		- When Alias is enabled, specify only one AWS resource
-		- Can't be associated with Health Checks![[Screenshot 2023-06-22 at 12.13.18 PM.png]]
+		- Can't be associated with Health Checks![Screenshot 2023-06-22 at 12.13.18 PM](../images%201/Screenshot%202023-06-22%20at%2012.13.18%20PM.png)
 	- Weighted
 		- Control the % of the requests that go to each specific resource
 		- Assign each record a relative weight
@@ -99,7 +99,7 @@
 		- Assign a weight of 0 to a record to stop sending traffic to a resource
 		- If all records have weight of 0, then all records will be returned equally
 	- Failover (Active-Passive)
-		- The DR server will only get used, if the primary server is down.![[Screenshot 2023-06-22 at 5.16.48 PM.png]]
+		- The DR server will only get used, if the primary server is down.![Screenshot 2023-06-22 at 5.16.48 PM](../images%201/Screenshot%202023-06-22%20at%205.16.48%20PM.png)
 	- Latency based
 		- Redirect to the resource that has the least latency close to us
 		- Super helpful when latency for users is a priority
@@ -118,12 +118,12 @@
 		- Route 53 return multiple values/resources
 		- Can be associated with Health checks (return only values for healthy resources)
 		- Up to 8 healthy records are returned for each Multi-value query
-		- Multi-Value is not a substitute for having an ELB![[Screenshot 2023-06-22 at 6.09.58 PM.png]]
+		- Multi-Value is not a substitute for having an ELB![Screenshot 2023-06-22 at 6.09.58 PM](../images%201/Screenshot%202023-06-22%20at%206.09.58%20PM.png)
 	- Ip-based routing
 		- Routing is based on clients' IP addresses
 		- You provide a list of CIDRs for your clients and the corresponding endpoints/locations (user-IP-to-endpoint mappings)
 		- Use cases: Optimize performance, reduce network costs...
-		- Example: route end users from a particular ISP to a specific endpoint![[Screenshot 2023-06-22 at 6.06.37 PM.png]]
+		- Example: route end users from a particular ISP to a specific endpoint![Screenshot 2023-06-22 at 6.06.37 PM](../images%201/Screenshot%202023-06-22%20at%206.06.37%20PM.png)
 	- Geo-proximity (using Route 53 traffic flow feature)
 		- Route traffic to your resources based on the geographic location of users and resources
 		- Ability to shift more traffic to resources based on the defined bias
@@ -133,7 +133,7 @@
 		- Resource can be:
 			- AWS resources (specify AWS region)
 			- Non-AWS resources (specify Latitude and Longitude)
-		- You must use Route 53 Traffic Flow (advanced) to use this feature![[Screenshot 2023-06-22 at 5.46.51 PM.png]]
+		- You must use Route 53 Traffic Flow (advanced) to use this feature![Screenshot 2023-06-22 at 5.46.51 PM](../images%201/Screenshot%202023-06-22%20at%205.46.51%20PM.png)
 		- Hands on (geo-proximity and traffic flow)
 			- Simplify the process of creating and maintaining records in large and complex configurations
 			- Visual editor to manage complex routing decision trees
@@ -161,4 +161,4 @@
 					- if you crease the bias in any side, you can see in the map the area getting covered by each instance
 			-  Create
 
-### [[Health Checks]]
+### [Health Checks](Health%20Checks.md)

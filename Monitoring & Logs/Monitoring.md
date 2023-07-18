@@ -16,7 +16,7 @@
 		- Trends (Scaling pattern)
 		- Learning and Improvement
 - Monitoring in AWS
-	- AWS [[CloudWatch]]
-	- AWS [[X-Ray]]
-	- AWS [[CloudTrail]]
-![[Screenshot 2023-07-15 at 7.28.22 AM.png]]
+	- AWS [CloudWatch](CloudWatch.md)
+	- AWS [X-Ray](X-Ray.md)
+	- AWS [CloudTrail](CloudTrail.md)
+![Screenshot 2023-07-15 at 7.28.22 AM](../images%201/Screenshot%202023-07-15%20at%207.28.22%20AM.png)

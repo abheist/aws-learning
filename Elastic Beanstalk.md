@@ -26,7 +26,7 @@ alias:
 - Environment
 	- Collection of AWS resources running an application version (only one application version at a time)
 	- Tiers: Web Server Environment Tier & Worker Environment Tier
-	- You can create multiple environments (dev, test, prod, etc)![[Screenshot 2023-07-05 at 10.36.43 PM.png]]
+	- You can create multiple environments (dev, test, prod, etc)![Screenshot 2023-07-05 at 10.36.43 PM](images%201/Screenshot%202023-07-05%20at%2010.36.43%20PM.png)
 
 ### Supported Platform
 - Go
@@ -44,7 +44,7 @@ alias:
 - Preconfigured Docker
 - If not supported, you can write custom platform (advanced)
 
-### Web Server Tier vs. Worker Tier![[Screenshot 2023-07-05 at 10.39.45 PM.png]]
+### Web Server Tier vs. Worker Tier![Screenshot 2023-07-05 at 10.39.45 PM](images%201/Screenshot%202023-07-05%20at%2010.39.45%20PM.png)
 
 ### Elastic Beanstalk Deployment Modes
 - Single Instance (great for dev environment)
@@ -99,7 +99,7 @@ alias:
 - This whole thing is being created by CloudFormation, if you go and open CloudFormation and check the stacks, you'll find one created by Beanstalk. Here CloudFormation is creating resources behind the scenes.
 
 ### Second Environment
-- [[Elastic Beanstalk#First Environment|Create a new environment again]] for prod
+- [](.md#First%20Environment%7CCreate%20a%20new%20environment%20again) for prod
 - But select a `High availability` preset
 - Set up networking, database, and tags
 	- Select VPC, default one
@@ -113,12 +113,12 @@ alias:
 		- Select `Load Balanced` Environment type
 		- 1 min, 4 max instances
 		- Fleet composition, select on-demand instances
-		- All other settings for [[Auto Scaling Group|ASG]] can be done from this section
+		- All other settings for [ASG](Load%20Balancer%20and%20ASG/Auto%20Scaling%20Group.md) can be done from this section
 	- Load balancer
 		- Public
 		- Select all subnets needed
 	- Load Balancer Type
-		- Select [[ALB]] with `Dedicated` (select) or `shared` environment
+		- Select [ALB](Load%20Balancer%20and%20ASG/ALB.md) with `Dedicated` (select) or `shared` environment
 	- Next
 - Configure updates, monitoring, and logging
 	- Health reporting
@@ -133,13 +133,13 @@ alias:
 	- Fastest deployment
 	- Application has downtime
 	- Great for quick iteration in development environment
-	- No additional cost![[Screenshot 2023-07-06 at 11.19.31 AM.png]]
+	- No additional cost![Screenshot 2023-07-06 at 11.19.31 AM](images%201/Screenshot%202023-07-06%20at%2011.19.31%20AM.png)
 - **Rolling**: update a few instances at a time (bucket), and them move onto the next bucket once the first bucket is healthy
 	- Application is running below capacity
 	- Can set the bucket size
 	- Application is running both versions simultaneously
 	- No additional cost
-	- Long deployment![[Screenshot 2023-07-06 at 11.20.31 AM.png]]
+	- Long deployment![Screenshot 2023-07-06 at 11.20.31 AM](images%201/Screenshot%202023-07-06%20at%2011.20.31%20AM.png)
 - **Rolling with additional batches**: like rolling, but spins up new instances to move the batch (so that the old application is still available)
 	- Application is running at capacity
 	- Can set the bucket size
@@ -147,14 +147,14 @@ alias:
 	- Small additional cost
 	- Additional batch is removed at the end of the deployment
 	- Longer deployment
-	- Good for prod![[Screenshot 2023-07-06 at 11.23.57 AM.png]]
+	- Good for prod![Screenshot 2023-07-06 at 11.23.57 AM](images%201/Screenshot%202023-07-06%20at%2011.23.57%20AM.png)
 - **Immutable**: spins up new instances in a new ASG, deploys version to these instances, and then swaps all the instances when everything is healthy
 	- Zero downtime
 	- New code is deployed to new instances on a temporary ASG
 	- High cost, double capacity
 	- Longest deployment
 	- Quick rollback in case of failures (just terminate new ASG)
-	- Great for prod![[Screenshot 2023-07-06 at 11.26.14 AM.png]]
+	- Great for prod![Screenshot 2023-07-06 at 11.26.14 AM](images%201/Screenshot%202023-07-06%20at%2011.26.14%20AM.png)
 - **Blue / Green**: create a new environment and switch over when ready
 	- Not a "direct feature" of Elastic Beanstalk
 	- Not a "direct feature" of Elastic Beanstalk
@@ -162,7 +162,7 @@ alias:
 	- Create a new "stage" environment and deploy v2 there
 	- The new environment (green) can be validated independently and roll back if issues
 	- Route 53 can be setup using weighted policies to redirect a little but of traffic to the stage environment
-	- Using Beanstalk, "swap URLs" when done with the environment test![[Screenshot 2023-07-06 at 11.29.52 AM.png]]
+	- Using Beanstalk, "swap URLs" when done with the environment test![Screenshot 2023-07-06 at 11.29.52 AM](images%201/Screenshot%202023-07-06%20at%2011.29.52%20AM.png)
 - **Traffic splitting**: canary testing - send a small % of traffic to new deployment
 	- New application version is deployed to a temporary ASG with the same capacity
 	- A small % of traffic is sent to the temporary ASG for a configurable amount of time
@@ -170,9 +170,9 @@ alias:
 	- If there's a deployment failure, this triggers an automated rollback (very quick)
 	- No application downtime
 	- New instances are migrated from the temporary to the original ASG
-	- Old application version is then terminated![[Screenshot 2023-07-06 at 11.40.36 AM.png]]
-	![[Screenshot 2023-07-06 at 11.41.59 AM.png]]
-	![[Screenshot 2023-07-06 at 11.42.25 AM.png]]
+	- Old application version is then terminated![Screenshot 2023-07-06 at 11.40.36 AM](images%201/Screenshot%202023-07-06%20at%2011.40.36%20AM.png)
+	![Screenshot 2023-07-06 at 11.41.59 AM](images%201/Screenshot%202023-07-06%20at%2011.41.59%20AM.png)
+	![Screenshot 2023-07-06 at 11.42.25 AM](images%201/Screenshot%202023-07-06%20at%2011.42.25%20AM.png)
 - #### Hands on
 	- Open the Beanstalk app environment, you want to deploy
 	- Go to configurations from sidebar, there is an option called `Rolling updates and deployments`
@@ -231,7 +231,7 @@ alias:
 
 
 ### Elastic Beanstalk Under the Hood
-- Under the hood, Elastic Beanstalk relies on [[CloudFormation]]
+- Under the hood, Elastic Beanstalk relies on [CloudFormation](CloudFormation.md)
 - CloudFormation is used to provision other AWS services (we'll see later)
 - Use case: you can define CloudFormation resources in your `.ebextensions`
 
@@ -247,11 +247,11 @@ alias:
 
 ### Beanstalk Migrations
 - #### Load Balancer
-	- After creating and Elastic Beanstalk environment, you cannot change the Elastic [[Load Balancers]] type
+	- After creating and Elastic Beanstalk environment, you cannot change the Elastic [Load Balancers](Load%20Balancer%20and%20ASG/Load%20Balancers.md) type
 	- To migrate:
 		- Create a new environment with the same configuration except LB (can't clone)
 		- Deploy your application onto the new environment
-		- Perform a CNAME swap or Route 53 update.![[Screenshot 2023-07-06 at 3.02.54 PM.png]]
+		- Perform a CNAME swap or Route 53 update.![Screenshot 2023-07-06 at 3.02.54 PM](images%201/Screenshot%202023-07-06%20at%203.02.54%20PM.png)
 - #### RDS
 	- RDS can be provisioned with Beanstalk, which is great for dev/test
 	- This is not great for prod as the database lifecycle is tied to the Beanstalk environment lifecycle

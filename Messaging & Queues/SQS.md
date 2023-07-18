@@ -3,7 +3,7 @@ aliases:
 - Simple Queue Service
 ---
 
-- Simple Queue Service![[Screenshot 2023-07-09 at 10.48.46 AM.png]]
+- Simple Queue Service![Screenshot 2023-07-09 at 10.48.46 AM](../images%201/Screenshot%202023-07-09%20at%2010.48.46%20AM.png)
 ## Standard Queue
 - Oldest offering
 - Fully managed service, used to decouple applications
@@ -27,17 +27,17 @@ aliases:
 - Consumers (running on EC2 instances, servers, or AWS Lambda)
 - Poll SQS for messages (receive up to 10 messages at a time)
 - Process the messages (example: insert the message into an RDS database)
-- Delete the messages using the DeleteMessage API![[Screenshot 2023-07-09 at 10.57.11 AM.png]]
+- Delete the messages using the DeleteMessage API![Screenshot 2023-07-09 at 10.57.11 AM](../images%201/Screenshot%202023-07-09%20at%2010.57.11%20AM.png)
 - #### Multiple EC2 instances consumers
 - Consumers receive and process messages in parallel
 - At least once delivery
 - Best effort message ordering
 - Consumers delete messages after processing them
-- We can scale consumers horizontally to improve throughput of processing![[Screenshot 2023-07-09 at 10.59.45 AM.png]]
-- #### SQS with [[Auto Scaling Group|AutoScaling Group]] (ASG)
-		  ![[Screenshot 2023-07-09 at 11.02.08 AM.png]]
+- We can scale consumers horizontally to improve throughput of processing![Screenshot 2023-07-09 at 10.59.45 AM](../images%201/Screenshot%202023-07-09%20at%2010.59.45%20AM.png)
+- #### SQS with [AutoScaling Group](../Load%20Balancer%20and%20ASG/Auto%20Scaling%20Group.md) (ASG)
+		  ![Screenshot 2023-07-09 at 11.02.08 AM](../../images/Screenshot%202023-07-09%20at%2011.02.08%20AM.png)
 - #### SQS to decouple between application tiers
-		  ![[Screenshot 2023-07-09 at 12.17.28 PM.png]]
+		  ![Screenshot 2023-07-09 at 12.17.28 PM](../../images/Screenshot%202023-07-09%20at%2012.17.28%20PM.png)
 
 ### Security
 - Encryption
@@ -92,16 +92,16 @@ aliases:
 
 ### SQS Queue Access Policy
 - Cross Account Access
-	  ![[Screenshot 2023-07-09 at 4.58.24 PM.png]]
+	  ![Screenshot 2023-07-09 at 4.58.24 PM](../images%201/Screenshot%202023-07-09%20at%204.58.24%20PM.png)
 - Public S3 Event Notifications to SQS Queue
 	- For triggering an event from S3, you need to go to S3 bucket and setup a Event notification setttings
-	  ![[Screenshot 2023-07-09 at 4.59.10 PM.png]]
+	  ![Screenshot 2023-07-09 at 4.59.10 PM](../images%201/Screenshot%202023-07-09%20at%204.59.10%20PM.png)
 
 ### Message Visibility Timeout
 - After a message is polled by a consumer, it becomes invisible to other consumers
 - By default, the "message visibility" timeout is 30 seconds
 - That means the message has 30 seconds to be processed
-- After the message visibility timeout is over, the message is "visible" in SQS![[Screenshot 2023-07-09 at 5.06.21 PM.png]]
+- After the message visibility timeout is over, the message is "visible" in SQS![Screenshot 2023-07-09 at 5.06.21 PM](../images%201/Screenshot%202023-07-09%20at%205.06.21%20PM.png)
 - If a message is not processed within the visibility timeout, it will be processed twice
 - A consumer could call the `ChangeMessageVisibility` API to get more time
 - If visibility timeout is high (hours), and consumer crashes, re-processing will take time.
@@ -115,17 +115,17 @@ aliases:
 - DLQ of a FIFO queue must also be a FIFO queue
 - DQL of a standard queue must also be a standard queue
 - Make sure to process the messages in the DLQ before they expire
-- New Queue needs to be made as a DLQ and DLQ settings can be set in the original main queue and can select the new DLQ queue from main queue settings.![[Screenshot 2023-07-09 at 5.21.58 PM.png]]
+- New Queue needs to be made as a DLQ and DLQ settings can be set in the original main queue and can select the new DLQ queue from main queue settings.![Screenshot 2023-07-09 at 5.21.58 PM](../images%201/Screenshot%202023-07-09%20at%205.21.58%20PM.png)
 - #### Redrive to Source
 - Feature to help consume messages int he DLQ to understand what is wrong with them
-- When our code is fixed, we can redrive the message from the DLQ back into the source queue (or any other queue) in batches without writing custom code![[Screenshot 2023-07-09 at 5.24.08 PM.png]]
+- When our code is fixed, we can redrive the message from the DLQ back into the source queue (or any other queue) in batches without writing custom code![Screenshot 2023-07-09 at 5.24.08 PM](../images%201/Screenshot%202023-07-09%20at%205.24.08%20PM.png)
 - In the DLQ queue, there is button at the top right called `Start DQL redrive` to redrive the messages to the main queue
 
 ### Delay Queue
 - Delay a message (consumer don't see it immediately) to to 15 minutes
 - Default is 0 seconds (message is available right away)
 - Can set a default at queue level
-- Can override the default on send using the `DelaySeconds` parameter![[Screenshot 2023-07-09 at 5.31.06 PM.png]]
+- Can override the default on send using the `DelaySeconds` parameter![Screenshot 2023-07-09 at 5.31.06 PM](../images%201/Screenshot%202023-07-09%20at%205.31.06%20PM.png)
 - This setting can be done under `Configurations` when creating a queue to edit the configurations later
 
 ### Long Polling
@@ -134,12 +134,12 @@ aliases:
 - LongPolling decreases the number of API calls made to SQS while increasing the efficiency and latency of your application
 - The wait time can be between 1 sec to 20 sec (20 sec preferable)
 - Long polling is preferable to short polling
-- Long polling can be enabled at the queue level or at the API level using `ReceiveMessageWaitTimeSeconds`![[Screenshot 2023-07-09 at 5.34.46 PM.png]]
+- Long polling can be enabled at the queue level or at the API level using `ReceiveMessageWaitTimeSeconds`![Screenshot 2023-07-09 at 5.34.46 PM](../images%201/Screenshot%202023-07-09%20at%205.34.46%20PM.png)
 
 ### SQS Extended Client
 - Message size limit is 256KB, how to send large message, eg: 1GB
 - Using the SQS Extended Client
-- You can upload the file on S3 and send the pointer to that file in the SQS message, with the help of pointer, consumer can pick that file from the S3 bucket![[Screenshot 2023-07-09 at 5.37.21 PM.png]]
+- You can upload the file on S3 and send the pointer to that file in the SQS message, with the help of pointer, consumer can pick that file from the S3 bucket![Screenshot 2023-07-09 at 5.37.21 PM](../images%201/Screenshot%202023-07-09%20at%205.37.21%20PM.png)
 
 ### Must know API
 - `CreateQueue` (`MessageRetentionPeriod`)
@@ -156,7 +156,7 @@ aliases:
 
 
 ## FIFO Queue
-- First In First Out (ordering of messages in the queue)![[Screenshot 2023-07-09 at 5.45.19 PM.png]]
+- First In First Out (ordering of messages in the queue)![Screenshot 2023-07-09 at 5.45.19 PM](../images%201/Screenshot%202023-07-09%20at%205.45.19%20PM.png)
 - Limited throughput 300 msg/s without batching, 3000 msg/s with batching
 - Exactly-once send capability (by removing duplicates)
 - Messages are processed in order by the consumer
@@ -164,13 +164,13 @@ aliases:
 	- De-duplication interval is 5 minutes
 	- Two de-duplication methods
 		- Content-based deduplication: will do a SHA-256 hash of the message body
-		- Explicitly provide a Message Deduplication ID![[Screenshot 2023-07-09 at 5.51.24 PM.png]]
+		- Explicitly provide a Message Deduplication ID![Screenshot 2023-07-09 at 5.51.24 PM](../images%201/Screenshot%202023-07-09%20at%205.51.24%20PM.png)
 - Message Grouping
 	- If you specify the same value of `MessageGroupID` in an SQS FIFO queue, you can only have one consumer, and all the messages are in order
 	- To get ordering at the level of the subset of messages, specify different values for `MessageGroupID`
 		- Messages that share a common message GroupID will be in order within the group
 		- Each Group ID can have a different consumer (parallel processing!)
-		- Ordering across groups is not guaranteed![[Screenshot 2023-07-09 at 5.54.56 PM.png]]
+		- Ordering across groups is not guaranteed![Screenshot 2023-07-09 at 5.54.56 PM](../images%201/Screenshot%202023-07-09%20at%205.54.56%20PM.png)
 - #### Hands on
 - Select `FIFO` as type while creating a queue
 - When giving a name to the fifo queue, it should end with `.fifo` extension, otherwise it will not work

@@ -1,7 +1,7 @@
 Elastic File System
 - Managed NFS (network file system) that can be mounted on many EC2
 - EFS works with EC2 instances in multi-AZ
-- Highly available, scalable, expensive (3 x `gp2`), pay per use.![[Screenshot 2023-06-06 at 9.54.54 PM.png]]
+- Highly available, scalable, expensive (3 x `gp2`), pay per use.![Screenshot 2023-06-06 at 9.54.54 PM](../images%201/Screenshot%202023-06-06%20at%209.54.54%20PM.png)
 - Use cases
 	- Content management
 	- Web serving
@@ -87,7 +87,7 @@ Elastic File System
 			- goto `/mnt/efs/fs1` and create a new file and some data
 			- and you can login from another EC2 instance with the same EFS and can checkout that file again.
 
-### [[EBS]] vs [[EFS]]
+### [EBS](EBS.md) vs [EFS](.md)
 - EBS
 	- EBS volumes
 		- one instance (except multi-attach `io1/io2`)
@@ -98,12 +98,12 @@ Elastic File System
 		- Take a snapshot
 		- Restore the snapshot to another AZ
 		- EBS backups use IO and you shouldn't run them while your application is handling a lot of traffic
-	- Root EBS volumes of instances get terminated by default if the EC2 instance gets terminated. (you can disable that)![[Screenshot 2023-06-06 at 10.41.19 PM.png]]
+	- Root EBS volumes of instances get terminated by default if the EC2 instance gets terminated. (you can disable that)![Screenshot 2023-06-06 at 10.41.19 PM](../images%201/Screenshot%202023-06-06%20at%2010.41.19%20PM.png)
 - EFS
 	- Mounting 100s of instance across AZ
 	- EFS share website files (WordPress)
 	- Only for Linux Instances (POSIX)
 	- EFS has a higher price point than EBS
 	- can leverage EFS-IA for cost savings
-	- Remember: EFS vs EBS vs Instance Store![[Screenshot 2023-06-06 at 10.43.03 PM.png]]
+	- Remember: EFS vs EBS vs Instance Store![Screenshot 2023-06-06 at 10.43.03 PM](../images%201/Screenshot%202023-06-06%20at%2010.43.03%20PM.png)
 	- 

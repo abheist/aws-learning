@@ -4,11 +4,11 @@ Can be used on
 - Mac
 - Linux
 - Windows 10 and upper
-- If you are on Windows 8 or lower, please use `putty` ![[Screenshot 2023-06-05 at 10.55.25 PM.png]]
+- If you are on Windows 8 or lower, please use `putty` ![Screenshot 2023-06-05 at 10.55.25 PM](../images%201/Screenshot%202023-06-05%20at%2010.55.25%20PM.png)
 
 
 ### How to use SSH
-- Download the instance security keys, can checkout [[EC2#^0c4488|here]] for how to get one for EC2 instance.
+- Download the instance security keys, can checkout [](EC2.md#^0c4488%7Chere) for how to get one for EC2 instance.
 - Check instance's security group, it should have security group which have port 22 open to everyone / `0.0.0.0/0` or open to your IP from which you are access the instance. If not, check out here for how to add one.
 - Now copy EC2 instance IP address and run the following command
 ```sh

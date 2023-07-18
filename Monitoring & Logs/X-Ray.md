@@ -12,7 +12,7 @@
 - No common view of your entire architecture
 - Enter... AWS X-ray!
 - Visual analysis of our applications
-	  ![[Screenshot 2023-07-14 at 10.21.52 AM.png]]
+	  ![Screenshot 2023-07-14 at 10.21.52 AM](../images%201/Screenshot%202023-07-14%20at%2010.21.52%20AM.png)
 - X-Ray advantages
 	- Troubleshooting performance (bottleneck)
 	- Understand dependencies in microservice architecture
@@ -52,7 +52,7 @@
 		- X-Ray daemon works as a low level UDP packet interceptor (Linux / Windows / Mac)
 		- AWS Lambda / other AWS services already run the X-Ray daemon for you
 		- Each application must have the IAM rights to write data to X-Ray
-			  ![[Screenshot 2023-07-14 at 12.07.28 PM.png]]
+			  ![Screenshot 2023-07-14 at 12.07.28 PM](../images%201/Screenshot%202023-07-14%20at%2012.07.28%20PM.png)
 - X-Ray Magic
 	- X-Ray service collects data from all the different services
 	- Service map is computed from all the segments and traces
@@ -89,7 +89,7 @@
 	- Five percent is the rate at which additional requests beyond the reservoir size are sampled.
 - Custom sampling Rules:
 	- You can create your own rules with the reservoir and rate
-		  ![[Screenshot 2023-07-15 at 6.27.25 AM.png]]
+		  ![Screenshot 2023-07-15 at 6.27.25 AM](../images%201/Screenshot%202023-07-15%20at%206.27.25%20AM.png)
 - Sampling rules can defined by going to Settings in sidebar from CloudWatch Console. And in Settings, go to Traces and under traces, there is section of sampling rules.
 - X-Ray APIs
 	- Write APIs
@@ -118,5 +118,5 @@
 	- Then make sure your application code is instrumented with the X-Ray SDK
 	- Note: the X-Ray daemon is not provided for Multi-container Docker
 - X-Ray with ECS
-	  ![[Screenshot 2023-07-15 at 6.50.18 AM.png]]
+	  ![Screenshot 2023-07-15 at 6.50.18 AM](../images%201/Screenshot%202023-07-15%20at%206.50.18%20AM.png)
 -  

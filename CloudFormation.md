@@ -67,9 +67,9 @@
 
 ### Hands on
 - #### Introductory Example
-- We are going to create a simple [[EC2]] instance
+- We are going to create a simple [EC2](EC2/EC2.md) instance
 - Then we're going to create to add an Elastic IP to it
-- And we're going to add two [[Security Groups]] to it
+- And we're going to add two [Security Groups](EC2/Security%20Groups.md) to it
 - For now, forget about the code syntax
 - We'll look at the structure of the files later on
 - Change the region to `us-east-1` for practice
@@ -133,11 +133,11 @@
 		- The Fn::Ref function can be leveraged to reference parameters
 		- Parameters can be used anywhere in a template
 		- The shorthand for this in YAML is `!Ref`
-		- The function can also reference other elements within the template![[Screenshot 2023-07-07 at 9.55.28 AM.png]]
+		- The function can also reference other elements within the template![Screenshot 2023-07-07 at 9.55.28 AM](images%201/Screenshot%202023-07-07%20at%209.55.28%20AM.png)
 
 #### Pseudo Parameters
 - AWS offers us pseudo parameters in any CloudFormation template.
-- These can be used at any time and are enabled by default![[Screenshot 2023-07-07 at 10.00.00 AM.png]]
+- These can be used at any time and are enabled by default![Screenshot 2023-07-07 at 10.00.00 AM](images%201/Screenshot%202023-07-07%20at%2010.00.00%20AM.png)
 
 ### What are mappings ?
 - Mappings are fixed variables within your CloudFormation Template.
@@ -155,7 +155,7 @@
 - Fn::FindInMap ^3a176f
 	- Accessing Mapping Values
 	- We use Fn::FindInMap to return a named value from a specific key
-	- !FindInMap [MapName, TopLevelKey, SecondLevelKey]![[Screenshot 2023-07-07 at 10.08.31 PM.png]]
+	- !FindInMap [MapName, TopLevelKey, SecondLevelKey]![Screenshot 2023-07-07 at 10.08.31 PM](images%201/Screenshot%202023-07-07%20at%2010.08.31%20PM.png)
 
 ### What are Outputs
 -  The outputs section declares *optional* outputs values that we can import into other stacks (if you export them first)
@@ -177,7 +177,7 @@ Outputs:
 - #### Cross Stack Reference
 - We can create a second template that leverages that security group
 - For this, we use the `Fn::ImportValue` function
-- You can't delete the underlying stack until all the references are deleted too.![[Screenshot 2023-07-07 at 1.03.51 PM.png]]
+- You can't delete the underlying stack until all the references are deleted too.![Screenshot 2023-07-07 at 1.03.51 PM](images%201/Screenshot%202023-07-07%20at%201.03.51%20PM.png)
 
 ### Conditions
 - Conditions are used to control the creation of resources or outputs based on a condition
@@ -241,7 +241,7 @@ Resources:
 			AvailabilityZone:
 				!GetAtt: EC2Instance.AvailabilityZone
 	```
-- [[#^3a176f|Fn::FindInMap]]
+- [Fn::FindInMap](#%5E3a176f)
 - `Fn::ImportValue`
 	- Import values that are exported in other templates
 	- For this, we use the `Fn::ImportValue` function
@@ -274,7 +274,7 @@ Resources:
 		- String
 		- { Var1Name: Var1Value, Var2Name: Var2Value }
 	```
-- [[CloudFormation#Conditions|Condition]] Functions (`Fn::If`, `Fn::Not`, `Fn::Equals`, etc...)
+- [](.md#Conditions%7CCondition) Functions (`Fn::If`, `Fn::Not`, `Fn::Equals`, etc...)
 
 ### Rollbacks
 - Stack Creation Fails
@@ -286,11 +286,11 @@ Resources:
 
 ### CloudFormation Stack Notifications
 - Send Stack events to SNS Topic (Email, Lambda,...)
-- Enable SNS Integration using Stack Options![[Screenshot 2023-07-07 at 10.30.49 PM.png]]
+- Enable SNS Integration using Stack Options![Screenshot 2023-07-07 at 10.30.49 PM](images%201/Screenshot%202023-07-07%20at%2010.30.49%20PM.png)
 
 ### ChangeSets
 - When you update a stack, you need to know what changes before it happens for greater confidence
-- ChangeSets won't say if the update will be successful![[Screenshot 2023-07-07 at 10.32.17 PM.png]]
+- ChangeSets won't say if the update will be successful![Screenshot 2023-07-07 at 10.32.17 PM](images%201/Screenshot%202023-07-07%20at%2010.32.17%20PM.png)
 
 ### Nested Stacks
 - Nested stacks are stacks as a part of other stacks

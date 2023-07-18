@@ -10,7 +10,7 @@
 	- AWS Services
 - Can put logs from CloudTrail into CloudWatch Logs or S3
 - A trail can be applied to All Regions (default) or a single Region
-- If a resource is deleted in AWS, investigate CloudTrail first!![[Screenshot 2023-07-15 at 7.00.47 AM.png]]
+- If a resource is deleted in AWS, investigate CloudTrail first!![Screenshot 2023-07-15 at 7.00.47 AM](../images%201/Screenshot%202023-07-15%20at%207.00.47%20AM.png)
 - ### CloudTrail Events
 - Management Events
 	- Operations that are performed on resources in your AWS account
@@ -35,11 +35,11 @@
 		- Anomalies appear in the CloudTrail console
 		- Event is sent to Amazon S3
 		- An EventBridge event is generated (for automation needs)
-			  ![[Screenshot 2023-07-15 at 7.21.59 AM.png]]
+			  ![Screenshot 2023-07-15 at 7.21.59 AM](../images%201/Screenshot%202023-07-15%20at%207.21.59%20AM.png)
 - CloudTrail Events Retentions
 	- Events are stored for 90 days in CloudTrail
-	- To keep events beyond this period, log them to [[S3]] and use [[Athena]]
-		![[Screenshot 2023-07-15 at 7.23.46 AM.png]]
-- CloudTrail and [[EventBridge]] integration
+	- To keep events beyond this period, log them to [S3](../S3.md) and use [Athena](Athena)
+		![Screenshot 2023-07-15 at 7.23.46 AM](../images%201/Screenshot%202023-07-15%20at%207.23.46%20AM.png)
+- CloudTrail and [EventBridge](EventBridge.md) integration
 	- Intercept API calls
-		  ![[Screenshot 2023-07-15 at 7.26.21 AM.png]]
+		  ![Screenshot 2023-07-15 at 7.26.21 AM](../images%201/Screenshot%202023-07-15%20at%207.26.21%20AM.png)

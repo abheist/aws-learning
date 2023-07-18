@@ -23,7 +23,7 @@
 		- amazon.com
 		- google.com
 		- abheist.com, etc
-![[Screenshot 2023-06-21 at 6.05.24 PM.png]]
+![Screenshot 2023-06-21 at 6.05.24 PM](../images%201/Screenshot%202023-06-21%20at%206.05.24%20PM.png)
 
 ### DNS record types:
 - A
@@ -48,7 +48,7 @@
 - SPF
 - SRV
 
-## TTL (Time to Live)![[Screenshot 2023-06-22 at 11.13.25 AM.png]]
+## TTL (Time to Live)![Screenshot 2023-06-22 at 11.13.25 AM](../images%201/Screenshot%202023-06-22%20at%2011.13.25%20AM.png)
 - TTL is time to cache which will be used by the client machine
 - High TTL - eg: 24 hr
 	- Less traffic on Route 53
@@ -60,7 +60,7 @@
 - Except for Alias records, TTL is mandatory for each DNS record
 
 ### Hands-on - TTL
-- [[Route 53#^6b2eec|Create a Record]]
+- [](Route%2053.md#^6b2eec%7CCreate%20a%20Record)
 - Choose A, and add an IP of one of the instance
 - set TTL to 120 seconds
 - Create
@@ -86,7 +86,7 @@ Only for non root domain (aka.something.mydomain.com) | ==Works for root domain 
 - Unlike CNAME, it can be used for the top node of a DNS namespace (Zone Apex), eg: example.com
 - Alias Record is always of type A/AAAA for AWS resources (IPv4 / IPv6)
 - You can't set the TTL
-![[Screenshot 2023-06-22 at 11.48.00 AM.png]]
+![Screenshot 2023-06-22 at 11.48.00 AM](../images%201/Screenshot%202023-06-22%20at%2011.48.00%20AM.png)
 - Alias Records Target
 	- Elastic Load Balancers
 	- CloudFront Distribution
@@ -96,7 +96,7 @@ Only for non root domain (aka.something.mydomain.com) | ==Works for root domain 
 	- VPC interface endpoints
 	- Global Accelerator
 	- Route 53 record in the same hosted zone
-- You cannot set an ALIAS record for an EC2 DNS name![[Screenshot 2023-06-22 at 11.51.11 AM.png]]
-- ![[Screenshot 2023-06-22 at 11.53.58 AM.png]]
-- ![[Screenshot 2023-06-22 at 11.55.49 AM.png]]
+- You cannot set an ALIAS record for an EC2 DNS name![Screenshot 2023-06-22 at 11.51.11 AM](../images%201/Screenshot%202023-06-22%20at%2011.51.11%20AM.png)
+- ![Screenshot 2023-06-22 at 11.53.58 AM](../images%201/Screenshot%202023-06-22%20at%2011.53.58%20AM.png)
+- ![Screenshot 2023-06-22 at 11.55.49 AM](../images%201/Screenshot%202023-06-22%20at%2011.55.49%20AM.png)
 - 

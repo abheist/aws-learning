@@ -11,7 +11,7 @@ Amazon Machine Image
 	- Start an EC2 instance and customize it
 	- Stop the instance (for data integrity)
 	- Build an AMI - this will also create EBS snapshots
-	- Launch instances from other AMIs ![[Screenshot 2023-06-06 at 8.40.13 PM.png]]
+	- Launch instances from other AMIs ![Screenshot 2023-06-06 at 8.40.13 PM](../images%201/Screenshot%202023-06-06%20at%208.40.13%20PM.png)
 - AMI hands-on
 	- Go to instance page
 	- Create new instance

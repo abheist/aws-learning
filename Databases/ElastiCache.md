@@ -7,13 +7,13 @@
 	- Using ElastiCache involves heavy application code changes
 	- Application queries ElastiCache, if not available, get from RDS and store in ElastiCache.
 	- Helps relieve load in RDS
-	- Cache must have an invalidation strategy to make sure only the most current data is used in there.![[Screenshot 2023-06-15 at 6.43.57 PM.png]]
+	- Cache must have an invalidation strategy to make sure only the most current data is used in there.![Screenshot 2023-06-15 at 6.43.57 PM](../images%201/Screenshot%202023-06-15%20at%206.43.57%20PM.png)
 - User Session Store
 	- User logs into any of the application
 	- The application writes the session data into ElastiCache
 	- The user hits another instance of our application
-	- The instance retrieve the data and the user is already logged in![[Screenshot 2023-06-15 at 6.47.14 PM.png]]
-### [[Redis]] vs [[Memcached]]
+	- The instance retrieve the data and the user is already logged in![Screenshot 2023-06-15 at 6.47.14 PM](../images%201/Screenshot%202023-06-15%20at%206.47.14%20PM.png)
+### [Redis](Redis) vs [Memcached](Memcached)
 
 redis | Memcached
 --- |--- 
@@ -85,14 +85,14 @@ Supports Sets and Sorted Sets | Multi-threaded architecture
 - Is data structured well for caching ?
 	- Example: key value caching, or caching of aggregation results
 - Which design pattern is the most appropriate ?
-	1. Lazy loading / Cache aside / Lazy population![[Screenshot 2023-06-15 at 7.24.34 PM.png]]
+	1. Lazy loading / Cache aside / Lazy population![Screenshot 2023-06-15 at 7.24.34 PM](../images%201/Screenshot%202023-06-15%20at%207.24.34%20PM.png)
 		- Pros
 			- Only requested data is cached (the data isn't filled up with unused data)
 			- Node failures are not fatal (just increased latency to warn the cache)
 		- Cons
 			- Cache miss penalty that results in 3 round tripes, noticeable delay for that request
 			- Stale data: data can be updated in the database and outdated in the cache
-	2.  Write through - Add or Update cache when database is updated![[Screenshot 2023-06-15 at 7.22.17 PM.png]]
+	2.  Write through - Add or Update cache when database is updated![Screenshot 2023-06-15 at 7.22.17 PM](../images%201/Screenshot%202023-06-15%20at%207.22.17%20PM.png)
 		- Pros
 			- Data is cache is never stale, reads are quick
 			- Write penalty vs Read Penalty (each write requires 2 calls)

@@ -6,7 +6,7 @@ aliases:
 - Private and Public repository (Amazon ECR Public Gallery https://gallery.ecr.aws)
 - Fully integrated with ECS, backed by Amazon S3
 - Access is controlled through IAM (permission errors => policy)
-- Supports image vulnerability scanning, versioning, image tags, image lifecycle,...![[Screenshot 2023-07-04 at 4.35.49 PM.png]]
+- Supports image vulnerability scanning, versioning, image tags, image lifecycle,...![Screenshot 2023-07-04 at 4.35.49 PM](../images%201/Screenshot%202023-07-04%20at%204.35.49%20PM.png)
 
 ### Hands on
 - Using AWS CLI

@@ -3,7 +3,7 @@
 	- Health checks that monitor an endpoint (application, server, other AWS resource)
 	- Health checks that monitor other health checks (Calculated Health Checks)
 	- Health checks that monitor CloudWatch Alarms (full control !!) - eg: throttles of DynamoDB, alarms on RDS, custom metric,... (helpful for private resources)
-- Health Checks are integrated with CW metrics![[Screenshot 2023-06-22 at 1.15.16 PM.png]]
+- Health Checks are integrated with CW metrics![Screenshot 2023-06-22 at 1.15.16 PM](../images%201/Screenshot%202023-06-22%20at%201.15.16%20PM.png)
 - Monitor an Endpoint
 	- About 15 global health checkers will check the endpoint health
 		- Healthy/Unhealthy Threshold - 3 (default)
@@ -20,11 +20,11 @@
 	- You can use OR, AND, or NOT
 	- Can monitor up to 256 Child Health Checks
 	- Specify how many of the health checks need to pass to make the parent pass
-	- Usage: perform maintenance to your website without causing all health checks to fail![[Screenshot 2023-06-22 at 1.27.46 PM.png]]
+	- Usage: perform maintenance to your website without causing all health checks to fail![Screenshot 2023-06-22 at 1.27.46 PM](../images%201/Screenshot%202023-06-22%20at%201.27.46%20PM.png)
 - Health check of Private Hosted Zones
 	- Route 53 health checkers are outside the VPC
 	- They can't access private endpoints (Private VPC or on-premises resource)
-	- You can create a CloudWatch Metric and associate a CloudWatch Alarm, then create a Health Check that checks the alarm itself.![[Screenshot 2023-06-22 at 1.36.12 PM.png]]
+	- You can create a CloudWatch Metric and associate a CloudWatch Alarm, then create a Health Check that checks the alarm itself.![Screenshot 2023-06-22 at 1.36.12 PM](../images%201/Screenshot%202023-06-22%20at%201.36.12%20PM.png)
 
 ## Hands-on
 - Go to Route 53 dashboard
@@ -70,7 +70,7 @@
 	- Same as above but change the followings
 	- What to monitor, select `Status of other health checks`
 	-  Monitor other health checks
-		- Health checks to monitor, select [[Health Checks#^4342dc|health checks we created in 1st go]]
+		- Health checks to monitor, select [](.md#^4342dc%7Chealth%20checks%20we%20created%20in%201st%20go)
 		- Reports healthy when
 			- At least `number` of total selected health checks are healthy
 			- All health checks are healthy (AND)

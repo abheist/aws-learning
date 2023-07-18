@@ -1,4 +1,4 @@
-![[Screenshot 2023-06-04 at 11.56.49 AM.png]]
+![Screenshot 2023-06-04 at 11.56.49 AM](../images%201/Screenshot%202023-06-04%20at%2011.56.49%20AM.png)
 
 Here:
 - Alice, Bob and Charles have the policies which are assigned to the `Developers` group.

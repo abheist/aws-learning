@@ -1,5 +1,5 @@
 > [!info] 
-> Before starting, it's better to setup a billing budget alerts, check them out [[Billing#To get the alerts about the upcoming cost|here]]
+> Before starting, it's better to setup a billing budget alerts, check them out [](Billing.md#To%20get%20the%20alerts%20about%20the%20upcoming%20cost%7Chere)
 
 
 - EC2 is one of the most popular of AWS offering
@@ -33,7 +33,7 @@
 	- Downloading common files from the internet
 	- Anything you can think of
 - The EC2 user data script runs with the root user
-- Example ![[Screenshot 2023-06-05 at 7.43.12 PM.png]]
+- Example ![Screenshot 2023-06-05 at 7.43.12 PM](../images%201/Screenshot%202023-06-05%20at%207.43.12%20PM.png)
 - For learning, user t2.micro which is part of free-tier (up to 750 hours per month)
 
 ### Hands-on - Launch an EC2 instance running Linux
@@ -95,7 +95,7 @@
 	- Outbound rules
 - Storage
 	- The volume we created can be visible here.
-- If you copy and paste the public IP on internet, you can see the server running as we have put some details to start the server in [[EC2#^0c5fa4|user data section]]
+- If you copy and paste the public IP on internet, you can see the server running as we have put some details to start the server in [](.md#^0c5fa4%7Cuser%20data%20section)
 
 > [!info] Public IP changes every time we stop and start an instance
 
@@ -111,7 +111,7 @@
 	- Balance between
 		- Compute
 		- Memory
-		- Networking![[Screenshot 2023-06-05 at 8.26.59 PM.png]]
+		- Networking![Screenshot 2023-06-05 at 8.26.59 PM](../images%201/Screenshot%202023-06-05%20at%208.26.59%20PM.png)
 - Compute Optimized
 	- Great for compute intensive tasks that require high performance processors:
 		- Batch processing workloads
@@ -119,14 +119,14 @@
 		- High performance web servers
 		- High performance computing (HPC)
 		- Scientific modeling & machine learning
-		- Dedicated gaming servers![[Screenshot 2023-06-05 at 8.26.40 PM.png]]
+		- Dedicated gaming servers![Screenshot 2023-06-05 at 8.26.40 PM](../images%201/Screenshot%202023-06-05%20at%208.26.40%20PM.png)
 - Memory Optimized
 	- Fast performance for workload that process large data sets in memory
 	- Use cases:
 		- High performance, relational/non-relational databases
 		- Distributed web scale cache stores
 		- In-memory databases optimized for BI (business intelligence)
-		- Applications performing real-time processing of big unstructured data ![[Screenshot 2023-06-05 at 8.40.08 PM.png]]
+		- Applications performing real-time processing of big unstructured data ![Screenshot 2023-06-05 at 8.40.08 PM](../images%201/Screenshot%202023-06-05%20at%208.40.08%20PM.png)
 - Storage Optimized
 	- Great for storage-intensive tasks that require high, sequential read and write access to large data sets on local storage
 	- Use cases
@@ -134,11 +134,11 @@
 		- Relational & NoSQL databases
 		- Cache for in-memory databases (for example: REDIS)
 		- Data warehousing applications
-		- Distributed file systems![[Screenshot 2023-06-05 at 8.45.52 PM.png]]
-- Example comparison, to compare in more details, check this out: [Instances Comparison](https://instances.vantage.sh/)  ![[Screenshot 2023-06-05 at 8.46.15 PM.png]]
+		- Distributed file systems![Screenshot 2023-06-05 at 8.45.52 PM](../images%201/Screenshot%202023-06-05%20at%208.45.52%20PM.png)
+- Example comparison, to compare in more details, check this out: [Instances Comparison](https://instances.vantage.sh/)  ![Screenshot 2023-06-05 at 8.46.15 PM](../images%201/Screenshot%202023-06-05%20at%208.46.15%20PM.png)
 
-- [[Security Groups]]
-- [[SSH]] / [[Connect to EC2 instance by AWS Connect]]
+- [Security Groups](Security%20Groups.md)
+- [SSH](SSH.md) / [Connect to EC2 instance by AWS Connect](Connect%20to%20EC2%20instance%20by%20AWS%20Connect.md)
 - Associate IAM role with EC2 instance
 	- EC2 instance comes with AWS CLI installed
 	- you can check it by running in terminal `aws --version`
@@ -150,11 +150,11 @@
 		- If not, then
 		- Keep the instance selected, at the top header there is a dropdown `Actions` → `Security` → `Modify IAM Role`
 		- Once you click on Modify IAM role, new screen will open for adding/modifying IAM role
-		- Select IAM Role to attach or [[Roles#^c51cea|Create a new role]].
+		- Select IAM Role to attach or [](../IAM/Roles.md#^c51cea%7CCreate%20a%20new%20role).
 		- Now click on save.
 	- Once the role is associated, you can run the AWS CLI commands in EC2 instance which are allowed by the roles you recently associated. Suppose you attached the role which allows the read-only access to IAM, then you can run `aws iam list-users` to check.
-- [[EBS]]
-- [[AMIs]]
+- [EBS](EBS.md)
+- [AMIs](AMIs.md)
 - EC2 Instance Store
 	- EBS volumes are network drives with good but "limited" performance
 	- If you need a high performance hardware disk, use EC2 instance store
@@ -162,7 +162,7 @@
 	- EC2 instance store lose their storage if they're stopped (ephemeral)
 	- Good for buffer / cache / scratch data / temporary content
 	- Risk of data loss if hardware fails
-	- Backups and replication are your responsibility![[Screenshot 2023-06-06 at 9.16.23 PM.png]]
+	- Backups and replication are your responsibility![Screenshot 2023-06-06 at 9.16.23 PM](../images%201/Screenshot%202023-06-06%20at%209.16.23%20PM.png)
 	- 
 	- 
 
@@ -220,7 +220,7 @@
 - Dedicated Instances - no other customers will share your hardware
 	- Instances run on hardware that's dedicated to you
 	- May share hardware with other instances in the same account
-	- No control over instance placement (can move hardware after start/stop)![[Screenshot 2023-06-06 at 12.11.55 AM.png]]
+	- No control over instance placement (can move hardware after start/stop)![Screenshot 2023-06-06 at 12.11.55 AM](../images%201/Screenshot%202023-06-06%20at%2012.11.55%20AM.png)
 - Capacity Reservations - reserve capacity in a specific AZ for any duration.
 	- Reserve on-demand instances capacity in a specific AZ for any duration
 	- You always have access to EC2 capacity when you need it
@@ -235,6 +235,6 @@
 	- Spot instances: the resort allows people to bid for the empty rooms and the highest bidder keeps the rooms. You can get kicked out at any time.
 	- Dedicated Hosts: We book and entire building of the resort.
 	- Capacity reservations: you book a room for a period with a full price even you don't stay in it.
-- Example price comparison![[Screenshot 2023-06-06 at 12.21.55 AM.png]]
+- Example price comparison![Screenshot 2023-06-06 at 12.21.55 AM](../images%201/Screenshot%202023-06-06%20at%2012.21.55%20AM.png)
 
 

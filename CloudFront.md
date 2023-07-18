@@ -17,7 +17,7 @@
 	- S3 website (must first enable the bucket as a static S3 website)
 	- Any HTTP backend you want
 
-### [[CloudFront]] vs [[S3#Replication|S3 Cross Region Replication]]
+### [CloudFront](.md) vs [](S3.md#Replication%7CS3%20Cross%20Region%20Replication)
 
 CloudFront | S3 Cross Region Replication
 --- |---
@@ -55,9 +55,9 @@ Great for static content that must be available everywhere | Great for dynamic c
 - The cache lives at each CloudFront Edge Location
 - CloudFront identifies each object in the cache using the Cache Key (see next slide)
 - You want to maximize the Cache Hit ratio to minimize requests to the origin
-- You can invalidate part of the cache using the CreateInvalidation API![[Screenshot 2023-07-02 at 10.52.30 PM.png]]
+- You can invalidate part of the cache using the CreateInvalidation API![Screenshot 2023-07-02 at 10.52.30 PM](images%201/Screenshot%202023-07-02%20at%2010.52.30%20PM.png)
 
-### CloudFront CacheKey![[Screenshot 2023-07-02 at 10.54.17 PM.png]]
+### CloudFront CacheKey![Screenshot 2023-07-02 at 10.54.17 PM](images%201/Screenshot%202023-07-02%20at%2010.54.17%20PM.png)
 - A unique identifier for every object in the cache
 - By default, consists of hostname + resource portion of the URL
 - If you have an application that serves up content that varies based on user, device, language, location...You can add other elements (HTTP headers, cookies, query strings) to the Cache Key using CloudFront Cache Policies
@@ -129,7 +129,7 @@ Great for static content that must be available everywhere | Great for dynamic c
 ### ALB or EC2 as an origin
 - It is possible for CloudFront to connect with any backend cluster
 - EC2 instance must be public
-- There is no private VPC connectivity in CloudFront![[Screenshot 2023-07-02 at 11.38.49 PM.png]]
+- There is no private VPC connectivity in CloudFront![Screenshot 2023-07-02 at 11.38.49 PM](images%201/Screenshot%202023-07-02%20at%2011.38.49%20PM.png)
 
 
 ### Geo Restriction
@@ -151,7 +151,7 @@ Great for static content that must be available everywhere | Great for dynamic c
 - Signed URL = access to individual files (one signed URL per file)
 - Signed Cookies = access to multiple files (one signed cookie for many files)
 
-### CloudFront Signed URL vs [[S3#S3 Pre-Signed URLS|S3 Pre-Signed URL]]
+### CloudFront Signed URL vs [](S3.md#S3%20Pre-Signed%20URLS%7CS3%20Pre-Signed%20URL)
 
 CloudFront Signed URL | S3 Pre-Signed URL
 --- |---
@@ -179,7 +179,7 @@ Can leverage caching features | --
 	- Three price classes
 		- Price Class All: All regions - best performance
 		- Price Class 200: most regions, but exclude the most expensive regions
-		- Price Class 100: only the least expensive regions  ![[Screenshot 2023-07-03 at 12.11.34 AM.png]]
+		- Price Class 100: only the least expensive regions  ![Screenshot 2023-07-03 at 12.11.34 AM](images%201/Screenshot%202023-07-03%20at%2012.11.34%20AM.png)
 
 ### Multiple Origin
 - To route to different kind of origins based on the content type
@@ -200,10 +200,10 @@ Can leverage caching features | --
 - Uses asymmetric encryption
 - Usage
 	- Specify set of fields in POST requests that you want to be encrypted (up to 10 fields)
-	- Specify the public key to encrypt them![[Screenshot 2023-07-03 at 12.24.30 AM.png]]
+	- Specify the public key to encrypt them![Screenshot 2023-07-03 at 12.24.30 AM](images%201/Screenshot%202023-07-03%20at%2012.24.30%20AM.png)
 
 ### Real Time Logs
 - Get real-time requests received by CloudFront sent to Kinesis Data Streams
-- Monitor, analyze, and take actions based on content delivery performance![[Screenshot 2023-07-03 at 12.26.06 AM.png]]
+- Monitor, analyze, and take actions based on content delivery performance![Screenshot 2023-07-03 at 12.26.06 AM](images%201/Screenshot%202023-07-03%20at%2012.26.06%20AM.png)
 
 

@@ -7,7 +7,7 @@ aliases:
 
 - Global service, does not need region
 - Root account created by default, shouldn't be used or shared
-- [[Users]]
+- [Users](Users.md)
 	- mapped to physical user, has password for AWS console
 	- are people within your organization, and can be grouped
 	- Add user
@@ -23,7 +23,7 @@ aliases:
 						- Select `AdministratorAccess` and create group
 				- select that group
 			- Review the settings we selected
-			- Add a [[Tag]] if needed
+			- Add a [Tag](Tag) if needed
 			- Click on `create user` button
 			- User created.
 			- Email `sign-in` instruction or download `.csv` 
@@ -45,20 +45,20 @@ aliases:
 				- This is preferred username/alias for the aws account, which users can use instead of account-id when login to aws, because this is easy to remember. This can be edited on IAM dashboard, right hand side.
 			- Sign-in URL for IAM users in this account
 	- 
-- [[Group]]
+- [Group](Group)
 	- Groups only contains users, not other groups
-	- Users don't have to belong to group, and user can belong to multiple group.  ![[Screenshot 2023-06-04 at 10.23.01 AM.png]]
+	- Users don't have to belong to group, and user can belong to multiple group.  ![Screenshot 2023-06-04 at 10.23.01 AM](../images%201/Screenshot%202023-06-04%20at%2010.23.01%20AM.png)
 	- User Groups
 		- Can see the groups created
 		- If you open the group, you can see
 			- Users
 			- Permissions (policies)
 			- Access Advisor
-- [[Policies]] / Permissions
-	- Users or Group can be assigned JSON documents called [[Policies]].
+- [Policies](Policies.md) / Permissions
+	- Users or Group can be assigned JSON documents called [Policies](Policies.md).
 	- These policies define the permissions of the users
 	- Go for least privilege principle: don't give more permissions than a user needs
-- [[Password Policy]]
+- [Password Policy](Password%20Policy.md)
 	- Strong passwords - higher security for you account
 	- in AWS, we can setup password policy
 		- Set a minimum length
@@ -116,18 +116,18 @@ aliases:
 	- Access keys can be generated through AWS Management console
 	- users manage their own access keys
 	- Access keys are secret just like passwords. Don't share them.
-- [[AWS CLI]]
+- [AWS CLI](AWS%20CLI.md)
 	- manage your AWS services using the command line
-- [[AWS SDK]]
+- [AWS SDK](AWS%20SDK.md)
 	- Manage your AWS services using a programming language
-- [[Roles]]
+- [Roles](Roles.md)
 	- for EC2 instances or AWS services
-- [[Access Keys]]
-- [[IAM Security Tools|Audit]]
-	- [[IAM Credential Report]] (Account-level)
+- [Access Keys](Access%20Keys)
+- [Audit](IAM%20Security%20Tools)
+	- [IAM Credential Report](IAM%20Credential%20Report) (Account-level)
 		- a report that lists all your account's user and the status of their various credentials
 		- IAM → Access Reports → Credential Report → Download Report
-	- [[IAM access advisor]]
+	- [IAM access advisor](IAM%20access%20advisor)
 		- Access advisor shows the service permissions granted to a user and when those services were last accessed.
 		- You can use this information to revise your policies.
 		- Users → User → Access Advisor Tab

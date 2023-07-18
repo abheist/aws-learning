@@ -9,5 +9,5 @@
 	- X-Ray, CloudWatch, Prometheus...
 - Instrument your apps running on AWS (eg: EC2, ECS, EKS, Fargate, Lambda) as well as on-premises
 - Migrate from X-Ray to AWS Distro for Telemetry if you want to standardize with open-source APIs from Telemetry or send traces to multiple destinations simultaneously.
-- ![[Screenshot 2023-07-15 at 6.57.12 AM.png]]
+- ![Screenshot 2023-07-15 at 6.57.12 AM](../images%201/Screenshot%202023-07-15%20at%206.57.12%20AM.png)
 - 

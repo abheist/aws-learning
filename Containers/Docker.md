@@ -13,23 +13,23 @@
 		- Public repository
 		- Support private repositories as well.
 		- Find base images for many technologies or OS (eg: Ubuntu, MySQL...)
-	- Amazon [[ECR]] (Amazon Elastic Container Registry)
+	- Amazon [ECR](ECR.md) (Amazon Elastic Container Registry)
 		- Private repository
 		- Public repository (Amazon ECR public Gallery https://gallery.ecr.aws)
 
 ### Docker v/s Virtual machines
 - Docker is sort of virtualization technology, but not exactly
-- Resources are shared with the host → many containers on one server![[Screenshot 2023-07-03 at 1.54.28 PM.png]]
+- Resources are shared with the host → many containers on one server![Screenshot 2023-07-03 at 1.54.28 PM](../images%201/Screenshot%202023-07-03%20at%201.54.28%20PM.png)
 
-### Get started with Docker![[Screenshot 2023-07-03 at 1.55.51 PM.png]]
+### Get started with Docker![Screenshot 2023-07-03 at 1.55.51 PM](../images%201/Screenshot%202023-07-03%20at%201.55.51%20PM.png)
 
 ### Docker Containers Management on AWS
-- Amazon Elastic Container Service (Amazon [[ECS]])
+- Amazon Elastic Container Service (Amazon [ECS](ECS.md))
 	- Amazon's own container platform
-- Amazon Elastic Kubernetes Service (Amazon [[EKS]])
-	- Amazon's managed [[Kubernetes]] (open source)
-- AWS [[Fargate]]
+- Amazon Elastic Kubernetes Service (Amazon [EKS](EKS.md))
+	- Amazon's managed [Kubernetes](Kubernetes) (open source)
+- AWS [Fargate](Fargate.md)
 	- Amazon's own Serverless container platform
 	- Works with ECS and with EKS
-- Amazon [[ECR]]
+- Amazon [ECR](ECR.md)
 	- Store container images

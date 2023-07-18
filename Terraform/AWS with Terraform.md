@@ -1,13 +1,13 @@
 #AWS #terraform 
 
-- Install [[Terraform]] CLI
+- Install [Terraform](Terraform.md) CLI
     - [https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 - Install AWS CLI
     - [https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
     - [https://formulae.brew.sh/formula/awscli](https://formulae.brew.sh/formula/awscli)
     - once installed, check with the following command
     - `which aws`
-        - configure [[AWS]] by `aws configure`
+        - configure [AWS](../AWS.md) by `aws configure`
         - For starting create a admin user from IAM service
         - Pick `Access Key` and `Secret` from AWS IAM service for the newly created admin user. Try not to use root user.
 - create a project folder

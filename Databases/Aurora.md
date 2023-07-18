@@ -15,9 +15,9 @@
 - One Aurora Instance takes writes (master)
 - Automated failover for master in less than 30 seconds
 - Master + up to 15 Aurora Read Replicas serve reads
-- Support for Cross Region Replication![[Screenshot 2023-06-15 at 1.11.29 PM.png]]
+- Support for Cross Region Replication![Screenshot 2023-06-15 at 1.11.29 PM](../images%201/Screenshot%202023-06-15%20at%201.11.29%20PM.png)
 
-### Aurora DB Cluster![[Screenshot 2023-06-15 at 1.13.22 PM.png]]
+### Aurora DB Cluster![Screenshot 2023-06-15 at 1.13.22 PM](../images%201/Screenshot%202023-06-15%20at%201.13.22%20PM.png)
 
 
 ### Features of Aurora
@@ -48,7 +48,7 @@
 	- Yes for Public access
 	- Select existing VPC security group or create one
 	- Disable enhanced monitoring
-- Other useful information we select when creating [[RDS#Hands on|RDS]]
+- Other useful information we select when creating [](RDS.md#Hands%20on%7CRDS)
 - Create
 - Once created, you can see you'll have one regional cluster with one write instance and one read instance
 - if you click on cluster, you can see the reader endpoint and writer endpoint

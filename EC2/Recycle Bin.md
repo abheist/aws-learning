@@ -25,13 +25,13 @@
 	- Select `Archive Snapshot`
 	- A popup will open for the confirmation with the details.
 	- You can click on `Archive Snapshot` button on the pop-up. But wait!
-	- It can be archived, but you have to wait for 24 to 72 hours to restore it based to the [[EBS#^8457f6|archive policy]]
+	- It can be archived, but you have to wait for 24 to 72 hours to restore it based to the [](EBS.md#^8457f6%7Carchive%20policy)
 	- So for now, you can cancel the popup and go to action button again
 	- Click on `delete snapshot`
 	- A popup will open, click on `Delete` button
 	- It'll delete the snapshot and you can see that it'll gone from the list
 	- Now, if you go to recycle-bin, you can see the deleted snapshot there.
-	- The snapshot went to the recycle-bin because we [[EBS#^e078ce|created a retention rule]]. If would have not, it would have deleted directly.
+	- The snapshot went to the recycle-bin because we [](EBS.md#^e078ce%7Ccreated%20a%20retention%20rule). If would have not, it would have deleted directly.
  - Recover a snapshot from recycle bin
 	 - Select the snapshot in recycle-bin you want to recover
 	 - Click on the `recover` button on the top right corner

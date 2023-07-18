@@ -6,13 +6,13 @@
 	- Serverless was pioneered by AWS Lambda but now also includes anything that's managed: "databases, messaging, storage, etc"
 	- Serverless does not mean there are no servers... it means you just don't have to manage, provision, see them.
 - Serverless in AWS
-	- AWS [[Lambda]]
-	- [[DynamoDB]]
-	- AWS [[Cognito]]
-	- AWS [[API Gateway]]
-	- Amazon [[S3]]
-	- AWS [[SNS]] and [[SQS]]
-	- AWS [[Kinesis#^0a78d3|Kinesis Data Firehose]]
-	- [[Aurora]] Serverless
-	- [[AWS Step Functions]]
-	- [[Fargate]]
+	- AWS [Lambda](Lambda.md)
+	- [DynamoDB](../Databases/DynamoDB.md)
+	- AWS [Cognito](Cognito)
+	- AWS [API Gateway](../API%20Gateway.md)
+	- Amazon [S3](../S3.md)
+	- AWS [SNS](../Messaging%20&%20Queues/SNS.md) and [SQS](../Messaging%20&%20Queues/SQS.md)
+	- AWS [](../Messaging%20&%20Queues/Kinesis.md#^0a78d3%7CKinesis%20Data%20Firehose)
+	- [Aurora](../Databases/Aurora.md) Serverless
+	- [AWS Step Functions](AWS%20Step%20Functions)
+	- [Fargate](../Containers/Fargate.md)
