@@ -88,6 +88,6 @@
 - Integration Type AWS_PROXY (Lambda Proxy):
 	- incoming request from the client is the input to Lambda
 	- The function is responsible for the logic of request / response
-	- No mapping template, headers, query string parameters... are passed as arguments
+	- No mapping template, headers, que![](images/Screenshot%202023-07-17%20at%209.26.20%20PM.png)ry string parameters... are passed as arguments
 
-![Hellos](Screenshot%202023-07-17%20at%209.23.52%20PM.png)
+
