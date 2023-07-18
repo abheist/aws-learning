@@ -1,0 +1,13 @@
+- We have learned how to:
+	- Create AWS resources, manually (fundamentals)
+	- Interact with AWS Programmatically (AWS CLI)
+	- Deploy code to AWS using Elastic Beanstalk
+- All these manual steps make it very likely for us to do mistakes!
+- We would like our code "in a repository" and have it deployed onto AWS
+	- Automatically
+	- The right way
+	- Making sure it's tested before being deployed
+	- With possibility to go into different stages (dev, test, staging , prod)
+	- With manual approval where needed
+- To be a proper AWS developer... we need to learn AWS CICD
+- This section is all about auto
