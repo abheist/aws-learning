@@ -90,4 +90,4 @@
 	- The function is responsible for the logic of request / response
 	- No mapping template, headers, query string parameters... are passed as arguments
 
-![](Screenshot%202023-07-17%20at%209.23.52%20PM.png)
+![Hellos](Screenshot%202023-07-17%20at%209.23.52%20PM.png)
