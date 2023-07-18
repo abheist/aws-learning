@@ -1,0 +1,405 @@
+- Traditional Architecture
+	  ![[Screenshot 2023-07-15 at 7.38.29 PM.png]]
+	- Traditional applications leverage RDBMS databases  
+	- These databases have the SQL query language  
+	- Strong requirements about how the data should be modeled  
+	- Ability to do query joins, aggregations, complex computations  
+	- Vertical scaling (getting a more powerful CPU / RAM / IO)  
+	- Horizontal scaling (increasing reading capability by adding EC2 / RDS Read Replicas)
+- NoSQL databases
+	- NoSQL databases are non-relational databases and are distributed 
+	- NoSQL databases include MongoDB, DynamoDB, ...
+	- NoSQL databases do not support query joins (or just limited support)
+	- All the data that is needed for a query is present in one row
+	- NoSQL databases don’t perform aggregations such as “SUM”, “AVG”, ...
+	- NoSQL databases scale horizontally
+	- There’s no “right or wrong” for NoSQL vs SQL, they just require to model the data differently and think about user queries differently
+- Amazon DynamoDB
+	- Fully managed, highly available with replication across multiple AZs  
+	- NoSQL database - not a relational database  
+	- Scales to massive workloads, distributed database  
+	- Millions of requests per seconds, trillions of row, 100s of TB of storage
+	- Fast and consistent in performance (low latency on retrieval)
+	- Integrated with IAM for security, authorization and administration
+	- Enables event driven programming with DynamoDB Streams  
+	- Low cost and auto-scaling capabilities  
+	- Standard & Infrequent Access (IA) Table Class
+- Basics
+	- DynamoDB is made of Tables
+	- Each table has a Primary Key (must be decided at creation time)
+	- Each table can have an infinite number of items (= rows)
+	- Each item has attributes (can be added over time – can be null)
+	- Maximum size of an item is 400KB
+	- Data types supported are:
+		- Scalar Types – String, Number, Binary, Boolean, Null
+		- Document Types – List, Map
+		- Set Types – String Set, Number Set, Binary Set
+- Primary Keys
+	- Option 1: Partition Key (HASH)
+		- Partition key must be unique for each item
+		- Partition key must be “diverse” so that the data is distributed
+		- Example:“User_ID” for a users table
+			  ![[Screenshot 2023-07-15 at 7.42.19 PM.png]]
+	- Option 2: Partition Key + Sort Key (HASH + RANGE)
+		- The combination must be unique for each item
+		- Data is grouped by partition key
+		- Example: users-games table,“User_ID” for Partition Key and “Game_ID” for Sort Key
+			  ![[Screenshot 2023-07-15 at 7.43.08 PM.png]]
+- Partition Keys
+	- We’re building a movie database
+	- What is the best Partition Key to maximize data distribution?
+		- movie_id
+		- producer_name
+		- leader_actor_name • movie_language
+	- “movie_id” has the highest cardinality so it’s a good candidate
+	- “movie_language” doesn’t take many values and may be skewed towards English so it’s not a great choice for the Partition Key
+- Read/Write Capacity Modes
+	- Control how you manage your table’s capacity (read/write throughput)
+	- Provisioned Mode (default)
+		- You specify the number of reads/writes per second
+		- You need to plan capacity beforehand
+		- Pay for provisioned read & write capacity units
+		- Table must have provisioned read and write capacity units
+		- Read Capacity Units (RCU) – throughput for reads
+		- Write Capacity Units (WCU) – throughput for writes
+		- Option to setup auto-scaling of throughput to meet demand
+		- Throughput can be exceeded temporarily using “Burst Capacity”
+		- If Burst Capacity has been consumed, you’ll get a “ProvisionedThroughputExceededException”
+		- It’s then advised to do an exponential backoff retry
+	- On-Demand Mode
+		- Read/writes automatically scale up/down with your workloads
+		- No capacity planning needed
+		- Pay for what you use, more expensive ($\$\$)
+		- Read/writes automatically scale up/down with your workloads  
+		- No capacity planning needed (WCU / RCU)  
+		- Unlimited WCU & RCU, no throttle, more expensive  
+		- You’re charged for reads/writes that you use in terms of RRU and WRU
+		- Read Request Units (RRU) – throughput for reads (same as RCU)
+		- Write Request Units (WRU) – throughput for writes (same as WCU)
+		- 2.5x more expensive than provisioned capacity (use with care)  
+		- Use cases: unknown workloads, unpredictable application traffic, ...
+	- You can switch between different modes once every 24 hours
+- Write Capacity Units (WCU)
+	- One Write Capacity Unit (WCU) represents one write per second for an item up to 1 KB in size 
+	- If the items are larger than 1 KB, more WCUs are consumed
+	- Example 1: 
+		- we write 10 items per second, with item size 2 KB
+		- We need![[Screenshot 2023-07-15 at 7.49.48 PM.png]]
+	- Example 2: 
+		- we write 6 items per second, with item size 4.5 KB
+		- We need![[Screenshot 2023-07-15 at 7.50.09 PM.png]]
+	- Example 3: 
+		- we write 120 items per minute, with item size 2 KB
+		- We need![[Screenshot 2023-07-15 at 7.50.27 PM.png]]
+- Strongly Consistent Read  vs. Eventually Consistent Read
+	- Eventually Consistent Read (default)
+		- If we read just after a write, it’s possible we’ll get some stale data because of replication
+	- Strongly Consistent Read
+		- If we read just after a write, we will get the correct data
+		- Set “ConsistentRead” parameter to True in API calls (GetItem, BatchGetItem, Query, Scan)
+		- Consumes twice the RCU
+			  ![[Screenshot 2023-07-15 at 8.48.06 PM.png]]
+- Read Capacity Units (RCU)
+	- One Read Capacity Unit (RCU) represents one Strongly Consistent Read per second, or two Eventually Consistent Reads per second, for an item up to 4 KB in size
+	- If the items are larger than 4 KB, more RCUs are consumed
+	- Example 1: 10 Strongly Consistent Reads per second, with item size 4 KB
+	- We need![[Screenshot 2023-07-15 at 8.49.34 PM.png]]
+	- Example 2: 16 Eventually Consistent Reads per second, with item size 12 KB
+	- We need![[Screenshot 2023-07-15 at 8.49.44 PM.png]]
+	- Example 3: 10 Strongly Consistent Reads per second, with item size 6 KB
+	- We need![[Screenshot 2023-07-15 at 8.49.50 PM.png]]
+- Partition Internal
+	- Data is stored in partitions
+	- Partition Keys go through a hashing algorithm to know to which partition they go to
+	- To compute the number of partitions:![[Screenshot 2023-07-15 at 8.51.34 PM.png]]
+	- WCUs and RCUs are spread evenly across partitions![[Screenshot 2023-07-15 at 8.51.44 PM.png]]
+- Throttling
+	- If we exceed provisioned RCUs or WCUs, we get `ProvisionedThroughputExceededException`
+	- Reasons:
+		- Hot Keys – one partition key is being read too many times (e.g., popular item)
+		- Hot Partitions
+		- Very large items, remember RCU and WCU depends on size of items
+	- Solutions:
+		- Exponential backoff when exception is encountered (already in SDK)
+		- Distribute partition keys as much as possible
+		- If RCU issue, we can use DynamoDB Accelerator (DAX)
+- Writing Data
+	- PutItem
+		- Creates a new item or fully replace an old item (same Primary Key)
+		- ConsumesWCUs
+	- UpdateItem
+		- Edits an existing item’s attributes or adds a new item if it doesn’t exist
+		- Can be used to implement Atomic Counters – a numeric attribute that’s unconditionally incremented
+	- Conditional Writes
+		- Accept a write/update/delete only if conditions are met, otherwise returns an error
+		- Helps with concurrent access to items
+		- No performance impact
+- Reading Data
+	- GetItem
+		- Read based on Primary key
+		- Primary Key can be HASH or HASH+RANGE
+		- Eventually Consistent Read (default)
+		- Option to use Strongly Consistent Reads (more RCU - might take longer)
+		- ProjectionExpression can be specified to retrieve only certain attributes
+	- Query
+		- Query returns items based on:
+		- KeyConditionExpression
+			- Partition Key value (must be = operator) – required  
+			- SortKeyvalue(=,<,<=,>,>=,Between,Beginswith)–optional
+		- FilterExpression
+			- Additional filtering after the Query operation (before data returned to you)
+			- Use only with non-key attributes (does not allow HASH or RANGE attributes
+		- Returns:
+			- The number of items specified in Limit
+			- Orupto1MBofdata
+		- Ability to do pagination on the results
+		- Can query table, a Local Secondary Index, or a Global Secondary Index
+	- Scan
+		- Scan the entire table and then filter out data (inefficient)
+		- Returns up to 1 MB of data – use pagination to keep on reading
+		- Consumes a lot of RCU
+		- Limit impact using Limit or reduce the size of the result and pause
+		- For faster performance, use Parallel Scan
+			- Multiple workers scan multiple data segments at the same time
+			- Increases the throughput and RCU consumed
+			- Limit the impact of parallel scans just like you would for Scans
+		- Can use ProjectionExpression & FilterExpression (no changes to RCU)
+- Deleting Data
+	- DeleteItem
+		- Delete an individual item
+		- Ability to perform a conditional delete
+	- DeleteTable
+		- Delete a whole table and all its items
+		- Much quicker deletion than calling DeleteItem on all items
+- Batch Operations
+	- Allows you to save in latency by reducing the number of API calls
+	- Operations are done in parallel for better efficiency
+	- Part of a batch can fail; in which case we need to try again for the failed items
+	- BatchWriteItem
+		- Up to 25 PutItem and/or DeleteItem in one call
+		- Up to 16 MB of data written,up to 400 KB of data per item
+		- Can’t update items (use UpdateItem)
+		- `UnprocessedItems` for failed write operations (exponential backoff or add WCU)
+	- BatchGetItem
+		- Return items from one or more tables
+		- Up to 100 items, up to 16 MB of data
+		- Items are retrieved in parallel to minimize latency
+		- `UnprocessedKeys` for failed read operations (exponential backoff or add RCU)
+- PartiQL
+	- SQL-compatible query language for DynamoDB
+	- Allows you to select, insert, update, and delete data in DynamoDB using SQL
+	- Run queries across multiple DynamoDB tables
+	- Run PartiQL queries from:
+		- AWS Management Console
+		- NoSQL Workbench for DynamoDB
+		- DynamoDB APIs
+		- AWS CLI
+		- AWS SDK
+	```sql
+	SELECT OrderID, Total
+	FROM Orders
+	Where OrderID IN [1, 2, 3]
+	ORDER By OrderID DESC
+	```
+	- Use a SQL-like syntax to manipulate DynamoDB tables
+	- Supports some (but not all) statements
+		- INSERT
+		- UPDATE
+		- SELECT
+		- DELETE
+	- It supports batch operations
+- Conditional Write
+	- For PutItem, UpdateItem, DeleteItem, and BatchWriteItem
+	- You can specify a Condition expression to determine which items should be modified:
+		- attribute_exists
+		- attribute_not_exists
+		- attribute_type
+		- contains (for string)
+		- begins_with (for string)
+		- ProductCategory IN (:cat1, :cat2) and Price between :low and :high
+		- size (string length)
+	- Note: Filter Expression filters the results of read queries, while Condition Expressions are for write operations
+	- Example on update item
+		  ![[Screenshot 2023-07-15 at 9.55.10 PM.png]]
+	- Example on Delete Item
+		- attribute_not_exists
+			- Only succeeds if the attribute doesn't exist yet (no value)
+				  ![[Screenshot 2023-07-15 at 9.57.48 PM.png]]
+		- attribute_exists
+			- Opposite of attribute_not_exists
+				  ![[Screenshot 2023-07-15 at 9.58.00 PM.png]]
+	- Do not Overwrite Elements
+		- attribute_not_exists(partition_key)
+			- Make sure the item isn’t overwritten
+		- attribute_not_exists(partition_key) and attribute_not_exists(sort_key)
+			- Make sure the partition / sort key combination is not overwritten
+	- Example Complex Condition
+		  ![[Screenshot 2023-07-15 at 9.58.57 PM.png]]
+	- Example of String comparisons
+		- begins_with - check if prefix matches
+		- contains - check if string is contained in another string
+			  ![[Screenshot 2023-07-15 at 9.59.46 PM.png]]
+- Local Secondary Index (LSI)
+	- Alternative Sort Key for your table (same Partition Key as that of base table) 
+	- The Sort Key consists of one scalar attribute (String, Number, or Binary)
+	- Up to 5 Local Secondary Indexes per table
+	- Must be defined at table creation time
+	- Attribute Projections – can contain some or all the attributes of the base table (KEYS_ONLY, INCLUDE, ALL)
+		  ![[Screenshot 2023-07-15 at 10.00.30 PM.png]]
+- Global Secondary Index (GSI)
+	- Alternative Primary Key (HASH or HASH+RANGE) from the base table
+	- Speed up queries on non-key attributes
+	- The Index Key consists of scalar attributes (String, Number, or Binary)
+	- Attribute Projections – some or all the attributes of the base table (KEYS_ONLY, INCLUDE, ALL)
+	- Must provision RCUs & WCUs for the index
+	- Can be added/modified after table creation
+		  ![[Screenshot 2023-07-15 at 10.01.30 PM.png]]
+- Indexes and Throttling
+	- Global Secondary Index (GSI):
+		- If the writes are throttled on the GSI, then the main table will be throttled!
+		- Even if the WCU on the main tables are fine
+		- Choose your GSI partition key carefully!
+		- Assign your WCU capacity carefully!
+	- Local Secondary Index (LSI):
+		- Uses the WCUs and RCUs of the main table
+		- No special throttling considerations
+- Optimistic Locking
+	- DynamoDB has a feature called “Conditional Writes”
+	- A strategy to ensure an item hasn’t changed before you update/delete it
+	- Each item has an attribute that acts as a version number
+		  ![[Screenshot 2023-07-15 at 10.04.16 PM.png]]
+- DynamoDB Accelerator (DAX)
+	- Fully-managed, highly available, seamless in-memory cache for DynamoDB
+	- Microseconds latency for cached reads & queries
+	- Doesn’t require application logic modification (compatible with existing DynamoDB APIs)
+	- Solves the “Hot Key” problem (too many reads)
+	- 5 minutes TTL for cache (default)
+	- Up to 10 nodes in the cluster
+	- Multi-AZ (3 nodes minimum recommended for production)
+	- Secure (Encryption at rest with KMS,VPC, IAM, CloudTrail, ...)
+		  ![[Screenshot 2023-07-15 at 10.05.29 PM.png]]
+- DynamoDB Accelerator (DAX) vs. ElastiCache
+	  ![[Screenshot 2023-07-15 at 10.05.50 PM.png]]
+- DynamoDB Streams
+	- Ordered stream of item-level modifications (create/update/delete) in a table
+	- Stream records can be:
+		- Sent to Kinesis Data Streams
+		- Read by AWS Lambda
+		- Read by Kinesis Client Library applications
+	- Data Retention for up to 24 hours
+	- Use cases:
+		- react to changes in real-time (welcome email to users)
+		- Analytics
+		- Insert into derivative tables
+		- Insert into OpenSearch Service
+		- Implement cross-region replication
+		![[Screenshot 2023-07-15 at 10.07.19 PM.png]]
+	- Ability to choose the information that will be written to the stream:
+		- KEYS_ONLY – only the key attributes of the modified item
+		- NEW_IMAGE – the entire item, as it appears after it was modified  
+		- OLD_IMAGE – the entire item, as it appeared before it was modified
+		- NEW_AND_OLD_IMAGES – both the new and the old images of the item
+	- DynamoDB Streams are made of shards, just like Kinesis Data Streams
+	- You don’t provision shards, this is automated by AWS
+	- Records are not retroactively populated in a stream after enabling it
+- DynamoDB Streams & AWS Lambda
+	- You need to define an Event Source Mapping to read from a DynamoDB Streams
+	- You need to ensure the Lambda function has the appropriate permissions
+	- Your Lambda function is invoked synchronously
+		  ![[Screenshot 2023-07-15 at 10.09.11 PM.png]]
+- Time To Live (TTL)
+	- Automatically delete items after an expiry timestamp
+	- Doesn’t consume any WCUs (i.e., no extra cost)
+	- The TTL attribute must be a “Number” data type with “Unix Epoch timestamp” value
+	- Expired items deleted within 48 hours of expiration
+	- Expired items, that haven’t been deleted, appears in reads/queries/scans (if you don’t want them, filter them out)
+	- Expired items are deleted from both LSIs and GSIs
+	- A delete operation for each expired item enters the DynamoDB Streams (can help recover expired items)
+	- Use cases: reduce stored data by keeping only current items, adhere to regulatory obligations, ...![[Screenshot 2023-07-15 at 10.10.24 PM.png]]
+- DynamoDB CLI - Good to know
+	- --projection-expression: one or more attributes to retrieve 
+	- --filter-expression: filter items before returned to you
+	- General AWS CLI Pagination options (e.g., DynamoDB, S3, ...)  
+		- --page-size: specify that AWS CLI retrieves the full list of items but with a larger number of API calls instead of one API call (default: 1000 items)
+		- --max-items: max. number of items to show in the CLI (returns NextToken)
+		- --starting-token: specify the last NextToken to retrieve the next set of items
+- DynamoDB Transactions
+	- Coordinated, all-or-nothing operations (add/update/delete) to multiple items across one or more tables
+	- Provides Atomicity, Consistency, Isolation, and Durability (ACID)
+	- Read Modes – Eventual Consistency, Strong Consistency, Transactional
+	- Write Modes – Standard, Transactional
+	- Consumes 2x WCUs & RCUs
+		- DynamoDB performs 2 operations for every item (prepare & commit)
+	- Two operations:
+		- TransactGetItems – one or more GetItem operations
+		- TransactWriteItems – one or more PutItem, UpdateItem, and DeleteItem operations
+	- Use cases: financial transactions, managing orders, multiplayer games, ...![[Screenshot 2023-07-15 at 10.12.28 PM.png]]
+	- Capacity Computations
+		- Important for the exam!
+		- Example1: 3 Transactional writes per second, with item size 5 KB
+			- We need![[Screenshot 2023-07-15 at 10.13.56 PM.png]]
+		- Example 2: 5 Transaction reads per second , with item size 5 KB
+			- We need![[Screenshot 2023-07-15 at 10.14.07 PM.png]]
+			- (5 gets rounded to the upper 4 KB)
+- DynamoDB as Session State Cache
+	- It’s common to use DynamoDB to store session states
+	- vs. ElastiCache
+		- ElastiCache is in-memory, but DynamoDB is serverless
+		- Both are key/value stores
+	- vs. EFS
+		- EFS must be attached to EC2 instances as a network drive
+	- vs. EBS & Instance Store
+		- EBS & Instance Store can only be used for local caching, not shared caching
+	- vs. S#
+		- S3 is higher latency, and not meant for small objects
+- DynamoDB Write Sharding
+	- Imagine we have a voting application with two candidates, candidate A and candidate B
+	- If Partition Key is “Candidate_ID”, this results into two partitions, which will generate issues (e.g., Hot Partition)
+	- A strategy that allows better distribution of items evenly across partitions
+	- Add a suffix to Partition Key value
+	- Two methods:
+		- Sharding Using Random Suffix
+		- Sharding Using Calculated Suffix
+	  ![[Screenshot 2023-07-15 at 10.16.25 PM.png]]
+- Write Types
+	- Concurrent Writes![[Screenshot 2023-07-15 at 10.17.39 PM.png]]
+	- Atomic Writes![[Screenshot 2023-07-15 at 10.17.48 PM.png]]
+	- Conditional Writes![[Screenshot 2023-07-15 at 10.17.56 PM.png]]
+	- Batch Writes![[Screenshot 2023-07-15 at 10.18.05 PM.png]]
+- Large Objects Pattern
+	  ![[Screenshot 2023-07-15 at 10.18.32 PM.png]]
+- Indexing S3 Objects Metadata
+	  ![[Screenshot 2023-07-15 at 10.18.53 PM.png]]
+- DynamoDB Operations
+	- Table Cleanup
+		- Option 1: Scan + DeleteItem
+			- Very slow, consumes RCU & WCU, expensive
+		- Option 2: Drop Table + Recreate table
+			- Fast, efficient, cheap
+	- Copying a DynamoDB Table
+		- Option 1: Using AWS Data Pipeline
+		- Option 2: Backup and restore into a new table
+			- Takes some time
+		- Option 3: Scan + PutItem or BatchWriteItem
+			- Write your own code![[Screenshot 2023-07-15 at 10.20.34 PM.png]]
+- Security & Other Features
+	- Security
+		- VPC Endpoints available to access DynamoDB without using the Internet
+		- Access fully controlled by IAM
+		- Encryption at rest using AWS KMS and in-transit using SSL/TLS
+	- Backup and Restore feature available
+		- Point-in-time Recovery (PITR) like RDS
+		- No performance impact
+	- GlobalTables
+		- Multi-region, multi-active, fully replicated, high performance
+	- DynamoDB Local
+		- Develop and test apps locally without accessing the DynamoDB web service (without Internet)
+	- AWS Database Migration Service (AWS DMS) can be used to migrate to DynamoDB (from MongoDB, Oracle, MySQL, S3, ...)
+- User Interact with DynamoDB Directly
+	  ![[Screenshot 2023-07-15 at 10.22.40 PM.png]]
+- Fine Grained Access Control
+	- Using Web Identity Federation or Cognito Identity Pools, each user gets AWS credentials
+	- You can assign an IAM Role to these users with a Condition to limit their API access to DynamoDB
+	- LeadingKeys – limit row-level access for users on the Primary Key
+	- Attributes – limit specific attributes the user can see![[Screenshot 2023-07-15 at 10.23.21 PM.png]]
+
